@@ -2,27 +2,29 @@ import React, { useState } from 'react';
 import {
   Container,
   Typography,
-  Grid,
-  Card,
-  CardContent,
   Box,
   Chip,
-  IconButton,
   TextField,
   InputAdornment,
-  useTheme,
-  useMediaQuery,
   Tabs,
   Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
 } from '@mui/material';
 import {
   ArrowBack as BackIcon,
   Favorite as HeartIcon,
   FavoriteBorder as HeartBorderIcon,
   Search as SearchIcon,
-  Face as IndianIcon,
   FilterList as FilterIcon,
 } from '@mui/icons-material';
+import { IndianFlagIcon, BoyIcon, GirlIcon } from './icons/CustomIcons';
 import { useNavigate } from 'react-router-dom';
 
 // Combined Indian names data for both boys and girls
@@ -66,20 +68,9 @@ const indianNamesData = {
 };
 
 const IndianNames = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [favorites, setFavorites] = useState([]);
-
-  const toggleFavorite = (name) => {
-    setFavorites(prev =>
-      prev.includes(name)
-        ? prev.filter(fav => fav !== name)
-        : [...prev, name]
-    );
-  };
 
   const filterNames = (names) => {
     if (!searchTerm) return names;
@@ -89,112 +80,96 @@ const IndianNames = () => {
     );
   };
 
-  const renderNameCard = (nameData, index) => (
-    <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-      <Card
-        sx={{
-          height: '100%',
-          borderRadius: 3,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-          position: 'relative',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-          },
-        }}
-      >
-        <CardContent sx={{ p: 3 }}>
-          <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-            <IconButton
-              onClick={() => toggleFavorite(nameData.name)}
-              sx={{
-                color: favorites.includes(nameData.name) ? '#E91E63' : '#CCC',
-                '&:hover': {
-                  color: '#E91E63',
-                },
-              }}
-            >
-              {favorites.includes(nameData.name) ? <HeartIcon /> : <HeartBorderIcon />}
-            </IconButton>
-          </Box>
 
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <IndianIcon
-              sx={{
-                fontSize: 48,
-                color: nameData.gender === 'boy' ? '#1976D2' : '#C2185B',
-                mb: 1
-              }}
-            />
-            <Typography
-              variant="h5"
-              sx={{
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 600,
-                color: nameData.gender === 'boy' ? '#1976D2' : '#C2185B',
-                mb: 1,
-              }}
-            >
-              {nameData.name}
-            </Typography>
-            <Chip
-              label={nameData.gender === 'boy' ? 'Boy' : 'Girl'}
-              size="small"
-              sx={{
-                backgroundColor: nameData.gender === 'boy' ? '#E3F2FD' : '#FCE4EC',
-                color: nameData.gender === 'boy' ? '#1976D2' : '#C2185B',
-                fontFamily: '"Poppins", sans-serif',
-                fontSize: '0.75rem',
-              }}
-            />
-          </Box>
-
-          <Box sx={{ mb: 2 }}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 500,
-                color: '#333',
-                mb: 1,
-              }}
-            >
-              Meaning: <span style={{ color: '#666' }}>{nameData.meaning}</span>
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 500,
-                color: '#333',
-                mb: 1,
-              }}
-            >
-              Origin: <span style={{ color: '#666' }}>{nameData.origin}</span>
-            </Typography>
-            <Chip
-              label={`Popularity: ${nameData.popularity}`}
-              size="small"
-              sx={{
-                backgroundColor: nameData.popularity === 'High' ? '#E8F5E8' : '#FFF3E0',
-                color: nameData.popularity === 'High' ? '#2E7D32' : '#E65100',
-                fontFamily: '"Poppins", sans-serif',
-                fontSize: '0.75rem',
-              }}
-            />
-          </Box>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
 
   const renderGenderContent = (gender) => {
     const names = filterNames(indianNamesData[gender] || []);
     return (
-      <Grid container spacing={3}>
-        {names.map((nameData, index) => renderNameCard(nameData, index))}
-      </Grid>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 0,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          overflowX: 'auto',
+          backgroundColor: 'white',
+          transition: 'opacity 0.3s ease-in-out',
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow
+              sx={{
+                backgroundColor: '#FFF8E1',
+                borderRadius: 0,
+                '& th': {
+                  fontFamily: '"Poppins", sans-serif',
+                  fontWeight: 600,
+                  color: '#FF9800',
+                  borderBottom: '2px solid #ddd',
+                },
+              }}
+            >
+              <TableCell>Name</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Meaning</TableCell>
+              <TableCell>Origin</TableCell>
+              <TableCell>Popularity</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {names.map((nameData, index) => (
+              <TableRow
+                key={index}
+                sx={{
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: '#f9f9f9',
+                  },
+                  '&:hover': {
+                    backgroundColor: '#FFF8E1',
+                    transform: 'scale(1.02)',
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                    transition: 'all 0.2s ease-in-out',
+                  },
+                  '& td': {
+                    fontFamily: '"Poppins", sans-serif',
+                    borderBottom: '1px solid #eee',
+                  },
+                }}
+              >
+                <TableCell sx={{ fontWeight: 600, color: nameData.gender === 'boy' ? '#1976D2' : '#C2185B' }}>
+                  {nameData.name}
+                </TableCell>
+                <TableCell>
+                  <Chip
+                    label={nameData.gender === 'boy' ? 'Boy' : 'Girl'}
+                    size="small"
+                    sx={{
+                      backgroundColor: nameData.gender === 'boy' ? '#E3F2FD' : '#FCE4EC',
+                      color: nameData.gender === 'boy' ? '#1976D2' : '#C2185B',
+                      fontFamily: '"Poppins", sans-serif',
+                      fontSize: '0.75rem',
+                    }}
+                  />
+                </TableCell>
+                <TableCell>{nameData.meaning}</TableCell>
+                <TableCell>{nameData.origin}</TableCell>
+                <TableCell>
+                  <Chip
+                    label={nameData.popularity}
+                    size="small"
+                    sx={{
+                      backgroundColor: nameData.popularity === 'High' ? '#E8F5E8' : '#FFF3E0',
+                      color: nameData.popularity === 'High' ? '#2E7D32' : '#E65100',
+                      fontFamily: '"Poppins", sans-serif',
+                      fontSize: '0.75rem',
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   };
 
@@ -227,7 +202,7 @@ const IndianNames = () => {
                 gap: 2,
               }}
             >
-              <IndianIcon sx={{ fontSize: 40 }} />
+              <IndianFlagIcon sx={{ fontSize: 40 }} />
               Indian Baby Names
             </Typography>
             <Typography
@@ -244,7 +219,7 @@ const IndianNames = () => {
         </Box>
 
         {/* Search Bar */}
-        <Box sx={{ mb: 4, backgroundColor: 'white', borderRadius: 3, p: 3 }}>
+        <Box sx={{ mb: 4, backgroundColor: 'white', borderRadius: 0, p: 3 }}>
           <TextField
             fullWidth
             placeholder="Search names or meanings..."
@@ -259,7 +234,7 @@ const IndianNames = () => {
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: 3,
+                borderRadius: 0,
                 fontFamily: '"Poppins", sans-serif',
               },
             }}
@@ -274,17 +249,17 @@ const IndianNames = () => {
             variant="fullWidth"
             sx={{
               backgroundColor: 'white',
-              borderRadius: 3,
+              borderRadius: 0,
               p: 1,
               '& .MuiTab-root': {
                 fontFamily: '"Poppins", sans-serif',
                 fontWeight: 500,
                 minHeight: 64,
-                borderRadius: 2,
+                borderRadius: 0,
               },
               '& .MuiTabs-indicator': {
                 backgroundColor: '#FF9800',
-                borderRadius: 2,
+                borderRadius: 0,
               },
             }}
           >
@@ -312,7 +287,7 @@ const IndianNames = () => {
         </Box>
 
         {/* Content */}
-        <Box sx={{ backgroundColor: 'white', borderRadius: 3, p: 3, mb: 4 }}>
+        <Box sx={{ backgroundColor: 'white', borderRadius: 0, p: 3, mb: 4 }}>
           {activeTab === 0 && (
             <Box>
               <Typography
@@ -327,8 +302,8 @@ const IndianNames = () => {
                   gap: 1,
                 }}
               >
-                <IndianIcon />
-                Indian Boy Names
+              <IndianFlagIcon />
+              Indian Boy Names
               </Typography>
               {renderGenderContent('boy')}
             </Box>
@@ -347,7 +322,7 @@ const IndianNames = () => {
                   gap: 1,
                 }}
               >
-                <IndianIcon />
+                <IndianFlagIcon />
                 Indian Girl Names
               </Typography>
               {renderGenderContent('girl')}

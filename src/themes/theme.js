@@ -1,28 +1,27 @@
 import { createTheme } from '@mui/material/styles';
 
-// Modern color palette
 export const colors = {
-  // Primary colors
+  // Primary colors - Peach theme
   primary: {
-    main: '#6366f1', // Indigo
-    light: '#818cf8',
-    dark: '#4f46e5',
+    main: '#FF6B6B', // Peach
+    light: '#FF8E8E',
+    dark: '#FF5252',
     contrastText: '#ffffff',
   },
   secondary: {
-    main: '#ec4899', // Pink
-    light: '#f472b6',
-    dark: '#db2777',
-    contrastText: '#ffffff',
+    main: '#FFB3BA', // Light peach
+    light: '#FFCCD7',
+    dark: '#FF99A8',
+    contrastText: '#333333',
   },
-  // Category colors
+  // Category colors - Adjusted for peach theme
   boy: {
-    main: '#3b82f6', // Blue
+    main: '#3b82f6', // Keep blue for boy
     light: '#60a5fa',
     dark: '#1d4ed8',
   },
   girl: {
-    main: '#ec4899', // Pink
+    main: '#ec4899', // Keep pink for girl
     light: '#f472b6',
     dark: '#db2777',
   },
@@ -41,18 +40,18 @@ export const colors = {
     light: '#fbbf24',
     dark: '#d97706',
   },
-  // Neutral colors
+  // Neutral colors - Off-white focus
   neutral: {
-    50: '#fafafa',
-    100: '#f5f5f5',
-    200: '#e5e5e5',
-    300: '#d4d4d4',
-    400: '#a3a3a3',
-    500: '#737373',
-    600: '#525252',
-    700: '#404040',
-    800: '#262626',
-    900: '#171717',
+    50: '#FAF9F6', // Off-white
+    100: '#F5F5F0',
+    200: '#EDEBE4',
+    300: '#D9D7D0',
+    400: '#A8A69C',
+    500: '#7D7A70',
+    600: '#5C5A52',
+    700: '#4A4840',
+    800: '#37352E',
+    900: '#25231C',
   },
   // Semantic colors
   success: {
@@ -80,10 +79,10 @@ export const getTheme = (mode) => createTheme({
     background: {
       default: mode === 'dark' ? colors.neutral[900] : colors.neutral[50],
       paper: mode === 'dark' ? colors.neutral[800] : '#ffffff',
-      card: mode === 'dark' ? colors.neutral[800] : '#ffffff',
+      card: mode === 'dark' ? colors.neutral[800] : colors.neutral[50],
     },
     text: {
-      primary: mode === 'dark' ? colors.neutral[50] : colors.neutral[900],
+      primary: mode === 'dark' ? colors.neutral[50] : '#333',
       secondary: mode === 'dark' ? colors.neutral[300] : colors.neutral[600],
     },
     divider: mode === 'dark' ? colors.neutral[700] : colors.neutral[200],

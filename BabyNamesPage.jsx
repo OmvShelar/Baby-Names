@@ -23,10 +23,15 @@ import {
   useMediaQuery,
   useTheme,
   Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
-  BabyChangingStation as BabyIcon,
   Star as StarIcon,
   EmojiEmotions as HappyIcon,
   Favorite as HeartIcon,
@@ -35,6 +40,7 @@ import {
   Face as FaceIcon,
   Brightness6 as SunIcon,
 } from '@mui/icons-material';
+import { BabyIcon } from './components/icons/CustomIcons';
 
 // Sample baby names data
 const babyNamesData = {
@@ -71,61 +77,90 @@ const BabyNamesPage = () => {
     }
   };
 
-  const renderNameCard = (name, index) => (
-    <Grid item xs={12} sm={6} md={4} key={index}>
-      <Card
-        sx={{
-          height: '100%',
-          borderRadius: 3,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
-          },
-        }}
-      >
-        <CardContent sx={{ textAlign: 'center', p: 3 }}>
-          <Box sx={{ mb: 2 }}>
-            <BabyIcon
-              sx={{
-                fontSize: 40,
-                color: selectedCategory === 'boy' ? '#64B5F6' : '#F48FB1',
-                mb: 1
-              }}
-            />
-          </Box>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: '"Poppins", sans-serif',
-              fontWeight: 600,
-              color: selectedCategory === 'boy' ? '#1976D2' : '#C2185B',
-              mb: 1
-            }}
-          >
-            {name}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              color: '#666',
-              fontFamily: '"Poppins", sans-serif'
-            }}
-          >
-            Meaning: Beautiful & precious
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
+
 
   const renderSubcategoryContent = (subcategory) => {
     const names = babyNamesData[selectedCategory][subcategory] || [];
+    const isZodiac = subcategory === 'zodiac';
+
     return (
-      <Grid container spacing={3}>
-        {names.map((name, index) => renderNameCard(name, index))}
-      </Grid>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 2,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          overflowX: 'auto',
+          backgroundColor: 'white',
+          transition: 'opacity 0.3s ease-in-out',
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow
+              sx={{
+                backgroundColor: selectedCategory === 'boy' ? '#E3F2FD' : '#FCE4EC',
+                '& th': {
+                  fontFamily: '"Poppins", sans-serif',
+                  fontWeight: 600,
+                  color: selectedCategory === 'boy' ? '#1976D2' : '#C2185B',
+                  borderBottom: '2px solid #ddd',
+                },
+              }}
+            >
+              {isZodiac ? (
+                <>
+                  <TableCell>Zodiac Sign</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Meaning</TableCell>
+                </>
+              ) : (
+                <>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Meaning</TableCell>
+                </>
+              )}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {names.map((name, index) => {
+              const [sign, parsedName] = isZodiac ? name.split(': ') : [null, name];
+              return (
+                <TableRow
+                  key={index}
+                  sx={{
+                    '&:nth-of-type(odd)': {
+                      backgroundColor: '#f9f9f9',
+                    },
+                    '&:hover': {
+                      backgroundColor: selectedCategory === 'boy' ? '#E3F2FD' : '#FCE4EC',
+                      transform: 'scale(1.02)',
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                      transition: 'all 0.2s ease-in-out',
+                    },
+                    '& td': {
+                      fontFamily: '"Poppins", sans-serif',
+                      borderBottom: '1px solid #eee',
+                    },
+                  }}
+                >
+                  {isZodiac ? (
+                    <>
+                      <TableCell sx={{ fontWeight: 500 }}>{sign}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: selectedCategory === 'boy' ? '#1976D2' : '#C2185B' }}>{parsedName}</TableCell>
+                      <TableCell>Beautiful & precious</TableCell>
+                    </>
+                  ) : (
+                    <>
+                      <TableCell sx={{ fontWeight: 600, color: selectedCategory === 'boy' ? '#1976D2' : '#C2185B' }}>{name}</TableCell>
+                      <TableCell>Beautiful & precious</TableCell>
+                    </>
+                  )}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
   };
 
