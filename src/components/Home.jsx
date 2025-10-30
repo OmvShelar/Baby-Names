@@ -5,7 +5,6 @@ import {
   Box,
   useTheme,
   useMediaQuery,
-  IconButton,
 } from '@mui/material';
 import {
   Search as SearchIcon,
@@ -14,7 +13,6 @@ import {
   ArrowForward as ArrowForwardIcon,
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
-import { BoyIcon, GirlIcon } from './icons/CustomIcons';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { motion } from 'framer-motion';
@@ -41,11 +39,20 @@ const Home = () => {
     prevArrow: <ArrowBackIcon sx={{ color: '#8B5CF6', fontSize: 40 }} />,
   };
 
-  // Carousel images
-  const carouselImages = [
-    'https://newcomers.in/wp-content/uploads/Newborn-photoshoot-with-parents-craddle-pose.jpg',
-    'https://img.freepik.com/premium-photo/cute-adorable-asian-newborn-baby-girl-sleeping-bed-withpink-flower-foreground_34840-1128.jpg',
-    'https://img.freepik.com/free-photo/family-spend-time-summer-garden_1157-37130.jpg'
+  // Carousel images and texts
+  const carouselSlides = [
+    {
+      image: 'https://newcomers.in/wp-content/uploads/Newborn-photoshoot-with-parents-craddle-pose.jpg',
+      text: 'Beautiful names for beautiful babies'
+    },
+    {
+      image: 'https://img.freepik.com/premium-photo/cute-adorable-asian-newborn-baby-girl-sleeping-bed-withpink-flower-foreground_34840-1128.jpg',
+      text: 'Beautiful names on gods'
+    },
+    {
+      image: 'https://img.freepik.com/free-photo/family-spend-time-summer-garden_1157-37130.jpg',
+      text: 'Beautiful names on goddesses'
+    }
   ];
 
   // Categories with images
@@ -109,7 +116,7 @@ const Home = () => {
         pt: 2,
       }}
     >
-      {/* Hero Section with Carousel */}
+      {/* Hero Section */}
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -185,61 +192,64 @@ const Home = () => {
               Names are more than words—they're the first gift you give your child, shaping their identity and leaving a lasting legacy. Let us help you embark on this beautiful naming adventure.
             </Typography>
           </Box>
+        </motion.div>
+      </Container>
 
-          {/* Carousel */}
-          <Box sx={{ mb: 8, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
-            <Slider {...carouselSettings}>
-              {carouselImages.map((image, index) => (
-                <Box key={index} sx={{ position: 'relative' }}>
-                  <Box
-                    component="img"
-                    src={image}
-                    alt={`Baby ${index + 1}`}
+      {/* Full Width Carousel */}
+      <Box sx={{ mb: 8, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+        <Slider {...carouselSettings}>
+          {carouselSlides.map((slide, index) => (
+            <Box key={index} sx={{ position: 'relative' }}>
+              <Box
+                component="img"
+                src={slide.image}
+                alt={`Slide ${index + 1}`}
+                sx={{
+                  width: '100vw',
+                  height: isMobile ? '70vh' : '90vh',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'linear-gradient(45deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.2 }}
+                >
+                  <Typography
+                    variant="h3"
                     sx={{
-                      width: '100%',
-                      height: isMobile ? '50vh' : '80vh',
-                      objectFit: 'cover',
-                      display: 'block',
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: 'linear-gradient(45deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      color: 'white',
+                      fontFamily: '"Poppins", sans-serif',
+                      fontWeight: 700,
+                      textAlign: 'center',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                      fontSize: isMobile ? '1.5rem' : '3rem',
                     }}
                   >
-                    <motion.div
-                      initial={{ opacity: 0, y: 50 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: index * 0.2 }}
-                    >
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          color: 'white',
-                          fontFamily: '"Poppins", sans-serif',
-                          fontWeight: 700,
-                          textAlign: 'center',
-                          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                          fontSize: isMobile ? '1.5rem' : '3rem',
-                        }}
-                      >
-                        Beautiful Names for Beautiful Babies
-                      </Typography>
-                    </motion.div>
-                  </Box>
-                </Box>
-              ))}
-            </Slider>
-          </Box>
-        </motion.div>
+                    {slide.text}
+                  </Typography>
+                </motion.div>
+              </Box>
+            </Box>
+          ))}
+        </Slider>
+      </Box>
+
+      <Container maxWidth="xl">
 
         {/* Categories Section */}
         <motion.div
@@ -392,15 +402,38 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Box sx={{ mt: 8, py: 6, backgroundColor: 'rgba(255,248,225,0.8)', borderRadius: 0, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+          <Box sx={{
+            mt: 8,
+            mb: 8,
+            p: '50px',
+            background: 'linear-gradient(135deg, #FFE4B5 0%, #FFF8DC 50%, #FFE4B5 100%)',
+            borderRadius: 4,
+            boxShadow: '0 8px 32px rgba(139, 69, 19, 0.15)',
+            border: '2px solid #D2B48C',
+            position: 'relative',
+            overflow: 'hidden',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23D2B48C" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+              opacity: 0.3,
+            }
+          }}>
             <Typography
               variant="h3"
               sx={{
                 textAlign: 'center',
                 color: '#8B4513',
                 fontFamily: '"Poppins", sans-serif',
-                fontWeight: 600,
+                fontWeight: 700,
                 mb: 6,
+                textShadow: '2px 2px 4px rgba(139, 69, 19, 0.3)',
+                position: 'relative',
+                zIndex: 1,
               }}
             >
               Why Choose Sweet Baby Names?
@@ -412,6 +445,8 @@ const Home = () => {
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
                 gap: { xs: 3, sm: 4 },
                 justifyContent: 'center',
+                position: 'relative',
+                zIndex: 1,
               }}
             >
               {features.map((feature, index) => (
@@ -420,18 +455,31 @@ const Home = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, rotate: 2 }}
                 >
                   <Box
                     sx={{
                       textAlign: 'center',
-                      p: { xs: 2, sm: 3 },
-                      backgroundColor: 'white',
-                      borderRadius: 0,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                      border: '1px solid #F5F5F5',
+                      p: { xs: 3, sm: 4 },
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      borderRadius: 3,
+                      boxShadow: '0 4px 16px rgba(139, 69, 19, 0.2)',
+                      border: '2px solid #D2B48C',
+                      backdropFilter: 'blur(10px)',
+                      transition: 'all 0.3s ease-in-out',
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        boxShadow: '0 8px 24px rgba(139, 69, 19, 0.3)',
+                        transform: 'translateY(-5px)',
+                      },
                     }}
                   >
-                    <Box sx={{ color: '#8B4513', mb: { xs: 1, sm: 2 } }}>
+                    <Box sx={{
+                      color: '#8B4513',
+                      mb: { xs: 2, sm: 3 },
+                      transform: 'scale(1.2)',
+                      filter: 'drop-shadow(2px 2px 4px rgba(139, 69, 19, 0.3))'
+                    }}>
                       {feature.icon}
                     </Box>
                     <Typography
@@ -439,8 +487,9 @@ const Home = () => {
                       sx={{
                         color: '#8B4513',
                         fontFamily: '"Poppins", sans-serif',
-                        fontWeight: 600,
-                        mb: { xs: 1, sm: 2 },
+                        fontWeight: 700,
+                        mb: { xs: 2, sm: 3 },
+                        textShadow: '1px 1px 2px rgba(139, 69, 19, 0.2)',
                       }}
                     >
                       {feature.title}
@@ -450,6 +499,8 @@ const Home = () => {
                       sx={{
                         color: '#A0522D',
                         fontFamily: '"Poppins", sans-serif',
+                        fontWeight: 500,
+                        lineHeight: 1.6,
                       }}
                     >
                       {feature.description}

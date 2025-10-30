@@ -29,6 +29,7 @@ import GirlNames from './components/GirlNames';
 import IndianNames from './components/IndianNames';
 import ModernNames from './components/ModernNames';
 import ZodiacNames from './components/ZodiacNames';
+import Footer from './components/Footer';
 
 // Theme Toggle Component
 const ThemeToggle = () => {
@@ -239,6 +240,52 @@ const Navigation = () => {
   );
 };
 
+// WhatsApp Floating Button Component
+const WhatsAppButton = () => {
+  const { isDarkMode } = useTheme();
+  const muiTheme = useMuiTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
+
+  const handleWhatsAppClick = () => {
+    const phoneNumber = '7796196502';
+    const message = 'Hi, I need help with baby names!';
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  return (
+    <Button
+      onClick={handleWhatsAppClick}
+      sx={{
+        position: 'fixed',
+        bottom: isMobile ? 16 : 24,
+        right: isMobile ? 16 : 24,
+        backgroundColor: 'orange',
+        color: 'black',
+        '&:hover': {
+          backgroundColor: '#FF8C00',
+          transform: 'scale(1.05)',
+        },
+        transition: 'all 0.3s ease-in-out',
+        zIndex: 1000,
+        boxShadow: '0 4px 20px rgba(255, 165, 0, 0.3)',
+        px: 3,
+        py: 1.5,
+        borderRadius: 8,
+        fontFamily: '"Inter", sans-serif',
+        fontWeight: 600,
+        fontSize: '0.875rem',
+        textTransform: 'none',
+        whiteSpace: 'nowrap',
+        minWidth: 'auto',
+      }}
+      aria-label="Get Names via WhatsApp"
+    >
+      Get Names
+    </Button>
+  );
+};
+
 // Main App Component
 function App() {
   const { isDarkMode } = useTheme();
@@ -257,6 +304,8 @@ function App() {
           <Route path="/modern-names" element={<ModernNames />} />
           <Route path="/zodiac-names" element={<ZodiacNames />} />
         </Routes>
+        <Footer />
+        <WhatsAppButton />
       </Router>
     </MuiThemeProvider>
   );
