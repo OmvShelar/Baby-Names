@@ -1,417 +1,274 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
+  Box,
   Container,
   Typography,
-  Box,
-  Tabs,
-  Tab,
+  TextField,
+  InputAdornment,
+  Grid,
   Chip,
+  Tab,
+  Tabs,
   IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
+  Badge,
+  Button,
+  Fab,
+  alpha,
+  useTheme,
 } from '@mui/material';
 import {
-  ArrowBack as BackIcon,
-  Favorite as HeartIcon,
-  FavoriteBorder as HeartBorderIcon,
+  Search,
+  Boy,
+  Girl,
+  Star,
+  AutoAwesome,
+  Favorite,
+  ArrowBack,
+  Close,
+  FilterList,
+  ExpandMore,
+  ExpandLess,
 } from '@mui/icons-material';
-import { BoyIcon, IndianFlagIcon, GodIcon, ModernIcon, ZodiacIcon } from './icons/CustomIcons';
-import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import confetti from 'canvas-confetti';
+import NameCard from './NameCard';
+import { namesDatabase, genderCategories } from '../data/data';
 
-// Sample boy names data with more details
-const boyNamesData = {
-  indian: [
-    { name: 'Aarav', meaning: 'Peaceful, calm', origin: 'Sanskrit', popularity: 'High' },
-    { name: 'Vihaan', meaning: 'Dawn, morning', origin: 'Sanskrit', popularity: 'High' },
-    { name: 'Arjun', meaning: 'Bright, shining', origin: 'Sanskrit', popularity: 'High' },
-    { name: 'Krishna', meaning: 'Dark, attractive', origin: 'Sanskrit', popularity: 'High' },
-    { name: 'Rohit', meaning: 'Red, sun', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Siddharth', meaning: 'One who seeks enlightenment', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Advait', meaning: 'Unique, non-dual', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Dhruv', meaning: 'Pole star, firm', origin: 'Sanskrit', popularity: 'Medium' },
-  ],
-  god: [
-    { name: 'Krishna', meaning: 'Dark, attractive', origin: 'Hindu', popularity: 'High' },
-    { name: 'Shiva', meaning: 'Auspicious one', origin: 'Hindu', popularity: 'High' },
-    { name: 'Vishnu', meaning: 'All-pervading', origin: 'Hindu', popularity: 'High' },
-    { name: 'Ganesh', meaning: 'Lord of success', origin: 'Hindu', popularity: 'High' },
-    { name: 'Ram', meaning: 'Pleasing, charming', origin: 'Hindu', popularity: 'High' },
-    { name: 'Hanuman', meaning: 'One with powerful jaws', origin: 'Hindu', popularity: 'High' },
-    { name: 'Brahma', meaning: 'Creator of universe', origin: 'Hindu', popularity: 'Medium' },
-    { name: 'Indra', meaning: 'King of gods', origin: 'Hindu', popularity: 'Medium' },
-  ],
-  modern: [
-    { name: 'Leo', meaning: 'Lion', origin: 'Latin', popularity: 'High' },
-    { name: 'Noah', meaning: 'Rest, peace', origin: 'Hebrew', popularity: 'High' },
-    { name: 'Liam', meaning: 'Strong-willed warrior', origin: 'Irish', popularity: 'High' },
-    { name: 'Ethan', meaning: 'Strong, firm', origin: 'Hebrew', popularity: 'High' },
-    { name: 'Mason', meaning: 'Stone worker', origin: 'English', popularity: 'High' },
-    { name: 'Lucas', meaning: 'Light-giving', origin: 'Latin', popularity: 'High' },
-    { name: 'Oliver', meaning: 'Olive tree', origin: 'Latin', popularity: 'High' },
-    { name: 'Elijah', meaning: 'Yahweh is my God', origin: 'Hebrew', popularity: 'High' },
-  ],
-  zodiac: [
-    { name: 'Aries: Advait', meaning: 'Unique (Aries energy)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Taurus: Bodhi', meaning: 'Enlightenment (Taurus stability)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Gemini: Chirag', meaning: 'Light (Gemini brightness)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Cancer: Chandra', meaning: 'Moon (Cancer intuition)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Leo: Leo', meaning: 'Lion (Leo strength)', origin: 'Latin', popularity: 'High' },
-    { name: 'Virgo: Varun', meaning: 'Water god (Virgo purity)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Libra: Samarth', meaning: 'Capable (Libra balance)', origin: 'Sanskrit', popularity: 'Medium' },
-    { name: 'Scorpio: Rudra', meaning: 'Fearsome (Scorpio intensity)', origin: 'Sanskrit', popularity: 'Medium' },
-  ],
-};
+const TABS = [
+  { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
+  ...genderCategories.boy.map((cat) => ({
+    label: cat.name,
+    value: cat.name,
+    icon: cat.name === 'Indian' ? <Star sx={{ fontSize: 16 }} /> : cat.name === 'Zodiac' ? <Star sx={{ fontSize: 16 }} /> : <AutoAwesome sx={{ fontSize: 16 }} />,
+  })),
+];
 
 const BoyNames = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTab, setSelectedTab] = useState('all');
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem('favoriteNames');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(0);
-  const [favorites, setFavorites] = useState([]);
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
+  const custom = theme.palette.custom;
 
-  const subcategories = [
-    { key: 'indian', label: 'Indian Names', icon: <IndianFlagIcon />, count: boyNamesData.indian.length },
-    { key: 'god', label: 'God Names', icon: <GodIcon />, count: boyNamesData.god.length },
-    { key: 'modern', label: 'Modern Names', icon: <ModernIcon />, count: boyNamesData.modern.length },
-    { key: 'zodiac', label: 'Zodiac Names', icon: <ZodiacIcon />, count: boyNamesData.zodiac.length },
-  ];
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) setSearchQuery(q);
+  }, [searchParams]);
+
+  useEffect(() => {
+    localStorage.setItem('favoriteNames', JSON.stringify(favorites));
+  }, [favorites]);
 
   const toggleFavorite = (name) => {
-    setFavorites(prev =>
-      prev.includes(name)
-        ? prev.filter(fav => fav !== name)
-        : [...prev, name]
+    setFavorites((prev) =>
+      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
     );
+    if (!favorites.includes(name)) {
+      confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#D08B7B', '#E5B7A9', '#6B8FAD'] });
+    }
   };
 
-  const renderSubcategoryContent = (subcategory) => {
-    const names = boyNamesData[subcategory] || [];
-    const isZodiac = subcategory === 'zodiac';
+  const allBoyNames = useMemo(() => {
+    const names = [];
+    genderCategories.boy.forEach((category) => {
+      const categoryNames = namesDatabase[category.name] || [];
+      categoryNames.forEach((item) => {
+        if (item.boy) {
+          names.push({
+            name: item.boy,
+            meaning: item.boy_meaning,
+            gender: 'Boy',
+            origin: category.name,
+            zodiac: item.zodiac,
+            popularity: item.boy_popularity,
+          });
+        }
+      });
+    });
+    return names;
+  }, []);
 
-    return (
-      <TableContainer
-        component={Paper}
-        sx={{
-          borderRadius: 0,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          overflowX: 'auto',
-          backgroundColor: 'white',
-          transition: 'opacity 0.3s ease-in-out',
-        }}
-      >
-        <Table>
-          <TableHead>
-            <TableRow
-              sx={{
-                backgroundColor: '#E3F2FD',
-                '& th': {
-                  fontFamily: '"Poppins", sans-serif',
-                  fontWeight: 600,
-                  color: '#1976D2',
-                  borderBottom: '2px solid #ddd',
-                },
-              }}
-            >
-              {isZodiac ? (
-                <>
-                  <TableCell>Zodiac Sign</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Meaning</TableCell>
-                  <TableCell>Origin</TableCell>
-                  <TableCell>Popularity</TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Meaning</TableCell>
-                  <TableCell>Origin</TableCell>
-                  <TableCell>Popularity</TableCell>
-                </>
-              )}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {names.map((nameData, index) => {
-              const [sign, parsedName] = isZodiac ? nameData.name.split(': ') : [null, nameData.name];
-              return (
-                <TableRow
-                  key={index}
-                  sx={{
-                    '&:nth-of-type(odd)': {
-                      backgroundColor: '#f9f9f9',
-                    },
-                    '&:hover': {
-                      backgroundColor: '#E3F2FD',
-                      transform: 'scale(1.02)',
-                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                      transition: 'all 0.2s ease-in-out',
-                    },
-                    '& td': {
-                      fontFamily: '"Poppins", sans-serif',
-                      borderBottom: '1px solid #eee',
-                    },
-                  }}
-                >
-                  {isZodiac ? (
-                    <>
-                      <TableCell sx={{ fontWeight: 500 }}>{sign}</TableCell>
-                      <TableCell sx={{ fontWeight: 600, color: '#1976D2' }}>{parsedName}</TableCell>
-                      <TableCell>{nameData.meaning}</TableCell>
-                      <TableCell>{nameData.origin}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={nameData.popularity}
-                          size="small"
-                          sx={{
-                            backgroundColor: nameData.popularity === 'High' ? '#E8F5E8' : '#FFF3E0',
-                            color: nameData.popularity === 'High' ? '#2E7D32' : '#E65100',
-                            fontFamily: '"Poppins", sans-serif',
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      </TableCell>
-                    </>
-                  ) : (
-                    <>
-                      <TableCell sx={{ fontWeight: 600, color: '#1976D2' }}>{nameData.name}</TableCell>
-                      <TableCell>{nameData.meaning}</TableCell>
-                      <TableCell>{nameData.origin}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={nameData.popularity}
-                          size="small"
-                          sx={{
-                            backgroundColor: nameData.popularity === 'High' ? '#E8F5E8' : '#FFF3E0',
-                            color: nameData.popularity === 'High' ? '#2E7D32' : '#E65100',
-                            fontFamily: '"Poppins", sans-serif',
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      </TableCell>
-                    </>
-                  )}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
+  const filteredNames = useMemo(() => {
+    let names = allBoyNames;
+    if (selectedTab !== 'all') {
+      names = names.filter((name) => name.origin === selectedTab);
+    }
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      names = names.filter(
+        (name) =>
+          name.name.toLowerCase().includes(query) ||
+          (name.meaning && name.meaning.toLowerCase().includes(query)) ||
+          (name.origin && name.origin.toLowerCase().includes(query))
+      );
+    }
+    return names;
+  }, [allBoyNames, selectedTab, searchQuery]);
 
   return (
-    <Box sx={{ minHeight: '100vh', backgroundColor: '#E3F2FD', pt: 2 }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* Header */}
+      <Box sx={{ pt: { xs: 2, md: 3 }, pb: { xs: 3, md: 4 }, borderBottom: `1px solid ${custom.borderLight}` }}>
+        <Container maxWidth="lg">
+          <Button
+            startIcon={<ArrowBack sx={{ fontSize: 16 }} />}
             onClick={() => navigate('/')}
-            sx={{
-              backgroundColor: '#1976D2',
-              color: 'white',
-              '&:hover': {
-                backgroundColor: '#1565C0',
-              },
-            }}
+            sx={{ mb: 2, color: 'text.secondary', fontSize: '0.8rem' }}
           >
-            <BackIcon />
-          </IconButton>
-          <Box>
-            <Typography
-              variant="h3"
-              sx={{
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 700,
-                color: '#1976D2',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 2,
-              }}
-            >
-              <BoyIcon sx={{ fontSize: 40 }} />
+            Back to Home
+          </Button>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+            <Box sx={{ p: 0.8, bgcolor: alpha('#6B8FAD', 0.1), display: 'flex' }}>
+              <Boy sx={{ fontSize: 20, color: '#6B8FAD' }} />
+            </Box>
+            <Typography variant="h3" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.5rem', md: '1.8rem' } }}>
               Boy Names
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: '#666',
-                fontFamily: '"Poppins", sans-serif',
-                mt: 1,
-              }}
-            >
-              Discover strong and meaningful names for your baby boy
-            </Typography>
           </Box>
-        </Box>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, fontSize: '0.9rem' }}>
+            Strong and timeless names for boys from diverse cultures and traditions.
+          </Typography>
 
-        {/* Subcategories Tabs */}
-        <Box sx={{ mb: 4 }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+            <TextField
+              fullWidth
+              placeholder="Search boy names..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: <InputAdornment position="start"><Search sx={{ fontSize: 18, color: 'text.secondary' }} /></InputAdornment>,
+                endAdornment: searchQuery && (
+                  <InputAdornment position="end">
+                    <IconButton size="small" onClick={() => setSearchQuery('')} sx={{ p: 0.3 }}>
+                      <Close sx={{ fontSize: 16 }} />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                flex: 1,
+                minWidth: 200,
+                '& .MuiOutlinedInput-root': {
+                  bgcolor: custom.cardWhite,
+                  border: `1px solid ${custom.borderLight}`,
+                  '& fieldset': { border: 'none' },
+                },
+              }}
+            />
+            <Chip
+              label={`${filteredNames.length} names`}
+              sx={{
+                height: 36,
+                bgcolor: alpha('#6B8FAD', 0.08),
+                color: '#6B8FAD',
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                border: `1px solid ${alpha('#6B8FAD', 0.15)}`,
+              }}
+            />
+          </Box>
+        </Container>
+      </Box>
+
+      {/* Tabs */}
+      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: 'background.paper' }}>
+        <Container maxWidth="lg">
           <Tabs
-            value={activeTab}
-            onChange={(e, newValue) => setActiveTab(newValue)}
+            value={selectedTab}
+            onChange={(e, v) => setSelectedTab(v)}
             variant="scrollable"
             scrollButtons="auto"
-            sx={{
-              backgroundColor: 'white',
-              borderRadius: 0,
-              p: 1,
-              '& .MuiTab-root': {
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 500,
-                minHeight: 64,
-                borderRadius: 0,
-                mx: 0.5,
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: '#1976D2',
-                borderRadius: 0,
-              },
-            }}
+            TabIndicatorProps={{ style: { display: 'none' } }}
           >
-            {subcategories.map((subcategory, index) => (
+            {TABS.map((tab) => (
               <Tab
-                key={subcategory.key}
-                label={`${subcategory.label} (${subcategory.count})`}
-                icon={subcategory.icon}
-                iconPosition="start"
+                key={tab.value}
+                value={tab.value}
+                label={
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.7 }}>
+                    {tab.icon}
+                    {tab.label}
+                  </Box>
+                }
                 sx={{
-                  color: activeTab === index ? '#1976D2' : '#666',
-                  '&.Mui-selected': {
-                    color: '#1976D2',
-                    backgroundColor: '#E3F2FD',
-                  },
+                  minHeight: 48,
+                  textTransform: 'none',
+                  fontWeight: selectedTab === tab.value ? 600 : 400,
+                  color: selectedTab === tab.value ? '#D08B7B' : 'text.secondary',
+                  borderBottom: selectedTab === tab.value ? '2px solid #D08B7B' : '2px solid transparent',
+                  fontSize: '0.825rem',
+                  '&:hover': { color: '#D08B7B' },
                 }}
               />
             ))}
           </Tabs>
-        </Box>
+        </Container>
+      </Box>
 
-        {/* Content */}
-        <Box sx={{ backgroundColor: 'white', borderRadius: 0, p: 3, mb: 4 }}>
-          {subcategories.map((subcategory, index) => (
-            <Box key={subcategory.key} hidden={activeTab !== index}>
-              {activeTab === index && (
-                <Box>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      mb: 3,
-                      fontFamily: '"Poppins", sans-serif',
-                      fontWeight: 600,
-                      color: '#1976D2',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                    }}
-                  >
-                    {subcategory.icon}
-                    {subcategory.label}
-                  </Typography>
-                  {renderSubcategoryContent(subcategory.key)}
-                </Box>
-              )}
-            </Box>
-          ))}
-        </Box>
-
-        {/* Favorites Section */}
-        {favorites.length > 0 && (
-          <Box sx={{ backgroundColor: 'white', borderRadius: 0, p: 3, mb: 4 }}>
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 3,
-                fontFamily: '"Poppins", sans-serif',
-                fontWeight: 600,
-                color: '#E91E63',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <HeartIcon />
-              Your Favorites ({favorites.length})
+      {/* Names Grid */}
+      <Container maxWidth="lg" sx={{ py: { xs: 3, md: 4 } }}>
+        {filteredNames.length === 0 ? (
+          <Box sx={{ textAlign: 'center', py: 8 }}>
+            <Boy sx={{ fontSize: 48, color: alpha('#6B8FAD', 0.2), mb: 2 }} />
+            <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, mb: 1 }}>
+              No names found
             </Typography>
-            <TableContainer
-              component={Paper}
-              sx={{
-                borderRadius: 0,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                overflowX: 'auto',
-                backgroundColor: 'white',
-              }}
-            >
-              <Table>
-                <TableHead>
-                  <TableRow
-                    sx={{
-                      backgroundColor: '#E3F2FD',
-                      '& th': {
-                        fontFamily: '"Poppins", sans-serif',
-                        fontWeight: 600,
-                        color: '#1976D2',
-                        borderBottom: '2px solid #ddd',
-                      },
-                    }}
-                  >
-                    <TableCell>Name</TableCell>
-                    <TableCell>Meaning</TableCell>
-                    <TableCell>Origin</TableCell>
-                    <TableCell>Popularity</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {favorites.map((favName, index) => {
-                    const allNames = Object.values(boyNamesData).flat();
-                    const nameData = allNames.find(n => n.name === favName);
-                    if (!nameData) return null;
-                    const [sign, parsedName] = nameData.name.includes(': ') ? nameData.name.split(': ') : [null, nameData.name];
-                    return (
-                      <TableRow
-                        key={index}
-                        sx={{
-                          '&:nth-of-type(odd)': {
-                            backgroundColor: '#f9f9f9',
-                          },
-                          '&:hover': {
-                            backgroundColor: '#E3F2FD',
-                            transform: 'scale(1.02)',
-                            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                            transition: 'all 0.2s ease-in-out',
-                          },
-                          '& td': {
-                            fontFamily: '"Poppins", sans-serif',
-                            borderBottom: '1px solid #eee',
-                          },
-                        }}
-                      >
-                        <TableCell sx={{ fontWeight: 600, color: '#1976D2' }}>{parsedName}</TableCell>
-                        <TableCell>{nameData.meaning}</TableCell>
-                        <TableCell>{nameData.origin}</TableCell>
-                        <TableCell>
-                          <Chip
-                            label={nameData.popularity}
-                            size="small"
-                            sx={{
-                              backgroundColor: nameData.popularity === 'High' ? '#E8F5E8' : '#FFF3E0',
-                              color: nameData.popularity === 'High' ? '#2E7D32' : '#E65100',
-                              fontFamily: '"Poppins", sans-serif',
-                              fontSize: '0.75rem',
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              Try a different search term or category.
+            </Typography>
           </Box>
+        ) : (
+          <Grid container spacing={2}>
+            {filteredNames.map((name, i) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={name.name + name.origin}>
+                <NameCard
+                  name={name.name}
+                  meaning={name.meaning}
+                  gender={name.gender}
+                  origin={name.origin}
+                  zodiac={name.zodiac}
+                  popularity={name.popularity}
+                  isFavorite={favorites.includes(name.name)}
+                  onToggleFavorite={toggleFavorite}
+                  index={i}
+                />
+              </Grid>
+            ))}
+          </Grid>
         )}
       </Container>
+
+      {/* Favorites FAB */}
+      <AnimatePresence>
+        {favorites.length > 0 && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            style={{ position: 'fixed', bottom: 88, right: 24, zIndex: 1200 }}
+          >
+            <Badge badgeContent={favorites.length} color="error">
+              <Fab
+                sx={{
+                  bgcolor: '#D08B7B',
+                  color: '#fff',
+                  boxShadow: '0 4px 14px rgba(208,139,123,0.4)',
+                  '&:hover': { bgcolor: '#B57364' },
+                }}
+              >
+                <Favorite sx={{ fontSize: 22 }} />
+              </Fab>
+            </Badge>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };
