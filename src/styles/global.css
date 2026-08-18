@@ -1,0 +1,39 @@
+/* Add Playfair Display & Inter, basic CSS reset and editorial touches */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap');
+
+:root{
+  --bg-paper: #FCFBF7;
+  --card-white: #FFFFFF;
+  --accent: #4C1D95;
+  --text-primary: #0F172A;
+  --text-secondary: #6B7280;
+}
+
+html,body,#root{height:100%;}
+body{
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg-paper);
+  color: var(--text-primary);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+h1,h2,h3,h4,h5,h6{font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; margin:0}
+
+a{color:inherit}
+
+/* Utility */
+.container{max-width:1100px;margin:0 auto;padding:0 16px}
+
+/* Cards */
+.card{
+  background:var(--card-white);
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(16,24,40,0.06);
+  border:1px solid rgba(15,23,42,0.04);
+}
+
+/* nice focus */
+:focus{outline:none}
+input:focus,button:focus,textarea:focus{box-shadow:0 0 0 3px rgba(76,29,149,0.12); border-radius:8px}
