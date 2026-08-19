@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Chip, IconButton, alpha, useTheme, Skeleton } from '@mui/material';
 import { ChildCare, ChildFriendly, Star, Favorite, FavoriteBorder, Public, AutoAwesome, TrendingUp, Translate } from '@mui/icons-material';
 import { motion } from 'framer-motion';
-import images from '../data/images';
+import { getImage } from '../data/images';
 
 const genderIconMap = {
   boy: <ChildCare sx={{ fontSize: 14 }} />,
@@ -55,7 +55,7 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
 
   const genderLower = (gender || '').toLowerCase();
   const isGirl = genderLower.includes('girl') || genderLower.includes('feminine') || genderLower.includes('female');
-  const imageSrc = images[name] || null;
+  const imageSrc = getImage(name, gender);
 
   return (
     <motion.div
