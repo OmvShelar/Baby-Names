@@ -1,20 +1,21 @@
-import React from 'react';
-import { Box, Typography, Chip, IconButton, alpha, useTheme } from '@mui/material';
-import { Boy, Girl, Star, Favorite, FavoriteBorder, Public, AutoAwesome, TrendingUp, Translate } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Box, Typography, Chip, IconButton, alpha, useTheme, Skeleton } from '@mui/material';
+import { ChildCare, ChildFriendly, Star, Favorite, FavoriteBorder, Public, AutoAwesome, TrendingUp, Translate } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import images from '../data/images';
 
 const genderIconMap = {
-  boy: <Boy sx={{ fontSize: 14 }} />,
-  male: <Boy sx={{ fontSize: 14 }} />,
-  girl: <Girl sx={{ fontSize: 14 }} />,
-  female: <Girl sx={{ fontSize: 14 }} />,
+  boy: <ChildCare sx={{ fontSize: 14 }} />,
+  male: <ChildCare sx={{ fontSize: 14 }} />,
+  girl: <ChildFriendly sx={{ fontSize: 14 }} />,
+  female: <ChildFriendly sx={{ fontSize: 14 }} />,
 };
 
 const getGenderIcon = (name) => {
   const lower = (name || '').toLowerCase();
-  if (lower.includes('girl') || lower.includes('feminine') || lower.includes('female')) return <Girl sx={{ fontSize: 14 }} />;
-  if (lower.includes('boy') || lower.includes('masculine') || lower.includes('male')) return <Boy sx={{ fontSize: 14 }} />;
-  return <Boy sx={{ fontSize: 14 }} />;
+  if (lower.includes('girl') || lower.includes('feminine') || lower.includes('female')) return <ChildFriendly sx={{ fontSize: 14 }} />;
+  if (lower.includes('boy') || lower.includes('masculine') || lower.includes('male')) return <ChildCare sx={{ fontSize: 14 }} />;
+  return <ChildCare sx={{ fontSize: 14 }} />;
 };
 
 const getOriginIcon = (origin) => {
@@ -26,6 +27,26 @@ const getOriginIcon = (origin) => {
   return <Translate sx={{ fontSize: 13 }} />;
 };
 
+const CardImage = ({ src, alt }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+  const fallback = 'https://via.placeholder.com/600x400?text=Baby+Names';
+
+  return (
+    <Box sx={{ width: '100%', height: 140, borderRadius: 1, overflow: 'hidden', mb: 1 }}>
+      {!loaded && !error && <Skeleton variant="rectangular" width="100%" height="100%" />}
+      <img
+        src={error ? fallback : src}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: loaded || error ? 'block' : 'none' }}
+      />
+    </Box>
+  );
+};
+
 const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorite, onToggleFavorite, delay = 0, index }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
@@ -34,6 +55,7 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
 
   const genderLower = (gender || '').toLowerCase();
   const isGirl = genderLower.includes('girl') || genderLower.includes('feminine') || genderLower.includes('female');
+  const imageSrc = images[name] || null;
 
   return (
     <motion.div
@@ -77,6 +99,8 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
           },
         }}
       >
+        {imageSrc && <CardImage src={imageSrc} alt={`${name} image`} />}
+
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
           <Typography
             variant="h5"
