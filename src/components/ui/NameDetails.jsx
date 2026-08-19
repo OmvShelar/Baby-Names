@@ -18,6 +18,12 @@ export default function NameDetails({ open, onClose, item }) {
 
       <DialogContent>
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28 }}>
+          {item.image && (
+            <Box sx={{ width: '100%', height: 220, mb: 2, borderRadius: 1, overflow: 'hidden' }}>
+              <img src={item.image} alt={`${item.name} large`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </Box>
+          )}
+
           {item.meaning && (
             <Typography sx={{ mb: 2 }}>{item.meaning}</Typography>
           )}
