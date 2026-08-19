@@ -31,6 +31,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
+import { useFavorites } from './ui/FavoritesProvider';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
@@ -44,10 +45,7 @@ const TABS = [
 const BoyNames = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('all');
-  const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem('favoriteNames');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const { favorites, toggleFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -59,14 +57,8 @@ const BoyNames = () => {
     if (q) setSearchQuery(q);
   }, [searchParams]);
 
-  useEffect(() => {
-    localStorage.setItem('favoriteNames', JSON.stringify(favorites));
-  }, [favorites]);
-
-  const toggleFavorite = (name) => {
-    setFavorites((prev) =>
-      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name]
-    );
+  const handleToggleFavorite = (name) => {
+    toggleFavorite(name);
     if (!favorites.includes(name)) {
       confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#D08B7B', '#E5B7A9', '#6B8FAD'] });
     }
@@ -233,7 +225,7 @@ const BoyNames = () => {
                   zodiac={name.zodiac}
                   popularity={name.popularity}
                   isFavorite={favorites.includes(name.name)}
-                  onToggleFavorite={toggleFavorite}
+                  onToggleFavorite={handleToggleFavorite}
                   index={i}
                 />
               </Grid>
