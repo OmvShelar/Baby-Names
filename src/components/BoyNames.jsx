@@ -131,7 +131,7 @@ export default function BoyNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#0284C7', 0.15), display: 'flex', color: '#0284C7' }}>
+            <Box sx={{ p: 1, borderRadius: '4px', bgcolor: alpha('#0284C7', 0.15), display: 'flex', color: '#0284C7' }}>
               <Boy sx={{ fontSize: 26 }} />
             </Box>
             <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
@@ -167,7 +167,8 @@ export default function BoyNames() {
                 minWidth: 260,
                 '& .MuiOutlinedInput-root': {
                   bgcolor: custom.cardWhite,
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+                  borderRadius: '4px',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                 },
               }}
             />
@@ -176,6 +177,7 @@ export default function BoyNames() {
               sx={{
                 height: 42,
                 px: 1,
+                borderRadius: '3px',
                 bgcolor: alpha('#0284C7', 0.1),
                 color: '#0284C7',
                 fontWeight: 700,

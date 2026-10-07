@@ -6,7 +6,6 @@ import {
   IconButton,
   alpha,
   useTheme,
-  Skeleton,
   Tooltip,
 } from '@mui/material';
 import {
@@ -23,7 +22,6 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { getImage } from '../data/images';
 
 export default function NameCard({
   name,
@@ -84,95 +82,97 @@ export default function NameCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: delay + (index % 12) * 0.04, ease: 'easeOut' }}
-      whileHover={{ y: -5 }}
+      transition={{ duration: 0.3, delay: delay + (index % 12) * 0.03, ease: 'easeOut' }}
+      whileHover={{ y: -3 }}
       style={{ height: '100%' }}
     >
       <Box
         sx={{
-          p: { xs: 2.5, sm: 3 },
+          p: { xs: 2.5, sm: 2.8 },
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
           bgcolor: custom.cardWhite,
-          borderRadius: 4,
-          border: `1px solid ${isFavorite ? alpha(accentColor, 0.4) : custom.borderLight}`,
+          borderRadius: '4px',
+          border: `1px solid ${isFavorite ? alpha(accentColor, 0.45) : custom.borderLight}`,
           boxShadow: isDark
-            ? '0 4px 20px rgba(0,0,0,0.3)'
-            : '0 4px 20px rgba(0,0,0,0.03)',
+            ? '0 2px 10px rgba(0,0,0,0.25)'
+            : '0 2px 10px rgba(0,0,0,0.02)',
           position: 'relative',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          overflow: 'hidden',
+          transition: 'all 0.22s ease',
           '&::before': {
             content: '""',
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: 4,
+            height: 3,
             background: isGirl
               ? 'linear-gradient(90deg, #FB7185, #E11D48)'
               : 'linear-gradient(90deg, #38BDF8, #0284C7)',
-            opacity: isFavorite ? 1 : 0.4,
-            transition: 'opacity 0.25s ease',
+            opacity: isFavorite ? 1 : 0.35,
+            transition: 'opacity 0.2s ease',
           },
           '&:hover': {
             boxShadow: isDark
-              ? '0 12px 32px rgba(0,0,0,0.45)'
-              : `0 14px 36px ${alpha(accentColor, 0.12)}`,
+              ? '0 8px 24px rgba(0,0,0,0.35)'
+              : `0 8px 24px ${alpha(accentColor, 0.08)}`,
             border: `1px solid ${accentColor}`,
             '&::before': { opacity: 1 },
           },
         }}
       >
         {/* Top Header Row */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
             <Typography
               variant="h5"
               sx={{
                 fontFamily: '"Playfair Display", Georgia, serif',
                 fontWeight: 700,
-                fontSize: { xs: '1.35rem', sm: '1.5rem' },
+                fontSize: { xs: '1.25rem', sm: '1.38rem' },
                 lineHeight: 1.2,
                 color: 'text.primary',
+                letterSpacing: '-0.01em',
               }}
             >
               {name}
             </Typography>
 
             {/* Pronunciation speech button */}
-            <Tooltip title={isPlaying ? 'Pronouncing...' : `Listen: how to pronounce "${name}"`}>
+            <Tooltip title={isPlaying ? 'Pronouncing...' : `Listen: pronunciation of "${name}"`}>
               <IconButton
                 size="small"
                 onClick={handleSpeak}
                 sx={{
-                  p: 0.5,
+                  p: 0.4,
+                  borderRadius: '3px',
                   color: isPlaying ? accentColor : 'text.secondary',
                   bgcolor: isPlaying ? accentBg : 'transparent',
                   '&:hover': { color: accentColor, bgcolor: accentBg },
                 }}
               >
-                <VolumeUp sx={{ fontSize: 18 }} />
+                <VolumeUp sx={{ fontSize: 17 }} />
               </IconButton>
             </Tooltip>
           </Box>
 
           {/* Action Icons */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
             <Tooltip title={copied ? 'Copied!' : 'Copy name'}>
               <IconButton
                 size="small"
                 onClick={handleCopy}
                 sx={{
-                  p: 0.6,
+                  p: 0.5,
+                  borderRadius: '3px',
                   color: copied ? 'success.main' : 'text.secondary',
                   '&:hover': { color: 'text.primary' },
                 }}
               >
-                {copied ? <Check sx={{ fontSize: 18 }} /> : <Share sx={{ fontSize: 17 }} />}
+                {copied ? <Check sx={{ fontSize: 17 }} /> : <Share sx={{ fontSize: 16 }} />}
               </IconButton>
             </Tooltip>
 
@@ -181,18 +181,19 @@ export default function NameCard({
                 size="small"
                 onClick={handleHeartClick}
                 sx={{
-                  p: 0.6,
+                  p: 0.5,
+                  borderRadius: '3px',
                   color: isFavorite ? '#E11D48' : 'text.secondary',
-                  bgcolor: isFavorite ? alpha('#E11D48', 0.1) : 'transparent',
+                  bgcolor: isFavorite ? alpha('#E11D48', 0.08) : 'transparent',
                   '&:hover': {
                     color: '#E11D48',
-                    transform: 'scale(1.15)',
-                    bgcolor: alpha('#E11D48', 0.15),
+                    transform: 'scale(1.1)',
+                    bgcolor: alpha('#E11D48', 0.12),
                   },
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.18s ease',
                 }}
               >
-                {isFavorite ? <Favorite sx={{ fontSize: 20 }} /> : <FavoriteBorder sx={{ fontSize: 20 }} />}
+                {isFavorite ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
               </IconButton>
             </Tooltip>
           </Box>
@@ -206,8 +207,8 @@ export default function NameCard({
               color: 'text.secondary',
               fontStyle: 'italic',
               mb: 2,
-              lineHeight: 1.6,
-              fontSize: '0.88rem',
+              lineHeight: 1.55,
+              fontSize: '0.85rem',
               flexGrow: 1,
             }}
           >
@@ -216,16 +217,17 @@ export default function NameCard({
         )}
 
         {/* Badges / Chips Row */}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mt: 'auto', pt: 1.5, borderTop: `1px solid ${custom.borderLight}` }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mt: 'auto', pt: 1.4, borderTop: `1px solid ${custom.borderLight}` }}>
           {gender && (
             <Chip
               size="small"
-              icon={isGirl ? <ChildFriendly sx={{ fontSize: 14 }} /> : <ChildCare sx={{ fontSize: 14 }} />}
+              icon={isGirl ? <ChildFriendly sx={{ fontSize: 13 }} /> : <ChildCare sx={{ fontSize: 13 }} />}
               label={gender}
               sx={{
-                height: 24,
-                fontSize: '0.72rem',
+                height: 22,
+                fontSize: '0.7rem',
                 fontWeight: 600,
+                borderRadius: '2px',
                 bgcolor: accentBg,
                 color: accentColor,
                 border: `1px solid ${alpha(accentColor, 0.2)}`,
@@ -237,12 +239,13 @@ export default function NameCard({
           {origin && (
             <Chip
               size="small"
-              icon={<Public sx={{ fontSize: 13 }} />}
+              icon={<Public sx={{ fontSize: 12 }} />}
               label={origin}
               sx={{
-                height: 24,
-                fontSize: '0.72rem',
+                height: 22,
+                fontSize: '0.7rem',
                 fontWeight: 600,
+                borderRadius: '2px',
                 bgcolor: alpha(custom.coral, 0.08),
                 color: custom.coral,
                 border: `1px solid ${alpha(custom.coral, 0.2)}`,
@@ -254,12 +257,13 @@ export default function NameCard({
           {zodiac && (
             <Chip
               size="small"
-              icon={<Star sx={{ fontSize: 13 }} />}
+              icon={<Star sx={{ fontSize: 12 }} />}
               label={zodiac}
               sx={{
-                height: 24,
-                fontSize: '0.72rem',
+                height: 22,
+                fontSize: '0.7rem',
                 fontWeight: 600,
+                borderRadius: '2px',
                 bgcolor: alpha('#8B5CF6', 0.08),
                 color: '#8B5CF6',
                 border: `1px solid ${alpha('#8B5CF6', 0.2)}`,
@@ -271,12 +275,13 @@ export default function NameCard({
           {popularity && (
             <Chip
               size="small"
-              icon={<TrendingUp sx={{ fontSize: 13 }} />}
+              icon={<TrendingUp sx={{ fontSize: 12 }} />}
               label={popularity}
               sx={{
-                height: 24,
-                fontSize: '0.72rem',
+                height: 22,
+                fontSize: '0.7rem',
                 fontWeight: 600,
+                borderRadius: '2px',
                 bgcolor: alpha('#10B981', 0.08),
                 color: '#10B981',
                 border: `1px solid ${alpha('#10B981', 0.2)}`,

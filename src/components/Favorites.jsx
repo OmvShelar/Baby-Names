@@ -129,7 +129,7 @@ export default function Favorites() {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#E11D48', 0.15), display: 'flex', color: '#E11D48' }}>
+                <Box sx={{ p: 1, borderRadius: '4px', bgcolor: alpha('#E11D48', 0.15), display: 'flex', color: '#E11D48' }}>
                   <Favorite sx={{ fontSize: 26 }} />
                 </Box>
                 <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
@@ -148,9 +148,10 @@ export default function Favorites() {
                   startIcon={<FaWhatsapp />}
                   onClick={handleShareWhatsApp}
                   sx={{
+                    borderRadius: '4px',
                     bgcolor: '#25D366',
                     '&:hover': { bgcolor: '#20BD5A' },
-                    boxShadow: '0 4px 14px rgba(37,211,102,0.3)',
+                    boxShadow: '0 2px 10px rgba(37,211,102,0.3)',
                   }}
                 >
                   Share with Partner
@@ -159,6 +160,7 @@ export default function Favorites() {
                   variant="outlined"
                   onClick={handleCopyShortlist}
                   startIcon={copied ? <Check /> : <Share />}
+                  sx={{ borderRadius: '4px' }}
                 >
                   {copied ? 'Copied!' : 'Copy List'}
                 </Button>
@@ -185,6 +187,7 @@ export default function Favorites() {
                   clickable
                   onClick={() => setSelectedGender(tab.id)}
                   sx={{
+                    borderRadius: '2px',
                     bgcolor: selectedGender === tab.id ? '#E11D48' : 'transparent',
                     color: selectedGender === tab.id ? '#FFFFFF' : 'text.primary',
                     fontWeight: selectedGender === tab.id ? 700 : 500,
@@ -201,7 +204,7 @@ export default function Favorites() {
       {/* Main Content */}
       <Container maxWidth="lg" sx={{ py: 5 }}>
         {favoriteItems.length === 0 ? (
-          <Paper sx={{ textAlign: 'center', py: 8, px: 3, borderRadius: 4, bgcolor: custom.cardWhite, maxWidth: 600, mx: 'auto' }}>
+          <Paper sx={{ textAlign: 'center', py: 8, px: 3, borderRadius: '4px', bgcolor: custom.cardWhite, maxWidth: 600, mx: 'auto', border: `1px solid ${custom.borderLight}` }}>
             <Favorite sx={{ fontSize: 64, color: alpha('#E11D48', 0.2), mb: 2 }} />
             <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 1.5 }}>
               No favorites saved yet

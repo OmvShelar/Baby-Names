@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -23,10 +23,8 @@ import {
   BookmarkBorder,
   Bookmark,
   Check,
-  ArrowForward,
 } from '@mui/icons-material';
-import { FaWhatsapp, FaTwitter, FaFacebookF } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { FaWhatsapp, FaTwitter } from 'react-icons/fa';
 import { blogPosts } from '../data/blogsData';
 import SEO from './SEO';
 
@@ -55,7 +53,6 @@ export default function BlogPost() {
     .filter((p) => p.id !== post.id && (p.category === post.category || true))
     .slice(0, 3);
 
-  // Article JSON-LD Schema
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -84,7 +81,7 @@ export default function BlogPost() {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 10 }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
       <SEO
         title={post.title}
         description={post.metaDescription || post.excerpt}
@@ -96,7 +93,7 @@ export default function BlogPost() {
       />
 
       {/* Top Header / Breadcrumbs */}
-      <Box sx={{ pt: 4, pb: 2, borderBottom: `1px solid ${custom.borderLight}` }}>
+      <Box sx={{ pt: 3.5, pb: 2, borderBottom: `1px solid ${custom.borderLight}` }}>
         <Container maxWidth="md">
           <Button
             startIcon={<ArrowBack />}
@@ -104,23 +101,25 @@ export default function BlogPost() {
             sx={{
               color: 'text.secondary',
               mb: 2,
+              borderRadius: '3px',
               '&:hover': { color: 'primary.main', bgcolor: 'transparent' },
             }}
           >
             Back to All Articles
           </Button>
 
-          <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', gap: 0.8, mb: 1.5, flexWrap: 'wrap' }}>
             {post.tags.map((tag) => (
               <Chip
                 key={tag}
                 label={tag}
                 size="small"
                 sx={{
+                  borderRadius: '2px',
                   bgcolor: alpha(custom.coral, 0.1),
                   color: custom.coral,
                   fontWeight: 600,
-                  fontSize: '0.75rem',
+                  fontSize: '0.72rem',
                 }}
               />
             ))}
@@ -129,10 +128,10 @@ export default function BlogPost() {
           <Typography
             variant="h1"
             sx={{
-              fontSize: { xs: '2rem', sm: '2.6rem', md: '3.1rem' },
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
               fontWeight: 700,
               lineHeight: 1.2,
-              mb: 3,
+              mb: 2.5,
               fontFamily: '"Playfair Display", Georgia, serif',
             }}
           >
@@ -147,14 +146,14 @@ export default function BlogPost() {
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 2,
-              pb: 3,
+              pb: 2.5,
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
               <Avatar
                 src={post.author.avatar}
                 alt={post.author.name}
-                sx={{ width: 48, height: 48, border: `2px solid ${custom.coral}` }}
+                sx={{ width: 44, height: 44, borderRadius: '4px', border: `1px solid ${custom.coral}` }}
               />
               <Box>
                 <Typography variant="subtitle2" sx={{ fontWeight: 700, lineHeight: 1.2 }}>
@@ -166,13 +165,13 @@ export default function BlogPost() {
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, color: 'text.secondary', fontSize: '0.85rem' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, color: 'text.secondary', fontSize: '0.84rem' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
-                <CalendarToday sx={{ fontSize: 16 }} />
+                <CalendarToday sx={{ fontSize: 15 }} />
                 <span>{post.publishedAt}</span>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
-                <AccessTime sx={{ fontSize: 16 }} />
+                <AccessTime sx={{ fontSize: 15 }} />
                 <span>{post.readTime}</span>
               </Box>
             </Box>
@@ -181,17 +180,17 @@ export default function BlogPost() {
       </Box>
 
       {/* Featured Banner Image */}
-      <Container maxWidth="md" sx={{ mt: 4, mb: 5 }}>
+      <Container maxWidth="md" sx={{ mt: 3.5, mb: 4.5 }}>
         <Box
           component="img"
           src={post.featuredImage}
           alt={post.title}
           sx={{
             width: '100%',
-            height: { xs: 260, sm: 380, md: 460 },
+            height: { xs: 240, sm: 360, md: 440 },
             objectFit: 'cover',
-            borderRadius: { xs: 3, md: 5 },
-            boxShadow: '0 12px 36px rgba(0,0,0,0.08)',
+            borderRadius: '4px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
           }}
         />
 
@@ -202,24 +201,24 @@ export default function BlogPost() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            p: 2,
-            mt: 3,
-            borderRadius: 4,
+            p: 1.8,
+            mt: 2.5,
+            borderRadius: '4px',
             bgcolor: custom.cardWhite,
             border: `1px solid ${custom.borderLight}`,
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Share sx={{ fontSize: 20, color: 'text.secondary' }} />
+            <Share sx={{ fontSize: 18, color: 'text.secondary' }} />
             <Typography variant="body2" sx={{ fontWeight: 600, color: 'text.secondary' }}>
-              Share this guide:
+              Share guide:
             </Typography>
             <IconButton
               component="a"
               href={`https://api.whatsapp.com/send?text=${shareTitle}%20${shareUrl}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ color: '#25D366', bgcolor: alpha('#25D366', 0.1), '&:hover': { bgcolor: alpha('#25D366', 0.2) } }}
+              sx={{ borderRadius: '3px', color: '#25D366', bgcolor: alpha('#25D366', 0.1), '&:hover': { bgcolor: alpha('#25D366', 0.2) } }}
             >
               <FaWhatsapp size={16} />
             </IconButton>
@@ -228,7 +227,7 @@ export default function BlogPost() {
               href={`https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ color: '#1DA1F2', bgcolor: alpha('#1DA1F2', 0.1), '&:hover': { bgcolor: alpha('#1DA1F2', 0.2) } }}
+              sx={{ borderRadius: '3px', color: '#1DA1F2', bgcolor: alpha('#1DA1F2', 0.1), '&:hover': { bgcolor: alpha('#1DA1F2', 0.2) } }}
             >
               <FaTwitter size={16} />
             </IconButton>
@@ -241,14 +240,14 @@ export default function BlogPost() {
                 size="small"
                 onClick={handleCopyLink}
                 startIcon={copied ? <Check /> : null}
-                sx={{ borderRadius: 50, px: 2, fontSize: '0.8rem' }}
+                sx={{ borderRadius: '3px', px: 2, fontSize: '0.8rem' }}
               >
                 {copied ? 'Copied!' : 'Copy Link'}
               </Button>
             </Tooltip>
             <IconButton
               onClick={() => setBookmarked(!bookmarked)}
-              sx={{ color: bookmarked ? custom.coral : 'text.secondary' }}
+              sx={{ borderRadius: '3px', color: bookmarked ? custom.coral : 'text.secondary' }}
             >
               {bookmarked ? <Bookmark /> : <BookmarkBorder />}
             </IconButton>
@@ -258,47 +257,47 @@ export default function BlogPost() {
         {/* Article Content */}
         <Box
           sx={{
-            mt: 5,
-            fontSize: '1.08rem',
+            mt: 4.5,
+            fontSize: '1.05rem',
             lineHeight: 1.85,
             color: 'text.primary',
             '& h2': {
               fontFamily: '"Playfair Display", Georgia, serif',
-              fontSize: { xs: '1.6rem', md: '2.1rem' },
+              fontSize: { xs: '1.5rem', md: '1.9rem' },
               fontWeight: 700,
               mt: 4,
-              mb: 2,
+              mb: 1.8,
               color: 'text.primary',
             },
             '& h3': {
               fontFamily: '"Playfair Display", Georgia, serif',
-              fontSize: { xs: '1.3rem', md: '1.6rem' },
+              fontSize: { xs: '1.25rem', md: '1.5rem' },
               fontWeight: 600,
-              mt: 3.5,
+              mt: 3,
               mb: 1.5,
               color: custom.coral,
             },
             '& p': {
-              mb: 2.5,
+              mb: 2.2,
               color: isDark ? '#CBD5E1' : '#475569',
             },
             '& ul, & ol': {
-              mb: 3,
+              mb: 2.5,
               pl: 3,
               '& li': {
-                mb: 1,
+                mb: 0.8,
                 color: isDark ? '#CBD5E1' : '#475569',
               },
             },
             '& blockquote': {
-              p: 3,
-              my: 4,
-              borderLeft: `4px solid ${custom.coral}`,
-              bgcolor: alpha(custom.coral, 0.06),
-              borderRadius: '0 16px 16px 0',
+              p: 2.5,
+              my: 3.5,
+              borderLeft: `3px solid ${custom.coral}`,
+              bgcolor: alpha(custom.coral, 0.05),
+              borderRadius: '0 4px 4px 0',
               fontFamily: '"Playfair Display", Georgia, serif',
               fontStyle: 'italic',
-              fontSize: '1.2rem',
+              fontSize: '1.15rem',
               color: 'text.primary',
             },
           }}
@@ -308,25 +307,25 @@ export default function BlogPost() {
         {/* Bottom CTA Box */}
         <Paper
           sx={{
-            p: 4,
-            mt: 6,
-            borderRadius: 4,
+            p: 3.5,
+            mt: 5,
+            borderRadius: '4px',
             textAlign: 'center',
-            background: `linear-gradient(135deg, ${alpha(custom.coral, 0.12)}, ${alpha(custom.rose, 0.08)})`,
+            background: `linear-gradient(135deg, ${alpha(custom.coral, 0.1)}, ${alpha(custom.rose, 0.06)})`,
             border: `1px solid ${alpha(custom.coral, 0.25)}`,
           }}
         >
-          <Typography variant="h4" sx={{ mb: 1.5, fontWeight: 700 }}>
+          <Typography variant="h4" sx={{ mb: 1, fontWeight: 700, fontSize: { xs: '1.4rem', md: '1.8rem' } }}>
             Ready to find your favorite names?
           </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3, maxWidth: 500, mx: 'auto' }}>
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 2.5, maxWidth: 500, mx: 'auto' }}>
             Explore thousands of curated boy and girl names with verified meanings, origins, and zodiac signs.
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5, flexWrap: 'wrap' }}>
             <Button
               variant="contained"
               onClick={() => navigate('/boy-names')}
-              sx={{ px: 3.5 }}
+              sx={{ px: 3, borderRadius: '4px' }}
             >
               Explore Boy Names
             </Button>
@@ -334,7 +333,8 @@ export default function BlogPost() {
               variant="contained"
               onClick={() => navigate('/girl-names')}
               sx={{
-                px: 3.5,
+                px: 3,
+                borderRadius: '4px',
                 background: custom.girlGradient,
               }}
             >
@@ -343,31 +343,31 @@ export default function BlogPost() {
           </Box>
         </Paper>
 
-        <Divider sx={{ my: 6 }} />
+        <Divider sx={{ my: 5 }} />
 
         {/* Related Articles */}
         <Box>
-          <Typography variant="h3" sx={{ mb: 3, fontWeight: 700, fontSize: { xs: '1.5rem', md: '1.8rem' } }}>
+          <Typography variant="h3" sx={{ mb: 2.5, fontWeight: 700, fontSize: { xs: '1.4rem', md: '1.7rem' } }}>
             Recommended Articles
           </Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={2.5}>
             {relatedPosts.map((rel) => (
               <Grid item xs={12} sm={4} key={rel.id}>
                 <Paper
                   onClick={() => navigate(`/blogs/${rel.slug}`)}
                   sx={{
-                    p: 2,
+                    p: 1.8,
                     cursor: 'pointer',
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     bgcolor: custom.cardWhite,
                     border: `1px solid ${custom.borderLight}`,
-                    borderRadius: 3,
-                    transition: 'all 0.25s ease',
+                    borderRadius: '4px',
+                    transition: 'all 0.2s ease',
                     '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 12px 28px rgba(0,0,0,0.08)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
                       borderColor: custom.coral,
                     },
                   }}
@@ -376,12 +376,12 @@ export default function BlogPost() {
                     component="img"
                     src={rel.featuredImage}
                     alt={rel.title}
-                    sx={{ width: '100%', height: 130, objectFit: 'cover', borderRadius: 2, mb: 1.5 }}
+                    sx={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: '3px', mb: 1.2 }}
                   />
                   <Typography
                     variant="h6"
                     sx={{
-                      fontSize: '0.98rem',
+                      fontSize: '0.95rem',
                       fontWeight: 600,
                       lineHeight: 1.3,
                       mb: 1,

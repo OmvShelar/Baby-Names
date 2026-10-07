@@ -123,7 +123,7 @@ export default function AppLayout() {
               <Box
                 sx={{
                   p: 1,
-                  borderRadius: 3,
+                  borderRadius: '4px',
                   background: 'linear-gradient(135deg, #FF7E67 0%, #F43F5E 100%)',
                   display: 'flex',
                   alignItems: 'center',
@@ -176,13 +176,13 @@ export default function AppLayout() {
                         py: 0.8,
                         px: 1.8,
                         fontSize: '0.86rem',
-                        borderRadius: 50,
+                        borderRadius: '4px',
                         color: active ? '#FFFFFF' : 'text.primary',
                         bgcolor: active ? custom.coral : 'transparent',
                         fontWeight: active ? 700 : 500,
-                        boxShadow: active ? '0 4px 14px rgba(255, 126, 103, 0.35)' : 'none',
+                        boxShadow: active ? '0 2px 10px rgba(255, 126, 103, 0.3)' : 'none',
                         '&:hover': {
-                          bgcolor: active ? custom.coralDark : alpha(custom.coral, 0.1),
+                          bgcolor: active ? custom.coralDark : alpha(custom.coral, 0.08),
                           color: active ? '#FFFFFF' : custom.coral,
                         },
                       }}
@@ -197,7 +197,7 @@ export default function AppLayout() {
                             py: 0.1,
                             fontSize: '0.62rem',
                             fontWeight: 800,
-                            borderRadius: 10,
+                            borderRadius: '2px',
                             bgcolor: active ? '#FFFFFF' : '#EC4899',
                             color: active ? '#EC4899' : '#FFFFFF',
                           }}
@@ -222,7 +222,7 @@ export default function AppLayout() {
                     py: 0.8,
                     px: 2,
                     fontSize: '0.86rem',
-                    borderRadius: 50,
+                    borderRadius: '4px',
                     color: isActive('/favorites') ? '#FFFFFF' : favorites.length ? '#E11D48' : 'text.secondary',
                     bgcolor: isActive('/favorites') ? '#E11D48' : alpha('#E11D48', 0.08),
                     fontWeight: 600,
@@ -242,15 +242,14 @@ export default function AppLayout() {
                 onClick={toggleTheme}
                 aria-label="Toggle dark/light mode"
                 sx={{
-                  p: 1.1,
-                  borderRadius: 50,
+                  p: 1,
+                  borderRadius: '4px',
                   bgcolor: alpha(custom.coral, 0.08),
                   color: isDarkMode ? '#F59E0B' : '#645D56',
                   '&:hover': {
                     bgcolor: alpha(custom.coral, 0.16),
-                    transform: 'rotate(15deg)',
                   },
-                  transition: 'all 0.25s ease',
+                  transition: 'all 0.2s ease',
                 }}
               >
                 {isDarkMode ? <LightMode sx={{ fontSize: 20 }} /> : <DarkMode sx={{ fontSize: 20 }} />}
@@ -261,8 +260,8 @@ export default function AppLayout() {
                   onClick={() => setMobileOpen(true)}
                   aria-label="Open mobile menu"
                   sx={{
-                    p: 1.1,
-                    borderRadius: 50,
+                    p: 1,
+                    borderRadius: '4px',
                     bgcolor: alpha(custom.coral, 0.08),
                     color: 'text.primary',
                   }}
@@ -290,14 +289,14 @@ export default function AppLayout() {
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box sx={{ p: 0.8, borderRadius: 2.5, background: 'linear-gradient(135deg, #FF7E67, #F43F5E)', display: 'flex' }}>
+            <Box sx={{ p: 0.8, borderRadius: '4px', background: 'linear-gradient(135deg, #FF7E67, #F43F5E)', display: 'flex' }}>
               <Baby size={18} style={{ color: '#fff' }} />
             </Box>
             <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: '1.05rem' }}>
               Menu
             </Typography>
           </Box>
-          <IconButton onClick={() => setMobileOpen(false)} sx={{ borderRadius: 50 }}>
+          <IconButton onClick={() => setMobileOpen(false)} sx={{ borderRadius: '4px' }}>
             <Close sx={{ fontSize: 22 }} />
           </IconButton>
         </Box>
@@ -315,7 +314,7 @@ export default function AppLayout() {
                   cursor: 'pointer',
                   py: 1.2,
                   px: 2,
-                  borderRadius: 3,
+                  borderRadius: '3px',
                   bgcolor: active ? alpha(custom.coral, 0.12) : 'transparent',
                   border: active ? `1px solid ${alpha(custom.coral, 0.3)}` : '1px solid transparent',
                   '&:hover': { bgcolor: alpha(custom.coral, 0.08) },
@@ -333,7 +332,7 @@ export default function AppLayout() {
                   }}
                 />
                 {item.isNew && (
-                  <Chip label="NEW" size="small" sx={{ bgcolor: '#EC4899', color: '#fff', height: 20, fontSize: '0.65rem', fontWeight: 700 }} />
+                  <Chip label="NEW" size="small" sx={{ borderRadius: '2px', bgcolor: '#EC4899', color: '#fff', height: 20, fontSize: '0.65rem', fontWeight: 700 }} />
                 )}
               </ListItem>
             );
@@ -345,7 +344,7 @@ export default function AppLayout() {
               cursor: 'pointer',
               py: 1.2,
               px: 2,
-              borderRadius: 3,
+              borderRadius: '3px',
               mt: 1,
               bgcolor: isActive('/favorites') ? alpha('#E11D48', 0.12) : alpha('#E11D48', 0.05),
               '&:hover': { bgcolor: alpha('#E11D48', 0.15) },

@@ -20,18 +20,16 @@ import {
 import {
   Search,
   AccessTime,
-  CalendarToday,
   ArrowForward,
   AutoAwesome,
-  BookOpen,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { blogPosts, blogCategories } from '../data/blogsData';
 import SEO from './SEO';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: 'easeOut' } },
 };
 
 export default function Blogs() {
@@ -58,7 +56,7 @@ export default function Blogs() {
   const featuredPost = blogPosts[0];
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 10 }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8 }}>
       <SEO
         title="Baby Naming Blog & Editorial Guides (2026)"
         description="Comprehensive articles, expert guides, and astrological insights to help parents choose modern, meaningful, and cultural baby names."
@@ -69,22 +67,22 @@ export default function Blogs() {
       {/* Header Banner */}
       <Box
         sx={{
-          py: { xs: 6, md: 8 },
+          py: { xs: 5, md: 7 },
           background: `linear-gradient(180deg, ${custom.heroGradientStart} 0%, ${custom.heroGradientEnd} 100%)`,
           borderBottom: `1px solid ${custom.borderLight}`,
           position: 'relative',
-          overflow: 'hidden',
         }}
       >
         <Container maxWidth="md">
-          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
             <motion.div variants={fadeInUp}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Chip
-                  icon={<AutoAwesome sx={{ fontSize: 16 }} />}
+                  icon={<AutoAwesome sx={{ fontSize: 14 }} />}
                   label="Baby Naming Editorial & Guides"
                   sx={{
-                    bgcolor: alpha(custom.coral, 0.12),
+                    borderRadius: '3px',
+                    bgcolor: alpha(custom.coral, 0.1),
                     color: custom.coral,
                     fontWeight: 700,
                     px: 1,
@@ -98,11 +96,12 @@ export default function Blogs() {
                 variant="h1"
                 align="center"
                 sx={{
-                  fontSize: { xs: '2.2rem', sm: '3rem', md: '3.6rem' },
+                  fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.4rem' },
                   fontWeight: 700,
                   mb: 2,
                   fontFamily: '"Playfair Display", Georgia, serif',
                   lineHeight: 1.15,
+                  letterSpacing: '-0.02em',
                 }}
               >
                 Inspiration, Meaning &amp;{' '}
@@ -118,11 +117,11 @@ export default function Blogs() {
                 align="center"
                 sx={{
                   color: 'text.secondary',
-                  maxWidth: 600,
+                  maxWidth: 580,
                   mx: 'auto',
-                  fontSize: '1.05rem',
+                  fontSize: '1.02rem',
                   lineHeight: 1.7,
-                  mb: 4,
+                  mb: 3.5,
                 }}
               >
                 Explore expert advice, cultural origins, astrology guides, and trending collections to illuminate your baby naming journey.
@@ -131,7 +130,7 @@ export default function Blogs() {
 
             {/* Search Input */}
             <motion.div variants={fadeInUp}>
-              <Box sx={{ maxWidth: 540, mx: 'auto' }}>
+              <Box sx={{ maxWidth: 520, mx: 'auto' }}>
                 <TextField
                   fullWidth
                   placeholder="Search articles, trends, zodiac guides..."
@@ -140,14 +139,16 @@ export default function Blogs() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search sx={{ color: 'text.secondary' }} />
+                        <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
                       </InputAdornment>
                     ),
                   }}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       bgcolor: custom.cardWhite,
-                      boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
+                      borderRadius: '4px',
+                      height: 48,
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
                     },
                   }}
                 />
@@ -157,14 +158,14 @@ export default function Blogs() {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ mt: 5 }}>
-        {/* Category Filter Pills */}
+      <Container maxWidth="lg" sx={{ mt: 4.5 }}>
+        {/* Category Filter Chips */}
         <Box
           sx={{
             display: 'flex',
-            gap: 1,
+            gap: 0.8,
             overflowX: 'auto',
-            pb: 2,
+            pb: 1.5,
             mb: 4,
             justifyContent: { xs: 'flex-start', md: 'center' },
             '&::-webkit-scrollbar': { display: 'none' },
@@ -179,15 +180,16 @@ export default function Blogs() {
                 clickable
                 onClick={() => setSelectedCategory(cat.id)}
                 sx={{
-                  px: 1.5,
-                  py: 2.2,
-                  fontSize: '0.86rem',
+                  px: 1.2,
+                  py: 1.8,
+                  borderRadius: '3px',
+                  fontSize: '0.84rem',
                   fontWeight: active ? 700 : 500,
                   bgcolor: active ? custom.coral : isDark ? alpha('#fff', 0.05) : '#FFFFFF',
                   color: active ? '#FFFFFF' : 'text.primary',
                   border: `1px solid ${active ? custom.coral : custom.borderLight}`,
-                  boxShadow: active ? '0 4px 14px rgba(255, 126, 103, 0.3)' : 'none',
-                  transition: 'all 0.2s ease',
+                  boxShadow: active ? '0 2px 8px rgba(255, 126, 103, 0.25)' : 'none',
+                  transition: 'all 0.18s ease',
                   '&:hover': {
                     bgcolor: active ? custom.coral : alpha(custom.coral, 0.08),
                   },
@@ -197,9 +199,9 @@ export default function Blogs() {
           })}
         </Box>
 
-        {/* Featured Article Card (shown on 'all' without active search) */}
+        {/* Featured Story */}
         {selectedCategory === 'all' && !searchQuery && featuredPost && (
-          <Box sx={{ mb: 6 }}>
+          <Box sx={{ mb: 5.5 }}>
             <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.15em', fontWeight: 700, mb: 1, display: 'block' }}>
               FEATURED STORY
             </Typography>
@@ -209,58 +211,58 @@ export default function Blogs() {
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
                 cursor: 'pointer',
-                borderRadius: 4,
+                borderRadius: '4px',
                 bgcolor: custom.cardWhite,
                 border: `1px solid ${custom.borderLight}`,
-                boxShadow: '0 8px 30px rgba(0,0,0,0.06)',
+                boxShadow: '0 4px 18px rgba(0,0,0,0.04)',
                 overflow: 'hidden',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.25s ease',
                 '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: '0 16px 40px rgba(0,0,0,0.1)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 10px 28px rgba(0,0,0,0.08)',
                   borderColor: custom.coral,
-                  '& .featured-img': { transform: 'scale(1.03)' },
+                  '& .featured-img': { transform: 'scale(1.02)' },
                 },
               }}
             >
-              <Box sx={{ width: { xs: '100%', md: '50%' }, overflow: 'hidden', height: { xs: 240, md: 380 } }}>
+              <Box sx={{ width: { xs: '100%', md: '50%' }, overflow: 'hidden', height: { xs: 220, md: 340 } }}>
                 <CardMedia
                   component="img"
                   className="featured-img"
                   image={featuredPost.featuredImage}
                   alt={featuredPost.title}
-                  sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
+                  sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
                 />
               </Box>
-              <CardContent sx={{ width: { xs: '100%', md: '50%' }, p: { xs: 3, md: 5 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+              <CardContent sx={{ width: { xs: '100%', md: '50%' }, p: { xs: 3, md: 4.5 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>
                   <Chip
                     label="Must Read"
                     size="small"
-                    sx={{ bgcolor: alpha(custom.coral, 0.12), color: custom.coral, fontWeight: 700 }}
+                    sx={{ borderRadius: '2px', bgcolor: alpha(custom.coral, 0.1), color: custom.coral, fontWeight: 700 }}
                   />
-                  <Chip label={featuredPost.readTime} size="small" variant="outlined" />
+                  <Chip label={featuredPost.readTime} size="small" variant="outlined" sx={{ borderRadius: '2px' }} />
                 </Box>
                 <Typography
                   variant="h3"
                   sx={{
                     fontFamily: '"Playfair Display", Georgia, serif',
                     fontWeight: 700,
-                    fontSize: { xs: '1.4rem', sm: '1.8rem', md: '2.1rem' },
+                    fontSize: { xs: '1.35rem', sm: '1.65rem', md: '1.9rem' },
                     lineHeight: 1.25,
-                    mb: 2,
+                    mb: 1.5,
                   }}
                 >
                   {featuredPost.title}
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3, lineHeight: 1.7 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2.5, lineHeight: 1.65 }}>
                   {featuredPost.excerpt}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 'auto' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Avatar src={featuredPost.author.avatar} alt={featuredPost.author.name} sx={{ width: 36, height: 36 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.2 }}>
+                    <Avatar src={featuredPost.author.avatar} alt={featuredPost.author.name} sx={{ width: 32, height: 32 }} />
                     <Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.85rem' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: '0.82rem' }}>
                         {featuredPost.author.name}
                       </Typography>
                       <Typography variant="caption" sx={{ color: 'text.secondary' }}>
@@ -268,7 +270,7 @@ export default function Blogs() {
                       </Typography>
                     </Box>
                   </Box>
-                  <Button endIcon={<ArrowForward />} sx={{ fontWeight: 700 }}>
+                  <Button endIcon={<ArrowForward sx={{ fontSize: 16 }} />} sx={{ borderRadius: '3px', fontWeight: 700 }}>
                     Read
                   </Button>
                 </Box>
@@ -278,33 +280,30 @@ export default function Blogs() {
         )}
 
         {/* Articles Grid */}
-        <Typography variant="h3" sx={{ mb: 3, fontWeight: 700, fontSize: { xs: '1.4rem', md: '1.8rem' } }}>
+        <Typography variant="h3" sx={{ mb: 2.5, fontWeight: 700, fontSize: { xs: '1.35rem', md: '1.7rem' } }}>
           {selectedCategory === 'all' ? 'All Articles & Guides' : `${blogCategories.find((c) => c.id === selectedCategory)?.label}`}
-          <Typography component="span" variant="body2" sx={{ ml: 1.5, color: 'text.secondary', fontWeight: 500 }}>
+          <Typography component="span" variant="body2" sx={{ ml: 1.2, color: 'text.secondary', fontWeight: 500 }}>
             ({filteredPosts.length} articles)
           </Typography>
         </Typography>
 
         {filteredPosts.length === 0 ? (
-          <Paper sx={{ p: 6, textAlign: 'center', bgcolor: custom.cardWhite, borderRadius: 4 }}>
-            <Typography variant="h5" sx={{ mb: 1, fontWeight: 600 }}>
-              No articles match your criteria
+          <Paper sx={{ p: 5, textAlign: 'center', bgcolor: custom.cardWhite, borderRadius: '4px' }}>
+            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+              No articles match your search
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-              Try searching with another keyword or pick another category.
-            </Typography>
-            <Button variant="outlined" onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }}>
+            <Button variant="outlined" onClick={() => { setSelectedCategory('all'); setSearchQuery(''); }} sx={{ borderRadius: '3px', mt: 1 }}>
               Reset Filters
             </Button>
           </Paper>
         ) : (
-          <Grid container spacing={3.5}>
+          <Grid container spacing={3}>
             {filteredPosts.map((post, idx) => (
               <Grid item xs={12} sm={6} md={4} key={post.id}>
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: idx * 0.06 }}
+                  transition={{ duration: 0.3, delay: idx * 0.04 }}
                   style={{ height: '100%' }}
                 >
                   <Card
@@ -314,42 +313,43 @@ export default function Blogs() {
                       display: 'flex',
                       flexDirection: 'column',
                       cursor: 'pointer',
-                      borderRadius: 3.5,
+                      borderRadius: '4px',
                       bgcolor: custom.cardWhite,
                       border: `1px solid ${custom.borderLight}`,
-                      boxShadow: '0 4px 16px rgba(0,0,0,0.04)',
-                      transition: 'all 0.3s ease',
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                      transition: 'all 0.22s ease',
                       overflow: 'hidden',
                       '&:hover': {
-                        transform: 'translateY(-6px)',
-                        boxShadow: '0 16px 32px rgba(0,0,0,0.09)',
+                        transform: 'translateY(-3px)',
+                        boxShadow: '0 8px 24px rgba(0,0,0,0.07)',
                         borderColor: custom.coral,
-                        '& .card-img': { transform: 'scale(1.05)' },
+                        '& .card-img': { transform: 'scale(1.03)' },
                       },
                     }}
                   >
-                    <Box sx={{ height: 210, overflow: 'hidden' }}>
+                    <Box sx={{ height: 190, overflow: 'hidden' }}>
                       <CardMedia
                         component="img"
                         className="card-img"
                         image={post.featuredImage}
                         alt={post.title}
-                        sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.4s ease' }}
+                        sx={{ height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
                       />
                     </Box>
-                    <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                    <CardContent sx={{ p: 2.5, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.2 }}>
                         <Chip
                           label={post.tags[0] || 'Guide'}
                           size="small"
                           sx={{
-                            bgcolor: alpha(custom.coral, 0.1),
+                            borderRadius: '2px',
+                            bgcolor: alpha(custom.coral, 0.08),
                             color: custom.coral,
                             fontWeight: 700,
-                            fontSize: '0.72rem',
+                            fontSize: '0.7rem',
                           }}
                         />
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', fontSize: '0.75rem' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: 'text.secondary', fontSize: '0.74rem' }}>
                           <AccessTime sx={{ fontSize: 13 }} />
                           <span>{post.readTime}</span>
                         </Box>
@@ -360,9 +360,9 @@ export default function Blogs() {
                         sx={{
                           fontFamily: '"Playfair Display", Georgia, serif',
                           fontWeight: 700,
-                          fontSize: '1.22rem',
+                          fontSize: '1.18rem',
                           lineHeight: 1.35,
-                          mb: 1.5,
+                          mb: 1.2,
                         }}
                       >
                         {post.title}
@@ -373,8 +373,8 @@ export default function Blogs() {
                         sx={{
                           color: 'text.secondary',
                           lineHeight: 1.6,
-                          fontSize: '0.85rem',
-                          mb: 2.5,
+                          fontSize: '0.84rem',
+                          mb: 2,
                           flexGrow: 1,
                           display: '-webkit-box',
                           WebkitLineClamp: 3,
@@ -390,13 +390,13 @@ export default function Blogs() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          pt: 2,
+                          pt: 1.5,
                           borderTop: `1px solid ${custom.borderLight}`,
                           mt: 'auto',
                         }}
                       >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Avatar src={post.author.avatar} alt={post.author.name} sx={{ width: 28, height: 28 }} />
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
+                          <Avatar src={post.author.avatar} alt={post.author.name} sx={{ width: 26, height: 26 }} />
                           <Typography variant="caption" sx={{ fontWeight: 600 }}>
                             {post.author.name}
                           </Typography>
@@ -411,7 +411,7 @@ export default function Blogs() {
                             gap: 0.3,
                           }}
                         >
-                          Read <ArrowForward sx={{ fontSize: 13 }} />
+                          Read <ArrowForward sx={{ fontSize: 12 }} />
                         </Typography>
                       </Box>
                     </CardContent>
