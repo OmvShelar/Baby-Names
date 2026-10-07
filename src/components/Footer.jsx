@@ -1,14 +1,21 @@
 import React from 'react';
 import {
-  Box, Container, Typography, IconButton, Grid, alpha, useTheme as useMuiTheme,
+  Box,
+  Container,
+  Typography,
+  IconButton,
+  Grid,
+  alpha,
+  useTheme as useMuiTheme,
+  Button,
 } from '@mui/material';
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { FiPhone, FiMail, FiMapPin } from 'react-icons/fi';
 import { useTheme } from '../contexts/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import { Baby, Heart } from 'lucide-react';
 
-const Footer = () => {
+export default function Footer() {
   const { isDarkMode } = useTheme();
   const muiTheme = useMuiTheme();
   const navigate = useNavigate();
@@ -16,20 +23,23 @@ const Footer = () => {
 
   const footerSections = [
     {
-      title: 'Quick Links',
+      title: 'Baby Names',
       links: [
-        { label: 'Home', path: '/' },
         { label: 'Boy Names', path: '/boy-names' },
         { label: 'Girl Names', path: '/girl-names' },
-        { label: 'Indian Names', path: '/indian-names' },
+        { label: 'Indian & Sanskrit', path: '/indian-names' },
+        { label: 'Modern & Trendy', path: '/modern-names' },
+        { label: 'Zodiac (Rashi) Names', path: '/zodiac-names' },
       ],
     },
     {
-      title: 'More Names',
+      title: 'Guides & Resources',
       links: [
-        { label: 'Modern Names', path: '/modern-names' },
-        { label: 'Zodiac Names', path: '/zodiac-names' },
-        { label: 'Popular Names', path: '/boy-names' },
+        { label: 'Baby Naming Blog', path: '/blogs' },
+        { label: 'Trending 2026 Names', path: '/blogs/trending-baby-names-2026' },
+        { label: 'How to Choose Guide', path: '/blogs/how-to-choose-perfect-baby-name' },
+        { label: 'Sanskrit Spiritual Meanings', path: '/blogs/sanskrit-baby-names-spiritual-meanings' },
+        { label: 'Twin Baby Names', path: '/blogs/twin-baby-names-harmonious-pairs' },
       ],
     },
     {
@@ -37,7 +47,7 @@ const Footer = () => {
       links: [
         { icon: <FiPhone />, label: '(+91) 7796196502', href: 'tel:+917796196502' },
         { icon: <FiMail />, label: 'pickbabyname@gmail.com', href: 'mailto:pickbabyname@gmail.com' },
-        { icon: <FiMapPin />, label: 'Kolhapur, Maharastra' },
+        { icon: <FiMapPin />, label: 'Kolhapur, Maharashtra, India' },
       ],
     },
   ];
@@ -46,10 +56,10 @@ const Footer = () => {
     <Box
       component="footer"
       sx={{
-        mt: 8,
-        pt: 7,
-        pb: 3,
-        background: custom.cardWhite,
+        mt: 10,
+        pt: 8,
+        pb: 4,
+        background: isDarkMode ? '#0B0E14' : '#FFFFFF',
         borderTop: `1px solid ${custom.borderLight}`,
         position: 'relative',
         '&::before': {
@@ -58,42 +68,78 @@ const Footer = () => {
           top: 0,
           left: 0,
           right: 0,
-          height: 2,
-          background: '#D08B7B',
-          opacity: 0.4,
+          height: 3,
+          background: 'linear-gradient(90deg, #0284C7 0%, #FF7E67 50%, #E11D48 100%)',
         },
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={3}>
-            <Box onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', mb: 2 }}>
-              <Box sx={{
-                p: 1,
-                borderRadius: 0,
-                background: 'linear-gradient(135deg, #D08B7B, #E5B7A9)',
-                mr: 1.5,
-                display: 'flex',
-                boxShadow: '0 2px 8px rgba(208,139,123,0.35)',
-              }}>
-                <Baby size={18} style={{ color: '#fff' }} />
+        <Grid container spacing={5}>
+          {/* Brand Column */}
+          <Grid item xs={12} md={4}>
+            <Box
+              onClick={() => navigate('/')}
+              sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', mb: 2, gap: 1.5 }}
+            >
+              <Box
+                sx={{
+                  p: 1.1,
+                  borderRadius: 3,
+                  background: 'linear-gradient(135deg, #FF7E67, #F43F5E)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  boxShadow: '0 4px 14px rgba(255,126,103,0.4)',
+                }}
+              >
+                <Baby size={22} style={{ color: '#fff' }} />
               </Box>
-              <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: '1rem' }}>
-                Sweet Baby Names
-              </Typography>
-            </Box>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, lineHeight: 1.8, fontSize: '0.825rem' }}>
-              Discover the perfect name for your little one with our curated collection of beautiful baby names from around the world.
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              {[{ icon: <FaFacebookF />, href: '#' }, { icon: <FaTwitter />, href: '#' }, { icon: <FaInstagram />, href: '#' }].map((social, i) => (
-                <IconButton key={i} href={social.href} target="_blank" rel="noopener noreferrer"
+              <Box>
+                <Typography
+                  variant="h6"
                   sx={{
-                    width: 36, height: 36, borderRadius: 0,
-                    backgroundColor: alpha(custom.terracotta, 0.08),
-                    color: isDarkMode ? '#D9A99B' : '#8A6A5B',
-                    '&:hover': { backgroundColor: '#D08B7B', color: '#fff', transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(208,139,123,0.35)' },
-                    transition: 'all 0.2s ease', fontSize: '0.8rem',
+                    fontFamily: '"Playfair Display", Georgia, serif',
+                    fontWeight: 700,
+                    fontSize: '1.2rem',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  Sweet Baby Names
+                </Typography>
+                <Typography variant="caption" sx={{ color: custom.coral, fontWeight: 700, fontSize: '0.7rem' }}>
+                  2026 EDITION
+                </Typography>
+              </Box>
+            </Box>
+
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, lineHeight: 1.8, fontSize: '0.88rem' }}>
+              Discover the most cherished baby names from across traditions, cultures, and celestial signs. Verified meanings, pronunciation insights, and personalized shortlists.
+            </Typography>
+
+            <Box sx={{ display: 'flex', gap: 1.2 }}>
+              {[
+                { icon: <FaFacebookF />, href: 'https://facebook.com', color: '#1877F2' },
+                { icon: <FaTwitter />, href: 'https://twitter.com', color: '#1DA1F2' },
+                { icon: <FaInstagram />, href: 'https://instagram.com', color: '#E4405F' },
+                { icon: <FaWhatsapp />, href: 'https://wa.me/+917796196502', color: '#25D366' },
+              ].map((social, i) => (
+                <IconButton
+                  key={i}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 50,
+                    backgroundColor: alpha(social.color, 0.08),
+                    color: social.color,
+                    '&:hover': {
+                      backgroundColor: social.color,
+                      color: '#fff',
+                      transform: 'translateY(-2px)',
+                      boxShadow: `0 6px 16px ${alpha(social.color, 0.35)}`,
+                    },
+                    transition: 'all 0.25s ease',
                   }}
                 >
                   {social.icon}
@@ -102,28 +148,53 @@ const Footer = () => {
             </Box>
           </Grid>
 
+          {/* Links Columns */}
           {footerSections.map((section) => (
-            <Grid item xs={6} md={3} key={section.title}>
-              <Typography variant="overline" sx={{ color: 'primary.main', fontWeight: 700, fontSize: '0.7rem', letterSpacing: '0.16em', mb: 2, display: 'block' }}>
+            <Grid item xs={6} sm={4} md={2.6} key={section.title}>
+              <Typography
+                variant="overline"
+                sx={{
+                  color: custom.coral,
+                  fontWeight: 700,
+                  fontSize: '0.74rem',
+                  letterSpacing: '0.14em',
+                  mb: 2.5,
+                  display: 'block',
+                }}
+              >
                 {section.title}
               </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.6 }}>
                 {section.links.map((link, i) => (
-                  <Box key={i} component={link.path ? 'button' : 'div'}
+                  <Box
+                    key={i}
+                    component={link.path ? 'button' : 'div'}
                     onClick={link.path ? () => navigate(link.path) : undefined}
                     sx={{
-                      display: 'flex', alignItems: 'center', gap: 1.5,
-                      color: 'text.secondary', fontSize: '0.825rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1.2,
+                      color: 'text.secondary',
+                      fontSize: '0.86rem',
                       cursor: link.path ? 'pointer' : 'default',
-                      background: 'none', border: 'none', textAlign: 'left', p: 0,
-                      fontFamily: '"Outfit", sans-serif',
-                      '&:hover': link.path ? { color: 'primary.main', transform: 'translateX(4px)' } : {},
+                      background: 'none',
+                      border: 'none',
+                      textAlign: 'left',
+                      p: 0,
+                      fontFamily: '"Plus Jakarta Sans", sans-serif',
+                      '&:hover': link.path
+                        ? { color: custom.coral, transform: 'translateX(4px)' }
+                        : {},
                       transition: 'all 0.2s ease',
                     }}
                   >
-                    {link.icon && <Box sx={{ color: 'primary.main', display: 'flex', fontSize: '0.825rem' }}>{link.icon}</Box>}
+                    {link.icon && <Box sx={{ color: custom.coral, display: 'flex' }}>{link.icon}</Box>}
                     {link.href ? (
-                      <Box component="a" href={link.href} sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { color: 'primary.main' } }}>
+                      <Box
+                        component="a"
+                        href={link.href}
+                        sx={{ color: 'inherit', textDecoration: 'none', '&:hover': { color: custom.coral } }}
+                      >
                         {link.label}
                       </Box>
                     ) : (
@@ -136,22 +207,33 @@ const Footer = () => {
           ))}
         </Grid>
 
-        <Box sx={{
-          mt: 5, pt: 3, borderTop: `1px solid ${custom.borderLight}`,
-          display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', justifyContent: 'space-between', gap: 2,
-        }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.78rem' }}>
-            {new Date().getFullYear()} Sweet Baby Names. All rights reserved.
+        {/* Bottom Bar */}
+        <Box
+          sx={{
+            mt: 7,
+            pt: 3.5,
+            borderTop: `1px solid ${custom.borderLight}`,
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 2,
+          }}
+        >
+          <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.82rem' }}>
+            © {new Date().getFullYear()} Sweet Baby Names. Handcrafted for expecting parents. All rights reserved.
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.78rem' }}>Made with</Typography>
-            <Heart size={12} style={{ color: '#D08B7B' }} />
-            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.78rem' }}>for parents everywhere</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6 }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.82rem' }}>
+              Designed with
+            </Typography>
+            <Heart size={14} style={{ color: '#E11D48', fill: '#E11D48' }} />
+            <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.82rem' }}>
+              for little miracles worldwide
+            </Typography>
           </Box>
         </Box>
       </Container>
     </Box>
   );
-};
-
-export default Footer;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box,
   Container,
@@ -11,6 +11,13 @@ import {
   CardContent,
   alpha,
   useTheme,
+  Chip,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Paper,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import {
   Search,
@@ -22,481 +29,742 @@ import {
   AutoAwesome,
   ArrowForward,
   Favorite,
+  FavoriteBorder,
   MenuBook,
-  ArrowRight,
+  ExpandMore,
+  CheckCircle,
+  Lightbulb,
+  Share,
+  CalendarToday,
 } from '@mui/icons-material';
-import { Heart, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import { namesDatabase, genderCategories } from '../data/data';
+import { blogPosts } from '../data/blogsData';
+import { useFavorites } from './ui/FavoritesProvider';
+import BoyGirlShowcase from './ui/BoyGirlShowcase';
+import SEO from './SEO';
 
-const fadeInUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
+const fadeInUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
-const Home = () => {
+const FAQ_LIST = [
+  {
+    q: 'How do I choose the best baby name for my newborn?',
+    a: 'Start by deciding what values resonate with your family: cultural heritage, modern brevity, astrological alignment (Rashi/Nakshatra), or unique spiritual meanings. Test candidate names aloud with your family name, check monograms and initials, and keep a shortlist of 2-3 favorites to decide on delivery day.',
+  },
+  {
+    q: 'What are the top trending baby boy and girl names for 2026?',
+    a: 'For baby boys, top trending names include Vihaan (Morning dawn), Aarav (Peaceful), Leo (Courageous), Advait (Unique), and Noah (Rest). For baby girls, popular picks include Saanvi (Goddess Lakshmi), Diya (Light), Myra (Sweet wonder), Aria (Melody), and Kiara (Bright gem).',
+  },
+  {
+    q: 'How does Vedic Astrology (Rashi & Nakshatra) naming work?',
+    a: 'In Vedic tradition, the Moon’s exact position at the time of birth determines the child’s Moon sign (Rashi) and lunar mansion (Nakshatra). Each Nakshatra quarter has specific auspicious starting sounds (Aksharas), believed to bring harmony and positive energy to the child’s life.',
+  },
+  {
+    q: 'Can I shortlist and share my favorite names with my partner?',
+    a: 'Yes! Simply click the heart icon on any baby name card to add it to your Favorites. Your favorites are saved automatically and can be reviewed, organized, or shared via WhatsApp with your partner and family anytime.',
+  },
+];
+
+export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterGender, setFilterGender] = useState('all'); // 'all' | 'Boy' | 'Girl'
+  const [filterLetter, setFilterLetter] = useState('All');
+  const [filterStyle, setFilterStyle] = useState('all'); // 'all' | 'Indian' | 'Modern' | 'Zodiac'
+
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const navigate = useNavigate();
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   const custom = theme.palette.custom;
 
-  const handleSearch = (e) => {
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) navigate(`/boy-names?q=${encodeURIComponent(searchQuery.trim())}`);
+    if (searchQuery.trim()) {
+      navigate(`/boy-names?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   const categories = [
-    { name: 'Boy Names', desc: 'Strong & classic names', icon: <Boy sx={{ fontSize: 28 }} />, path: '/boy-names', count: 275 },
-    { name: 'Girl Names', desc: 'Elegant & timeless names', icon: <Girl sx={{ fontSize: 28 }} />, path: '/girl-names', count: 403 },
-    { name: 'Indian Names', desc: 'Traditional & cultural names', icon: <Public sx={{ fontSize: 28 }} />, path: '/indian-names', count: 161 },
-    { name: 'Modern Names', desc: 'Contemporary & trendy names', icon: <TrendingUp sx={{ fontSize: 28 }} />, path: '/modern-names', count: 100 },
-    { name: 'Zodiac Names', desc: 'Astrology-inspired names', icon: <Star sx={{ fontSize: 28 }} />, path: '/zodiac-names', count: 288 },
-    { name: 'God Names', desc: 'Divine & sacred names', icon: <AutoAwesome sx={{ fontSize: 28 }} />, path: '/indian-names', count: 80 },
+    { name: 'Boy Names', desc: 'Noble, strong & modern picks', icon: <Boy sx={{ fontSize: 32 }} />, path: '/boy-names', count: '25,000+', color: '#0284C7', bg: alpha('#0284C7', 0.1) },
+    { name: 'Girl Names', desc: 'Graceful, lyrical & divine gems', icon: <Girl sx={{ fontSize: 32 }} />, path: '/girl-names', count: '28,000+', color: '#E11D48', bg: alpha('#E11D48', 0.1) },
+    { name: 'Indian Heritage', desc: 'Sanskrit, Vedic & cultural roots', icon: <Public sx={{ fontSize: 32 }} />, path: '/indian-names', count: '18,000+', color: '#F59E0B', bg: alpha('#F59E0B', 0.1) },
+    { name: 'Modern & Trendy', desc: '2-syllable contemporary favorites', icon: <TrendingUp sx={{ fontSize: 32 }} />, path: '/modern-names', count: '10,000+', color: '#10B981', bg: alpha('#10B981', 0.1) },
+    { name: 'Zodiac & Rashi', desc: 'Auspicious Nakshatra syllables', icon: <Star sx={{ fontSize: 32 }} />, path: '/zodiac-names', count: '12,000+', color: '#8B5CF6', bg: alpha('#8B5CF6', 0.1) },
+    { name: 'Naming Blogs', desc: 'Expert guides, trends & advice', icon: <MenuBook sx={{ fontSize: 32 }} />, path: '/blogs', count: 'Fresh Guides', color: '#EC4899', bg: alpha('#EC4899', 0.1) },
   ];
 
+  // Curated list of popular names from database
   const popularNames = [
-    { name: 'Arjun', meaning: 'White, shining, bright', gender: 'Boy', origin: 'Indian' },
-    { name: 'Diya', meaning: 'Lamp, light', gender: 'Girl', origin: 'Indian' },
-    { name: 'Aarav', meaning: 'Peaceful, calm', gender: 'Boy', origin: 'Indian' },
-    { name: 'Saanvi', meaning: 'Goddess Lakshmi', gender: 'Girl', origin: 'Indian' },
-    { name: 'Vihaan', meaning: 'Dawn, morning', gender: 'Boy', origin: 'Modern' },
-    { name: 'Myra', meaning: 'Admirable, wonderful', gender: 'Girl', origin: 'Modern' },
+    { name: 'Aarav', meaning: 'Peaceful, calm & wise', gender: 'Boy', origin: 'Indian', zodiac: 'Libra' },
+    { name: 'Saanvi', meaning: 'Goddess Lakshmi, sacred grace', gender: 'Girl', origin: 'Indian', zodiac: 'Aries' },
+    { name: 'Vihaan', meaning: 'Dawn, first rays of sun', gender: 'Boy', origin: 'Modern', zodiac: 'Aries' },
+    { name: 'Myra', meaning: 'Admirable, sweet wonder', gender: 'Girl', origin: 'Modern', zodiac: 'Leo' },
+    { name: 'Arjun', meaning: 'Bright, shining warrior', gender: 'Boy', origin: 'Indian', zodiac: 'Leo' },
+    { name: 'Diya', meaning: 'Divine light & radiant lamp', gender: 'Girl', origin: 'Indian', zodiac: 'Leo' },
   ];
 
-  const features = [
-    { title: 'Curated Collection', desc: 'Carefully selected names from diverse cultures, each with verified meanings and origins.', icon: <MenuBook sx={{ fontSize: 24, color: '#D08B7B' }} /> },
-    { title: 'Smart Search', desc: 'Instantly find the perfect name by meaning, origin, gender, or zodiac sign.', icon: <Search sx={{ fontSize: 24, color: '#D08B7B' }} /> },
-    { title: 'Save Favorites', desc: 'Create your shortlist of top names and share it with your partner or family.', icon: <Heart size={24} style={{ color: '#D08B7B' }} /> },
-  ];
+  // Interactive Live Name Finder list
+  const allFlattenedNames = useMemo(() => {
+    const list = [];
+    const sourceCategories = ['Indian', 'Modern', 'Aries', 'Leo', 'Libra'];
+    sourceCategories.forEach((catKey) => {
+      const items = namesDatabase[catKey] || [];
+      items.forEach((item) => {
+        if (item.boy) {
+          list.push({ name: item.boy, meaning: item.boy_meaning, gender: 'Boy', origin: catKey, zodiac: item.zodiac || 'Leo' });
+        }
+        if (item.girl) {
+          list.push({ name: item.girl, meaning: item.girl_meaning, gender: 'Girl', origin: catKey, zodiac: item.zodiac || 'Libra' });
+        }
+      });
+    });
+    return list;
+  }, []);
+
+  const wizardResults = useMemo(() => {
+    return allFlattenedNames.filter((item) => {
+      const matchesGender = filterGender === 'all' || item.gender === filterGender;
+      const matchesLetter = filterLetter === 'All' || item.name.toUpperCase().startsWith(filterLetter);
+      const matchesStyle =
+        filterStyle === 'all' ||
+        (filterStyle === 'Indian' && (item.origin === 'Indian' || item.origin === 'God' || item.origin === 'Goddess')) ||
+        (filterStyle === 'Modern' && item.origin === 'Modern') ||
+        (filterStyle === 'Zodiac' && item.origin !== 'Indian' && item.origin !== 'Modern');
+      return matchesGender && matchesLetter && matchesStyle;
+    }).slice(0, 6);
+  }, [allFlattenedNames, filterGender, filterLetter, filterStyle]);
+
+  const handleToggleFavorite = (name) => {
+    toggleFavorite(name);
+    if (!isFavorite(name)) {
+      confetti({
+        particleCount: 70,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#FF7E67', '#F43F5E', '#0284C7', '#F59E0B'],
+      });
+    }
+  };
+
+  // Structured FAQ JSON-LD Schema
+  const homepageSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://sweetbabynames.com/#website',
+        url: 'https://sweetbabynames.com/',
+        name: 'Sweet Baby Names',
+        description: 'Discover 50,000+ beautiful boy and girl baby names with meanings, origins, and zodiac signs.',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://sweetbabynames.com/boy-names?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: FAQ_LIST.map((faq) => ({
+          '@type': 'Question',
+          name: faq.q,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.a,
+          },
+        })),
+      },
+    ],
+  };
 
   return (
-    <Box sx={{ bgcolor: 'background.default' }}>
-      {/* Hero */}
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      <SEO
+        title="Sweet Baby Names 2026 | 50,000+ Unique Boy & Girl Names with Meanings, Zodiac & Origin"
+        description="Find the perfect name for your little one. Explore 50,000+ cute, modern, Sanskrit, and astrological baby names for boys and girls with meanings, origins, and shortlist."
+        keywords="baby names, boy names, girl names, indian baby names, modern baby names, sanskrit baby names, zodiac baby names, baby name meanings, twin names"
+        canonical="https://sweetbabynames.com/"
+        schema={homepageSchema}
+      />
+
+      {/* Hero Section */}
       <Box
         sx={{
-          pt: { xs: 6, md: 8 },
-          pb: { xs: 6, md: 8 },
-          background: `linear-gradient(180deg, ${custom.heroGradientStart} 0%, ${custom.heroGradientEnd} 100%)`,
+          pt: { xs: 7, md: 10 },
+          pb: { xs: 8, md: 12 },
+          background: `radial-gradient(ellipse 90% 80% at 50% -20%, ${alpha(custom.coral, 0.15)}, transparent), linear-gradient(180deg, ${custom.heroGradientStart} 0%, ${custom.heroGradientEnd} 100%)`,
           borderBottom: `1px solid ${custom.borderLight}`,
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <Container maxWidth="md">
-          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.12 } } }}>
-            <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3, gap: 1.5 }}>
-                <Box sx={{ width: 32, height: 1, bgcolor: '#D08B7B' }} />
-                <Typography
-                  variant="overline"
-                  sx={{ letterSpacing: '0.2em', color: '#D08B7B', fontWeight: 600, fontSize: '0.72rem' }}
+        {/* Decorative Floating Circles */}
+        <Box
+          className="pulse-glow"
+          sx={{
+            position: 'absolute',
+            top: '15%',
+            left: '5%',
+            width: 140,
+            height: 140,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          className="pulse-glow"
+          sx={{
+            position: 'absolute',
+            top: '25%',
+            right: '6%',
+            width: 160,
+            height: 160,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(225, 29, 72, 0.15) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <Container maxWidth="lg">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
+          >
+            {/* Top Pill Badge */}
+            <motion.div variants={fadeInUp}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                <Box
+                  sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 1.2,
+                    px: 2.2,
+                    py: 0.8,
+                    borderRadius: 50,
+                    bgcolor: alpha(custom.coral, 0.12),
+                    border: `1px solid ${alpha(custom.coral, 0.25)}`,
+                    boxShadow: '0 4px 14px rgba(255, 126, 103, 0.15)',
+                  }}
                 >
-                  Find the Perfect Name
-                </Typography>
-                <Box sx={{ width: 32, height: 1, bgcolor: '#D08B7B' }} />
+                  <AutoAwesome sx={{ fontSize: 16, color: custom.coral }} />
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontWeight: 700,
+                      color: custom.coral,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      fontSize: '0.75rem',
+                    }}
+                  >
+                    ✨ Over 50,000+ Curated Names for 2026
+                  </Typography>
+                </Box>
               </Box>
             </motion.div>
 
-            <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
+            {/* Main Headline */}
+            <motion.div variants={fadeInUp}>
               <Typography
                 variant="h1"
                 align="center"
                 sx={{
-                  fontSize: { xs: '2.2rem', sm: '3rem', md: '3.5rem' },
-                  fontWeight: 700,
+                  fontSize: { xs: '2.4rem', sm: '3.4rem', md: '4.2rem' },
+                  fontWeight: 800,
                   lineHeight: 1.15,
                   mb: 2.5,
-                  fontFamily: '"Playfair Display", serif',
+                  fontFamily: '"Playfair Display", Georgia, serif',
                 }}
               >
                 The Name They'll{' '}
-                <Box component="span" sx={{ fontStyle: 'italic', color: '#D08B7B' }}>Carry Forever</Box>{' '}
+                <Box
+                  component="span"
+                  sx={{
+                    fontStyle: 'italic',
+                    background: `linear-gradient(135deg, ${custom.coral} 0%, #F43F5E 100%)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Carry Forever
+                </Box>{' '}
                 Starts Here
               </Typography>
             </motion.div>
 
-            <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
+            {/* Subtitle */}
+            <motion.div variants={fadeInUp}>
               <Typography
                 variant="body1"
                 align="center"
-                sx={{ color: 'text.secondary', mb: 5, fontSize: '1.05rem', maxWidth: 520, mx: 'auto', lineHeight: 1.7 }}
+                sx={{
+                  color: 'text.secondary',
+                  mb: 5,
+                  fontSize: { xs: '1.05rem', md: '1.2rem' },
+                  maxWidth: 620,
+                  mx: 'auto',
+                  lineHeight: 1.7,
+                }}
               >
-                Explore thousands of beautiful names with meaningful origins. Your journey to finding the perfect name begins with a single search.
+                Explore meaningful boy and girl names inspired by Sanskrit roots, modern trends, and planetary nakshatras. Every name holds a story.
               </Typography>
             </motion.div>
 
-            <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
-              <Box component="form" onSubmit={handleSearch} sx={{ display: 'flex', justifyContent: 'center', mb: 5 }}>
+            {/* Search Bar */}
+            <motion.div variants={fadeInUp}>
+              <Box
+                component="form"
+                onSubmit={handleSearchSubmit}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  maxWidth: 640,
+                  mx: 'auto',
+                  mb: 3,
+                  gap: 1.5,
+                  flexDirection: { xs: 'column', sm: 'row' },
+                }}
+              >
                 <TextField
                   fullWidth
-                  placeholder="Search by name, meaning, or origin..."
+                  placeholder="Search by name, meaning, or origin (e.g. Aarav, Light, Sanskrit)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search sx={{ color: 'text.secondary', fontSize: 20 }} />
+                        <Search sx={{ color: 'text.secondary', fontSize: 22 }} />
                       </InputAdornment>
                     ),
                   }}
                   sx={{
-                    maxWidth: 520,
                     '& .MuiOutlinedInput-root': {
                       bgcolor: custom.cardWhite,
-                      border: `1px solid ${custom.searchBorder}`,
-                      '& fieldset': { border: 'none' },
-                      fontSize: '0.95rem',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+                      height: 56,
+                      fontSize: '1rem',
                     },
                   }}
                 />
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ ml: 1.5, px: 4, fontSize: '0.9rem', whiteSpace: 'nowrap' }}
+                  sx={{
+                    px: 4,
+                    height: 56,
+                    fontSize: '1rem',
+                    whiteSpace: 'nowrap',
+                    borderRadius: 50,
+                  }}
                 >
-                  Search
+                  Find Names
                 </Button>
               </Box>
             </motion.div>
 
-            <motion.div variants={fadeInUp} transition={{ duration: 0.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
-                <Button
-                  variant="outlined"
-                  startIcon={<Sparkles size={18} />}
-                  endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
+            {/* Quick Action Chips */}
+            <motion.div variants={fadeInUp}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: 1.2,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <Chip
+                  icon={<Boy sx={{ fontSize: 18, color: '#0284C7 !important' }} />}
+                  label="Boy Names"
+                  clickable
                   onClick={() => navigate('/boy-names')}
-                  sx={{
-                    borderColor: custom.borderLight,
-                    color: 'text.primary',
-                    bgcolor: custom.cardWhite,
-                    '&:hover': { borderColor: '#D08B7B', color: '#D08B7B' },
-                  }}
-                >
-                  Explore Names
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<Star sx={{ fontSize: 18 }} />}
-                  endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
+                  sx={{ bgcolor: alpha('#0284C7', 0.08), color: '#0284C7', fontWeight: 600, border: `1px solid ${alpha('#0284C7', 0.2)}` }}
+                />
+                <Chip
+                  icon={<Girl sx={{ fontSize: 18, color: '#E11D48 !important' }} />}
+                  label="Girl Names"
+                  clickable
+                  onClick={() => navigate('/girl-names')}
+                  sx={{ bgcolor: alpha('#E11D48', 0.08), color: '#E11D48', fontWeight: 600, border: `1px solid ${alpha('#E11D48', 0.2)}` }}
+                />
+                <Chip
+                  icon={<Star sx={{ fontSize: 18, color: '#8B5CF6 !important' }} />}
+                  label="Zodiac (Rashi)"
+                  clickable
                   onClick={() => navigate('/zodiac-names')}
-                  sx={{
-                    borderColor: custom.borderLight,
-                    color: 'text.primary',
-                    bgcolor: custom.cardWhite,
-                    '&:hover': { borderColor: '#D08B7B', color: '#D08B7B' },
-                  }}
-                >
-                  Zodiac Names
-                </Button>
+                  sx={{ bgcolor: alpha('#8B5CF6', 0.08), color: '#8B5CF6', fontWeight: 600, border: `1px solid ${alpha('#8B5CF6', 0.2)}` }}
+                />
+                <Chip
+                  icon={<MenuBook sx={{ fontSize: 18, color: '#EC4899 !important' }} />}
+                  label="Blogs & Guides"
+                  clickable
+                  onClick={() => navigate('/blogs')}
+                  sx={{ bgcolor: alpha('#EC4899', 0.08), color: '#EC4899', fontWeight: 600, border: `1px solid ${alpha('#EC4899', 0.2)}` }}
+                />
               </Box>
             </motion.div>
           </motion.div>
         </Container>
       </Box>
 
-      {/* Categories */}
-      <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
-          <motion.div variants={fadeInUp} transition={{ duration: 0.4 }}>
-            <Box sx={{ mb: 5 }}>
-              <Typography variant="overline" sx={{ color: '#D08B7B', letterSpacing: '0.2em', fontWeight: 600, fontSize: '0.72rem', display: 'block', mb: 1, textAlign: 'center' }}>
-                Browse by Category
-              </Typography>
-              <Typography variant="h3" align="center" sx={{ fontWeight: 700, mb: 1.5, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.6rem', md: '2rem' } }}>
-                Find Names by Category
-              </Typography>
-              <Typography variant="body2" align="center" sx={{ color: 'text.secondary', maxWidth: 460, mx: 'auto' }}>
-                Browse our carefully curated collections organized by gender, origin, and style.
-              </Typography>
-            </Box>
-          </motion.div>
+      {/* Boy & Girl Animated Showcase */}
+      <BoyGirlShowcase />
 
-          <Grid container spacing={2}>
-            {categories.map((cat, i) => (
-              <Grid item xs={6} sm={4} md={4} key={cat.name}>
-                <motion.div variants={fadeInUp} transition={{ duration: 0.3 }} whileHover={{ y: -3 }}>
-                  <Card
-                    onClick={() => navigate(cat.path)}
-                    sx={{
-                      cursor: 'pointer',
-                      bgcolor: custom.cardWhite,
-                      border: `1px solid ${custom.borderLight}`,
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                      transition: 'all 0.2s ease',
-                      '&:hover': {
-                        border: `1px solid ${alpha('#D08B7B', 0.3)}`,
-                        boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.3)' : '0 4px 16px rgba(0,0,0,0.08)',
-                        '& .cat-icon': { color: '#D08B7B' },
-                      },
-                    }}
-                  >
-                    <CardContent sx={{ p: { xs: 2.5, sm: 3 }, textAlign: 'center' }}>
-                      <Box
-                        className="cat-icon"
-                        sx={{
-                          display: 'inline-flex',
-                          p: 1.5,
-                          mb: 1.5,
-                          border: `1px solid ${custom.borderLight}`,
-                          color: 'text.secondary',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {cat.icon}
-                      </Box>
-                      <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: { xs: '0.95rem', sm: '1.05rem' }, mb: 0.3 }}>
-                        {cat.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.78rem', mb: 1 }}>
-                        {cat.desc}
-                      </Typography>
-                      <Typography variant="caption" sx={{ color: '#D08B7B', fontWeight: 600 }}>
-                        {cat.count}+ names
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+      {/* Interactive Name Finder Wizard */}
+      <Box sx={{ bgcolor: custom.sectionAlt, py: { xs: 6, md: 9 }, borderTop: `1px solid ${custom.borderLight}`, borderBottom: `1px solid ${custom.borderLight}` }}>
+        <Container maxWidth="lg">
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
+            <Chip
+              icon={<AutoAwesome sx={{ fontSize: 16 }} />}
+              label="Instant Match Finder"
+              sx={{ bgcolor: alpha(custom.coral, 0.1), color: custom.coral, fontWeight: 700, mb: 1.5 }}
+            />
+            <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' }, mb: 1.5 }}>
+              Find Your Baby's Name in Seconds
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 520, mx: 'auto' }}>
+              Filter by gender, starting letter, and tradition to discover instant matches.
+            </Typography>
+          </Box>
+
+          {/* Filter Controls Bar */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 2.5, md: 3.5 },
+              borderRadius: 4,
+              bgcolor: custom.cardWhite,
+              border: `1px solid ${custom.borderLight}`,
+              boxShadow: '0 8px 30px rgba(0,0,0,0.04)',
+              mb: 4,
+            }}
+          >
+            <Grid container spacing={3} alignItems="center">
+              {/* Gender Filter */}
+              <Grid item xs={12} sm={4}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                  1. SELECT GENDER
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  {['all', 'Boy', 'Girl'].map((g) => (
+                    <Chip
+                      key={g}
+                      label={g === 'all' ? 'Any' : g}
+                      clickable
+                      onClick={() => setFilterGender(g)}
+                      sx={{
+                        flex: 1,
+                        bgcolor: filterGender === g ? custom.coral : 'transparent',
+                        color: filterGender === g ? '#FFFFFF' : 'text.primary',
+                        border: `1px solid ${filterGender === g ? custom.coral : custom.borderLight}`,
+                        fontWeight: 600,
+                      }}
+                    />
+                  ))}
+                </Box>
               </Grid>
-            ))}
-          </Grid>
-        </motion.div>
-      </Container>
 
-      {/* Popular Names */}
-      <Box sx={{ bgcolor: custom.sectionAlt, borderTop: `1px solid ${custom.borderLight}`, borderBottom: `1px solid ${custom.borderLight}` }}>
-        <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
-            <motion.div variants={fadeInUp} transition={{ duration: 0.4 }}>
-              <Box sx={{ mb: 5 }}>
-                <Typography variant="overline" sx={{ color: '#D08B7B', letterSpacing: '0.2em', fontWeight: 600, fontSize: '0.72rem', display: 'block', mb: 1, textAlign: 'center' }}>
-                  Popular Names
+              {/* Starting Letter Filter */}
+              <Grid item xs={12} sm={4}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                  2. STARTING LETTER
                 </Typography>
-                <Typography variant="h3" align="center" sx={{ fontWeight: 700, mb: 1.5, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.6rem', md: '2rem' } }}>
-                  Names Parents Love
-                </Typography>
-                <Typography variant="body2" align="center" sx={{ color: 'text.secondary', maxWidth: 420, mx: 'auto' }}>
-                  Trending names chosen by thousands of parents worldwide.
-                </Typography>
-              </Box>
-            </motion.div>
+                <Box sx={{ display: 'flex', gap: 0.6, flexWrap: 'wrap' }}>
+                  {['All', 'A', 'S', 'V', 'R', 'M', 'K', 'D'].map((ltr) => (
+                    <Chip
+                      key={ltr}
+                      label={ltr}
+                      size="small"
+                      clickable
+                      onClick={() => setFilterLetter(ltr)}
+                      sx={{
+                        bgcolor: filterLetter === ltr ? custom.coral : 'transparent',
+                        color: filterLetter === ltr ? '#FFFFFF' : 'text.primary',
+                        border: `1px solid ${filterLetter === ltr ? custom.coral : custom.borderLight}`,
+                        fontWeight: 600,
+                        minWidth: 32,
+                      }}
+                    />
+                  ))}
+                </Box>
+              </Grid>
 
-            <Grid container spacing={2}>
-              {popularNames.map((name, i) => (
-                <Grid item xs={6} sm={4} md={4} key={name.name}>
-                  <motion.div variants={fadeInUp} transition={{ duration: 0.3 }} whileHover={{ y: -2 }}>
+              {/* Style / Origin Filter */}
+              <Grid item xs={12} sm={4}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                  3. TRADITION / STYLE
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  {[
+                    { id: 'all', label: 'All Styles' },
+                    { id: 'Indian', label: 'Sanskrit' },
+                    { id: 'Modern', label: 'Modern' },
+                    { id: 'Zodiac', label: 'Zodiac' },
+                  ].map((st) => (
+                    <Chip
+                      key={st.id}
+                      label={st.label}
+                      clickable
+                      onClick={() => setFilterStyle(st.id)}
+                      sx={{
+                        flex: 1,
+                        bgcolor: filterStyle === st.id ? custom.coral : 'transparent',
+                        color: filterStyle === st.id ? '#FFFFFF' : 'text.primary',
+                        border: `1px solid ${filterStyle === st.id ? custom.coral : custom.borderLight}`,
+                        fontWeight: 600,
+                        fontSize: '0.78rem',
+                      }}
+                    />
+                  ))}
+                </Box>
+              </Grid>
+            </Grid>
+          </Paper>
+
+          {/* Wizard Results Grid */}
+          <Grid container spacing={2.5}>
+            {wizardResults.map((item, idx) => {
+              const isGirl = item.gender === 'Girl';
+              const fav = isFavorite(item.name);
+              return (
+                <Grid item xs={12} sm={6} md={4} key={`${item.name}-${idx}`}>
+                  <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <Card
                       sx={{
+                        p: 2.5,
+                        borderRadius: 3.5,
                         bgcolor: custom.cardWhite,
                         border: `1px solid ${custom.borderLight}`,
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                        transition: 'all 0.2s ease',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+                        transition: 'all 0.25s ease',
                         '&:hover': {
-                          boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.3)' : '0 4px 16px rgba(0,0,0,0.08)',
-                          border: `1px solid ${alpha('#D08B7B', 0.3)}`,
+                          transform: 'translateY(-3px)',
+                          boxShadow: '0 12px 28px rgba(0,0,0,0.08)',
+                          borderColor: isGirl ? '#E11D48' : '#0284C7',
                         },
                       }}
                     >
-                      <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                          <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, fontSize: { xs: '1.1rem', sm: '1.2rem' } }}>
-                            {name.name}
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif' }}>
+                            {item.name}
                           </Typography>
-                          {name.gender === 'Girl' ? (
-                            <Girl sx={{ fontSize: 16, color: alpha('#C97B84', 0.6) }} />
-                          ) : (
-                            <Boy sx={{ fontSize: 16, color: alpha('#6B8FAD', 0.6) }} />
-                          )}
-                        </Box>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 1.5, fontSize: '0.82rem' }}>
-                          "{name.meaning}"
-                        </Typography>
-                        <Box sx={{ display: 'flex', gap: 0.5 }}>
-                          <Box
-                            component="span"
+                          <Chip
+                            size="small"
+                            label={item.gender}
                             sx={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: 0.3,
-                              px: 1,
-                              py: 0.2,
+                              height: 20,
                               fontSize: '0.68rem',
-                              fontWeight: 500,
-                              bgcolor: name.gender === 'Girl' ? alpha('#C97B84', 0.1) : alpha('#6B8FAD', 0.1),
-                              color: name.gender === 'Girl' ? '#C97B84' : '#6B8FAD',
+                              bgcolor: isGirl ? alpha('#E11D48', 0.1) : alpha('#0284C7', 0.1),
+                              color: isGirl ? '#E11D48' : '#0284C7',
+                              fontWeight: 700,
                             }}
-                          >
-                            {name.gender === 'Girl' ? <Girl sx={{ fontSize: 11 }} /> : <Boy sx={{ fontSize: 11 }} />}
-                            {name.gender}
-                          </Box>
-                          <Box
-                            component="span"
-                            sx={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: 0.3,
-                              px: 1,
-                              py: 0.2,
-                              fontSize: '0.68rem',
-                              fontWeight: 500,
-                              bgcolor: alpha('#D08B7B', 0.08),
-                              color: '#D08B7B',
-                            }}
-                          >
-                            {name.origin}
-                          </Box>
+                          />
                         </Box>
-                      </CardContent>
+                        <IconButton size="small" onClick={() => handleToggleFavorite(item.name)} sx={{ color: fav ? '#E11D48' : 'text.secondary' }}>
+                          {fav ? <Favorite sx={{ fontSize: 20 }} /> : <FavoriteBorder sx={{ fontSize: 20 }} />}
+                        </IconButton>
+                      </Box>
+
+                      <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2, fontSize: '0.86rem', minHeight: 40 }}>
+                        "{item.meaning}"
+                      </Typography>
+
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                        <Chip label={item.origin} size="small" sx={{ fontSize: '0.72rem', bgcolor: alpha(custom.coral, 0.08), color: custom.coral }} />
+                        <Chip label={`Rashi: ${item.zodiac}`} size="small" sx={{ fontSize: '0.72rem', bgcolor: alpha('#8B5CF6', 0.08), color: '#8B5CF6' }} />
+                      </Box>
                     </Card>
                   </motion.div>
                 </Grid>
-              ))}
-            </Grid>
-          </motion.div>
+              );
+            })}
+          </Grid>
+
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Button
+              variant="outlined"
+              endIcon={<ArrowForward />}
+              onClick={() => navigate(filterGender === 'Girl' ? '/girl-names' : '/boy-names')}
+              sx={{ borderRadius: 50, px: 4 }}
+            >
+              View More in Category
+            </Button>
+          </Box>
         </Container>
       </Box>
 
-      {/* How it Works */}
-      <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-          <motion.div variants={fadeInUp} transition={{ duration: 0.4 }}>
-            <Box sx={{ mb: 5 }}>
-              <Typography variant="overline" sx={{ color: '#D08B7B', letterSpacing: '0.2em', fontWeight: 600, fontSize: '0.72rem', display: 'block', mb: 1, textAlign: 'center' }}>
-                How It Works
+      {/* Explore By Category */}
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.2em', fontWeight: 700, fontSize: '0.75rem', display: 'block', mb: 1 }}>
+            CURATED COLLECTIONS
+          </Typography>
+          <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' }, mb: 1.5 }}>
+            Browse Names by Category
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 520, mx: 'auto' }}>
+            Carefully curated baby naming realms designed to make exploration simple and joyful.
+          </Typography>
+        </Box>
+
+        <Grid container spacing={3}>
+          {categories.map((cat) => (
+            <Grid item xs={12} sm={6} md={4} key={cat.name}>
+              <Card
+                onClick={() => navigate(cat.path)}
+                sx={{
+                  cursor: 'pointer',
+                  p: 3.5,
+                  borderRadius: 4,
+                  bgcolor: custom.cardWhite,
+                  border: `1px solid ${custom.borderLight}`,
+                  boxShadow: '0 4px 18px rgba(0,0,0,0.04)',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  '&:hover': {
+                    transform: 'translateY(-6px)',
+                    boxShadow: '0 16px 36px rgba(0,0,0,0.09)',
+                    borderColor: cat.color,
+                  },
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Box sx={{ p: 1.6, borderRadius: 3, bgcolor: cat.bg, color: cat.color, display: 'flex' }}>
+                    {cat.icon}
+                  </Box>
+                  <Chip label={cat.count} size="small" sx={{ bgcolor: cat.bg, color: cat.color, fontWeight: 700, fontSize: '0.72rem' }} />
+                </Box>
+                <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 1 }}>
+                  {cat.name}
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2.5, flexGrow: 1, lineHeight: 1.6 }}>
+                  {cat.desc}
+                </Typography>
+                <Typography variant="caption" sx={{ color: cat.color, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  Explore Names <ArrowForward sx={{ fontSize: 14 }} />
+                </Typography>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      {/* Latest from the Blog */}
+      <Box sx={{ bgcolor: custom.sectionAlt, py: { xs: 6, md: 9 }, borderTop: `1px solid ${custom.borderLight}`, borderBottom: `1px solid ${custom.borderLight}` }}>
+        <Container maxWidth="lg">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mb: 5, flexWrap: 'wrap', gap: 2 }}>
+            <Box>
+              <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.15em', fontWeight: 700, display: 'block', mb: 1 }}>
+                EDITORIAL &amp; GUIDES
               </Typography>
-              <Typography variant="h3" align="center" sx={{ fontWeight: 700, mb: 1.5, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.6rem', md: '2rem' } }}>
-                Finding the Perfect Name
+              <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' } }}>
+                Latest from Our Baby Naming Blog
               </Typography>
             </Box>
-          </motion.div>
-          <Grid container spacing={4}>
-            {[
-              { step: '01', title: 'Browse & Search', desc: 'Explore our curated collection of names, filter by gender, origin, or use our smart search.', icon: <Search sx={{ fontSize: 28, color: '#fff' }} /> },
-              { step: '02', title: 'Discover Meaning', desc: 'Learn the beautiful meanings and cultural origins behind every name in our collection.', icon: <AutoAwesome sx={{ fontSize: 28, color: '#fff' }} /> },
-              { step: '03', title: 'Save Favorites', desc: 'Create your shortlist of top names and share your favorites with your partner or family.', icon: <Favorite sx={{ fontSize: 28, color: '#fff' }} /> },
-            ].map((item, i) => (
-              <Grid item xs={12} md={4} key={item.step}>
-                <motion.div variants={fadeInUp} transition={{ duration: 0.3 }} whileHover={{ y: -2 }}>
-                  <Box sx={{ p: 3, border: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, height: '100%', transition: 'all 0.2s ease', '&:hover': { boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.3)' : '0 4px 16px rgba(0,0,0,0.08)' } }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 1.5 }}>
-                      <Box sx={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#D08B7B', color: '#fff' }}>
-                        {item.icon}
-                      </Box>
-                      <Typography variant="overline" sx={{ color: '#D08B7B', letterSpacing: '0.15em', fontWeight: 700, fontSize: '0.72rem' }}>
-                        Step {item.step}
-                      </Typography>
+            <Button endIcon={<ArrowForward />} onClick={() => navigate('/blogs')} sx={{ fontWeight: 700 }}>
+              View All Articles
+            </Button>
+          </Box>
+
+          <Grid container spacing={3.5}>
+            {blogPosts.slice(0, 3).map((post) => (
+              <Grid item xs={12} sm={6} md={4} key={post.id}>
+                <Card
+                  onClick={() => navigate(`/blogs/${post.slug}`)}
+                  sx={{
+                    cursor: 'pointer',
+                    borderRadius: 4,
+                    bgcolor: custom.cardWhite,
+                    border: `1px solid ${custom.borderLight}`,
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-6px)',
+                      boxShadow: '0 16px 36px rgba(0,0,0,0.08)',
+                      borderColor: custom.coral,
+                    },
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={post.featuredImage}
+                    alt={post.title}
+                    sx={{ width: '100%', height: 200, objectFit: 'cover' }}
+                  />
+                  <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
+                      <Chip label={post.tags[0]} size="small" sx={{ bgcolor: alpha(custom.coral, 0.1), color: custom.coral, fontWeight: 700 }} />
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>{post.readTime}</Typography>
                     </Box>
-                    <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, mb: 1, fontSize: '1.05rem' }}>
-                      {item.title}
+                    <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: '1.15rem', mb: 1.5, lineHeight: 1.3 }}>
+                      {post.title}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
-                      {item.desc}
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, flexGrow: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                      {post.excerpt}
                     </Typography>
-                  </Box>
-                </motion.div>
+                    <Typography variant="caption" sx={{ color: custom.coral, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 0.5, mt: 'auto' }}>
+                      Read Guide <ArrowForward sx={{ fontSize: 13 }} />
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Grid>
             ))}
           </Grid>
-        </motion.div>
-      </Container>
-
-      {/* Features */}
-      <Box sx={{ bgcolor: custom.sectionAlt, borderTop: `1px solid ${custom.borderLight}`, borderBottom: `1px solid ${custom.borderLight}` }}>
-        <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-            <Grid container spacing={3} alignItems="center">
-              <Grid item xs={12} md={5}>
-                <motion.div variants={fadeInUp} transition={{ duration: 0.4 }}>
-                  <Typography variant="overline" sx={{ color: '#D08B7B', letterSpacing: '0.2em', fontWeight: 600, fontSize: '0.72rem', display: 'block', mb: 1 }}>
-                    Why Choose Us
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.6rem', md: '2rem' } }}>
-                    Everything You Need to Find the Perfect Name
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3, lineHeight: 1.7 }}>
-                    Our carefully curated collection helps expecting parents find meaningful names from diverse cultures and traditions around the world.
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    endIcon={<ArrowRight sx={{ fontSize: 18 }} />}
-                    onClick={() => navigate('/boy-names')}
-                  >
-                    Start Exploring
-                  </Button>
-                </motion.div>
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <Grid container spacing={2}>
-                  {features.map((feat, i) => (
-                    <Grid item xs={12} key={i}>
-                      <motion.div variants={fadeInUp} transition={{ duration: 0.3 }} whileHover={{ y: -2 }}>
-                        <Box sx={{ p: 2.5, border: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, display: 'flex', alignItems: 'flex-start', gap: 2, transition: 'all 0.2s ease', '&:hover': { boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.3)' : '0 4px 16px rgba(0,0,0,0.08)' } }}>
-                          <Box sx={{ mt: 0.3 }}>{feat.icon}</Box>
-                          <Box>
-                            <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, mb: 0.5, fontSize: '1rem' }}>
-                              {feat.title}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.85rem' }}>
-                              {feat.desc}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </motion.div>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Grid>
-            </Grid>
-          </motion.div>
         </Container>
       </Box>
 
-      {/* Stats */}
-      <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
-          <Grid container spacing={2} justifyContent="center">
-            {[
-              { num: '1,000+', label: 'Curated Names' },
-              { num: '5', label: 'Categories' },
-              { num: '100%', label: 'Free Access' },
-              { num: '50+', label: 'Origins' },
-            ].map((stat, i) => (
-              <Grid item xs={6} sm={3} md={2.4} key={i}>
-                <motion.div variants={fadeInUp} transition={{ duration: 0.3 }} whileHover={{ y: -2 }}>
-                  <Box sx={{ p: 3, textAlign: 'center', border: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, transition: 'all 0.2s ease', '&:hover': { boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.3)' : '0 4px 16px rgba(0,0,0,0.08)' } }}>
-                    <Typography variant="h4" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 700, color: '#D08B7B', mb: 0.5, fontSize: { xs: '1.5rem', sm: '1.8rem' } }}>
-                      {stat.num}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: '0.8rem' }}>
-                      {stat.label}
-                    </Typography>
-                  </Box>
-                </motion.div>
-              </Grid>
-            ))}
-          </Grid>
-        </motion.div>
-      </Container>
+      {/* SEO FAQ Section */}
+      <Container maxWidth="md" sx={{ py: { xs: 6, md: 9 } }}>
+        <Box sx={{ textAlign: 'center', mb: 5 }}>
+          <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.15em', fontWeight: 700, display: 'block', mb: 1 }}>
+            FREQUENTLY ASKED QUESTIONS
+          </Typography>
+          <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.5rem' }, mb: 1.5 }}>
+            Everything You Need to Know
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+            Answers to common questions about baby naming, trends, astrology, and saving favorites.
+          </Typography>
+        </Box>
 
-      {/* CTA */}
-      <Box sx={{ bgcolor: custom.sectionAlt, borderTop: `1px solid ${custom.borderLight}` }}>
-        <Container maxWidth="md" sx={{ py: { xs: 5, md: 7 } }}>
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-60px' }} variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-            <motion.div variants={fadeInUp} transition={{ duration: 0.4 }}>
-              <Box sx={{ textAlign: 'center', py: 4 }}>
-                <Typography variant="h3" sx={{ fontWeight: 700, mb: 2, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.6rem', md: '2rem' } }}>
-                  Ready to Find the Perfect Name?
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {FAQ_LIST.map((faq, i) => (
+            <Accordion
+              key={i}
+              elevation={0}
+              sx={{
+                bgcolor: custom.cardWhite,
+                border: `1px solid ${custom.borderLight}`,
+                borderRadius: '16px !important',
+                '&::before': { display: 'none' },
+                overflow: 'hidden',
+              }}
+            >
+              <AccordionSummary expandIcon={<ExpandMore sx={{ color: custom.coral }} />} sx={{ px: 3, py: 1 }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '1.05rem' }}>
+                  {faq.q}
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', mb: 4, maxWidth: 420, mx: 'auto', lineHeight: 1.7 }}>
-                  Start exploring our curated collection of beautiful names and discover the one that speaks to your heart.
+              </AccordionSummary>
+              <AccordionDetails sx={{ px: 3, pb: 3, pt: 0 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.8, fontSize: '0.95rem' }}>
+                  {faq.a}
                 </Typography>
-                <Button variant="contained" size="large" endIcon={<ArrowForward sx={{ fontSize: 18 }} />} onClick={() => navigate('/boy-names')} sx={{ px: 5 }}>
-                  Browse All Names
-                </Button>
-              </Box>
-            </motion.div>
-          </motion.div>
-        </Container>
-      </Box>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Box>
+      </Container>
     </Box>
   );
-};
-
-export default Home;
+}

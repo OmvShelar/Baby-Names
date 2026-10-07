@@ -1,180 +1,256 @@
 import React, { useState } from 'react';
-import { Box, Typography, Chip, IconButton, alpha, useTheme, Skeleton } from '@mui/material';
-import { ChildCare, ChildFriendly, Star, Favorite, FavoriteBorder, Public, AutoAwesome, TrendingUp, Translate } from '@mui/icons-material';
+import {
+  Box,
+  Typography,
+  Chip,
+  IconButton,
+  alpha,
+  useTheme,
+  Skeleton,
+  Tooltip,
+} from '@mui/material';
+import {
+  ChildCare,
+  ChildFriendly,
+  Star,
+  Favorite,
+  FavoriteBorder,
+  Public,
+  TrendingUp,
+  VolumeUp,
+  Share,
+  Check,
+} from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { getImage } from '../data/images';
 
-const genderIconMap = {
-  boy: <ChildCare sx={{ fontSize: 14 }} />,
-  male: <ChildCare sx={{ fontSize: 14 }} />,
-  girl: <ChildFriendly sx={{ fontSize: 14 }} />,
-  female: <ChildFriendly sx={{ fontSize: 14 }} />,
-};
-
-const getGenderIcon = (name) => {
-  const lower = (name || '').toLowerCase();
-  if (lower.includes('girl') || lower.includes('feminine') || lower.includes('female')) return <ChildFriendly sx={{ fontSize: 14 }} />;
-  if (lower.includes('boy') || lower.includes('masculine') || lower.includes('male')) return <ChildCare sx={{ fontSize: 14 }} />;
-  return <ChildCare sx={{ fontSize: 14 }} />;
-};
-
-const getOriginIcon = (origin) => {
-  const lower = (origin || '').toLowerCase();
-  if (lower.includes('indian') || lower.includes('hindu') || lower.includes('sanskrit')) return <Public sx={{ fontSize: 13 }} />;
-  if (lower.includes('modern') || lower.includes('contemporary')) return <TrendingUp sx={{ fontSize: 13 }} />;
-  if (lower.includes('zodiac') || lower.includes('astro')) return <Star sx={{ fontSize: 13 }} />;
-  if (lower.includes('divine') || lower.includes('goddess') || lower.includes('god')) return <AutoAwesome sx={{ fontSize: 13 }} />;
-  return <Translate sx={{ fontSize: 13 }} />;
-};
-
-const CardImage = ({ src, alt }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState(false);
-  const fallback = 'https://via.placeholder.com/600x400?text=Baby+Names';
-
-  return (
-    <Box sx={{ width: '100%', height: 140, borderRadius: 1, overflow: 'hidden', mb: 1 }}>
-      {!loaded && !error && <Skeleton variant="rectangular" width="100%" height="100%" />}
-      <img
-        src={error ? fallback : src}
-        alt={alt}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: loaded || error ? 'block' : 'none' }}
-      />
-    </Box>
-  );
-};
-
-const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorite, onToggleFavorite, delay = 0, index }) => {
+export default function NameCard({
+  name,
+  meaning,
+  gender,
+  origin,
+  zodiac,
+  popularity,
+  isFavorite,
+  onToggleFavorite,
+  delay = 0,
+  index = 0,
+}) {
   const theme = useTheme();
   const isDark = theme.palette.mode === 'dark';
   const custom = theme.palette.custom;
-  const i = index || 0;
+
+  const [copied, setCopied] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const genderLower = (gender || '').toLowerCase();
   const isGirl = genderLower.includes('girl') || genderLower.includes('feminine') || genderLower.includes('female');
-  const imageSrc = getImage(name, gender);
+  const accentColor = isGirl ? '#E11D48' : '#0284C7';
+  const accentBg = isGirl ? alpha('#E11D48', 0.08) : alpha('#0284C7', 0.08);
+
+  const handleSpeak = (e) => {
+    e.stopPropagation();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(name);
+      utterance.rate = 0.85;
+      utterance.pitch = 1.05;
+      utterance.onend = () => setIsPlaying(false);
+      setIsPlaying(true);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(name);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleHeartClick = (e) => {
+    e.stopPropagation();
+    onToggleFavorite?.(name);
+    if (!isFavorite) {
+      confetti({
+        particleCount: 65,
+        spread: 55,
+        origin: { y: 0.7 },
+        colors: isGirl ? ['#E11D48', '#FB7185', '#FF7E67'] : ['#0284C7', '#38BDF8', '#F59E0B'],
+      });
+    }
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, delay: delay + i * 0.05, ease: 'easeOut' }}
-      whileHover={{ y: -3 }}
+      transition={{ duration: 0.35, delay: delay + (index % 12) * 0.04, ease: 'easeOut' }}
+      whileHover={{ y: -5 }}
       style={{ height: '100%' }}
     >
       <Box
         sx={{
-          p: 2.5,
+          p: { xs: 2.5, sm: 3 },
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          background: custom.cardWhite,
-          border: `1px solid ${custom.borderLight}`,
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+          bgcolor: custom.cardWhite,
+          borderRadius: 4,
+          border: `1px solid ${isFavorite ? alpha(accentColor, 0.4) : custom.borderLight}`,
+          boxShadow: isDark
+            ? '0 4px 20px rgba(0,0,0,0.3)'
+            : '0 4px 20px rgba(0,0,0,0.03)',
           position: 'relative',
-          transition: 'all 0.2s ease',
-          cursor: 'default',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          overflow: 'hidden',
           '&::before': {
             content: '""',
             position: 'absolute',
             top: 0,
             left: 0,
-            width: 3,
-            height: '100%',
+            width: '100%',
+            height: 4,
             background: isGirl
-              ? 'linear-gradient(180deg, #C97B84, #D08B7B)'
-              : 'linear-gradient(180deg, #6B8FAD, #8BAFC4)',
-            opacity: 0,
-            transition: 'opacity 0.2s ease',
+              ? 'linear-gradient(90deg, #FB7185, #E11D48)'
+              : 'linear-gradient(90deg, #38BDF8, #0284C7)',
+            opacity: isFavorite ? 1 : 0.4,
+            transition: 'opacity 0.25s ease',
           },
           '&:hover': {
             boxShadow: isDark
-              ? '0 4px 16px rgba(0,0,0,0.3)'
-              : '0 4px 16px rgba(0,0,0,0.08)',
-            border: `1px solid ${isGirl ? '#C97B84' : '#6B8FAD'}`,
+              ? '0 12px 32px rgba(0,0,0,0.45)'
+              : `0 14px 36px ${alpha(accentColor, 0.12)}`,
+            border: `1px solid ${accentColor}`,
             '&::before': { opacity: 1 },
           },
         }}
       >
-        {imageSrc && <CardImage src={imageSrc} alt={`${name} image`} />}
+        {/* Top Header Row */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontFamily: '"Playfair Display", Georgia, serif',
+                fontWeight: 700,
+                fontSize: { xs: '1.35rem', sm: '1.5rem' },
+                lineHeight: 1.2,
+                color: 'text.primary',
+              }}
+            >
+              {name}
+            </Typography>
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontFamily: '"Playfair Display", serif',
-              fontWeight: 600,
-              fontSize: { xs: '1.2rem', sm: '1.35rem' },
-              lineHeight: 1.2,
-              color: 'text.primary',
-            }}
-          >
-            {name}
-          </Typography>
-          <IconButton
-            size="small"
-            onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(name); }}
-            sx={{
-              p: 0.5,
-              color: isFavorite ? '#E57373' : 'text.secondary',
-              '&:hover': { color: '#E57373', transform: 'scale(1.15)' },
-              transition: 'all 0.15s ease',
-            }}
-          >
-            {isFavorite ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
-          </IconButton>
+            {/* Pronunciation speech button */}
+            <Tooltip title={isPlaying ? 'Pronouncing...' : `Listen: how to pronounce "${name}"`}>
+              <IconButton
+                size="small"
+                onClick={handleSpeak}
+                sx={{
+                  p: 0.5,
+                  color: isPlaying ? accentColor : 'text.secondary',
+                  bgcolor: isPlaying ? accentBg : 'transparent',
+                  '&:hover': { color: accentColor, bgcolor: accentBg },
+                }}
+              >
+                <VolumeUp sx={{ fontSize: 18 }} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
+          {/* Action Icons */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Tooltip title={copied ? 'Copied!' : 'Copy name'}>
+              <IconButton
+                size="small"
+                onClick={handleCopy}
+                sx={{
+                  p: 0.6,
+                  color: copied ? 'success.main' : 'text.secondary',
+                  '&:hover': { color: 'text.primary' },
+                }}
+              >
+                {copied ? <Check sx={{ fontSize: 18 }} /> : <Share sx={{ fontSize: 17 }} />}
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}>
+              <IconButton
+                size="small"
+                onClick={handleHeartClick}
+                sx={{
+                  p: 0.6,
+                  color: isFavorite ? '#E11D48' : 'text.secondary',
+                  bgcolor: isFavorite ? alpha('#E11D48', 0.1) : 'transparent',
+                  '&:hover': {
+                    color: '#E11D48',
+                    transform: 'scale(1.15)',
+                    bgcolor: alpha('#E11D48', 0.15),
+                  },
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                {isFavorite ? <Favorite sx={{ fontSize: 20 }} /> : <FavoriteBorder sx={{ fontSize: 20 }} />}
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
 
+        {/* Meaning */}
         {meaning && (
           <Typography
             variant="body2"
             sx={{
               color: 'text.secondary',
               fontStyle: 'italic',
-              mb: 1.5,
-              lineHeight: 1.5,
-              fontSize: '0.825rem',
-              flex: 1,
+              mb: 2,
+              lineHeight: 1.6,
+              fontSize: '0.88rem',
+              flexGrow: 1,
             }}
           >
             "{meaning}"
           </Typography>
         )}
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 'auto' }}>
+        {/* Badges / Chips Row */}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.8, mt: 'auto', pt: 1.5, borderTop: `1px solid ${custom.borderLight}` }}>
           {gender && (
             <Chip
               size="small"
-              icon={genderIconMap[genderLower] || getGenderIcon(gender)}
+              icon={isGirl ? <ChildFriendly sx={{ fontSize: 14 }} /> : <ChildCare sx={{ fontSize: 14 }} />}
               label={gender}
               sx={{
                 height: 24,
-                fontSize: '0.7rem',
-                bgcolor: isGirl ? alpha('#C97B84', 0.1) : alpha('#6B8FAD', 0.1),
-                color: isGirl ? '#C97B84' : '#6B8FAD',
-                border: `1px solid ${isGirl ? alpha('#C97B84', 0.2) : alpha('#6B8FAD', 0.2)}`,
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                bgcolor: accentBg,
+                color: accentColor,
+                border: `1px solid ${alpha(accentColor, 0.2)}`,
                 '& .MuiChip-icon': { color: 'inherit' },
               }}
             />
           )}
+
           {origin && (
             <Chip
               size="small"
-              icon={getOriginIcon(origin)}
+              icon={<Public sx={{ fontSize: 13 }} />}
               label={origin}
               sx={{
                 height: 24,
-                fontSize: '0.7rem',
-                bgcolor: alpha(custom.terracotta, 0.08),
-                color: custom.terracotta,
-                border: `1px solid ${alpha(custom.terracotta, 0.15)}`,
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                bgcolor: alpha(custom.coral, 0.08),
+                color: custom.coral,
+                border: `1px solid ${alpha(custom.coral, 0.2)}`,
                 '& .MuiChip-icon': { color: 'inherit' },
               }}
             />
           )}
+
           {zodiac && (
             <Chip
               size="small"
@@ -182,14 +258,16 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
               label={zodiac}
               sx={{
                 height: 24,
-                fontSize: '0.7rem',
-                bgcolor: alpha('#FFB74D', 0.1),
-                color: '#E6A03C',
-                border: `1px solid ${alpha('#FFB74D', 0.2)}`,
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                bgcolor: alpha('#8B5CF6', 0.08),
+                color: '#8B5CF6',
+                border: `1px solid ${alpha('#8B5CF6', 0.2)}`,
                 '& .MuiChip-icon': { color: 'inherit' },
               }}
             />
           )}
+
           {popularity && (
             <Chip
               size="small"
@@ -197,10 +275,11 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
               label={popularity}
               sx={{
                 height: 24,
-                fontSize: '0.7rem',
-                bgcolor: alpha('#4CAF50', 0.1),
-                color: '#4CAF50',
-                border: `1px solid ${alpha('#4CAF50', 0.15)}`,
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                bgcolor: alpha('#10B981', 0.08),
+                color: '#10B981',
+                border: `1px solid ${alpha('#10B981', 0.2)}`,
                 '& .MuiChip-icon': { color: 'inherit' },
               }}
             />
@@ -209,6 +288,4 @@ const NameCard = ({ name, meaning, gender, origin, zodiac, popularity, isFavorit
       </Box>
     </motion.div>
   );
-};
-
-export default NameCard;
+}

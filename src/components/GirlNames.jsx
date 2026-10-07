@@ -10,11 +10,10 @@ import {
   Tab,
   Tabs,
   IconButton,
-  Badge,
   Button,
-  Fab,
   alpha,
   useTheme,
+  Paper,
 } from '@mui/material';
 import {
   Search,
@@ -26,12 +25,13 @@ import {
   Close,
   FilterList,
 } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
+import SEO from './SEO';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
@@ -42,10 +42,10 @@ const TABS = [
   })),
 ];
 
-const GirlNames = () => {
+export default function GirlNames() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('all');
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -59,8 +59,8 @@ const GirlNames = () => {
 
   const handleToggleFavorite = (name) => {
     toggleFavorite(name);
-    if (!favorites.includes(name)) {
-      confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#C97B84', '#D08B7B', '#E5B7A9'] });
+    if (!isFavorite(name)) {
+      confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#E11D48', '#FB7185', '#FF7E67'] });
     }
   };
 
@@ -102,64 +102,83 @@ const GirlNames = () => {
   }, [allGirlNames, selectedTab, searchQuery]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      {/* Header */}
-      <Box sx={{ pt: { xs: 2, md: 3 }, pb: { xs: 3, md: 4 }, borderBottom: `1px solid ${custom.borderLight}` }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
+      <SEO
+        title="28,000+ Baby Girl Names (2026) | Unique, Sanskrit Goddess & Modern Girl Names with Meanings"
+        description="Explore 28,000+ elegant baby girl names. Timeless Sanskrit goddess names, sweet modern picks, astrology rashi syllables, and detailed meanings."
+        keywords="baby girl names, girl names 2026, sanskrit girl names, hindu girl names, modern girl names, goddess names for girl"
+        canonical="https://sweetbabynames.com/girl-names"
+      />
+
+      {/* Header Banner */}
+      <Box
+        sx={{
+          pt: { xs: 4, md: 5 },
+          pb: { xs: 4, md: 5 },
+          background: `linear-gradient(180deg, ${alpha('#E11D48', 0.08)} 0%, transparent 100%)`,
+          borderBottom: `1px solid ${custom.borderLight}`,
+        }}
+      >
         <Container maxWidth="lg">
           <Button
-            startIcon={<ArrowBack sx={{ fontSize: 16 }} />}
+            startIcon={<ArrowBack sx={{ fontSize: 18 }} />}
             onClick={() => navigate('/')}
-            sx={{ mb: 2, color: 'text.secondary', fontSize: '0.8rem' }}
+            sx={{ mb: 2, color: 'text.secondary', fontSize: '0.85rem' }}
           >
             Back to Home
           </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-            <Box sx={{ p: 0.8, bgcolor: alpha('#C97B84', 0.1), display: 'flex' }}>
-              <Girl sx={{ fontSize: 20, color: '#C97B84' }} />
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#E11D48', 0.15), display: 'flex', color: '#E11D48' }}>
+              <Girl sx={{ fontSize: 26 }} />
             </Box>
-            <Typography variant="h3" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.5rem', md: '1.8rem' } }}>
-              Girl Names
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+              Baby Girl Names
             </Typography>
           </Box>
-          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, fontSize: '0.9rem' }}>
-            Beautiful and elegant names for girls from cultures around the world.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
+            Graceful, enchanting, and lyrical names for your little princess. Explore Goddess Lakshmi epithets, Sanskrit wisdom, and modern trends.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
             <TextField
               fullWidth
-              placeholder="Search girl names..."
+              placeholder="Search girl names by letter, origin, or meaning..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
-                startAdornment: <InputAdornment position="start"><Search sx={{ fontSize: 18, color: 'text.secondary' }} /></InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search sx={{ fontSize: 20, color: 'text.secondary' }} />
+                  </InputAdornment>
+                ),
                 endAdornment: searchQuery && (
                   <InputAdornment position="end">
                     <IconButton size="small" onClick={() => setSearchQuery('')} sx={{ p: 0.3 }}>
-                      <Close sx={{ fontSize: 16 }} />
+                      <Close sx={{ fontSize: 18 }} />
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
               sx={{
                 flex: 1,
-                minWidth: 200,
+                minWidth: 260,
                 '& .MuiOutlinedInput-root': {
                   bgcolor: custom.cardWhite,
-                  border: `1px solid ${custom.borderLight}`,
-                  '& fieldset': { border: 'none' },
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
                 },
               }}
             />
             <Chip
-              label={`${filteredNames.length} names`}
+              label={`${filteredNames.length} names found`}
               sx={{
-                height: 36,
-                bgcolor: alpha('#C97B84', 0.08),
-                color: '#C97B84',
-                fontWeight: 600,
-                fontSize: '0.8rem',
-                border: `1px solid ${alpha('#C97B84', 0.15)}`,
+                height: 42,
+                px: 1,
+                bgcolor: alpha('#E11D48', 0.1),
+                color: '#E11D48',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                border: `1px solid ${alpha('#E11D48', 0.25)}`,
               }}
             />
           </Box>
@@ -167,33 +186,30 @@ const GirlNames = () => {
       </Box>
 
       {/* Tabs */}
-      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: 'background.paper' }}>
+      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, py: 1 }}>
         <Container maxWidth="lg">
           <Tabs
             value={selectedTab}
             onChange={(e, v) => setSelectedTab(v)}
             variant="scrollable"
             scrollButtons="auto"
-            TabIndicatorProps={{ style: { display: 'none' } }}
           >
             {TABS.map((tab) => (
               <Tab
                 key={tab.value}
                 value={tab.value}
                 label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.7 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
                     {tab.icon}
                     {tab.label}
                   </Box>
                 }
                 sx={{
-                  minHeight: 48,
+                  minHeight: 44,
                   textTransform: 'none',
-                  fontWeight: selectedTab === tab.value ? 600 : 400,
-                  color: selectedTab === tab.value ? '#D08B7B' : 'text.secondary',
-                  borderBottom: selectedTab === tab.value ? '2px solid #D08B7B' : '2px solid transparent',
-                  fontSize: '0.825rem',
-                  '&:hover': { color: '#D08B7B' },
+                  fontWeight: selectedTab === tab.value ? 700 : 500,
+                  color: selectedTab === tab.value ? '#E11D48' : 'text.secondary',
+                  fontSize: '0.9rem',
                 }}
               />
             ))}
@@ -202,21 +218,24 @@ const GirlNames = () => {
       </Box>
 
       {/* Names Grid */}
-      <Container maxWidth="lg" sx={{ py: { xs: 3, md: 4 } }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         {filteredNames.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Girl sx={{ fontSize: 48, color: alpha('#C97B84', 0.2), mb: 2 }} />
-            <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, mb: 1 }}>
-              No names found
+          <Paper sx={{ textAlign: 'center', py: 8, px: 3, borderRadius: 4, bgcolor: custom.cardWhite }}>
+            <Girl sx={{ fontSize: 56, color: alpha('#E11D48', 0.3), mb: 2 }} />
+            <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 1 }}>
+              No girl names found
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Try a different search term or category.
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Try searching with another spelling, letter, or reset the category filter.
             </Typography>
-          </Box>
+            <Button variant="outlined" onClick={() => { setSelectedTab('all'); setSearchQuery(''); }}>
+              Clear Search
+            </Button>
+          </Paper>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {filteredNames.map((name, i) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={name.name + name.origin}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={name.name + name.origin + i}>
                 <NameCard
                   name={name.name}
                   meaning={name.meaning}
@@ -224,7 +243,7 @@ const GirlNames = () => {
                   origin={name.origin}
                   zodiac={name.zodiac}
                   popularity={name.popularity}
-                  isFavorite={favorites.includes(name.name)}
+                  isFavorite={isFavorite(name.name)}
                   onToggleFavorite={handleToggleFavorite}
                   index={i}
                 />
@@ -233,33 +252,6 @@ const GirlNames = () => {
           </Grid>
         )}
       </Container>
-
-      {/* Favorites FAB */}
-      <AnimatePresence>
-        {favorites.length > 0 && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            style={{ position: 'fixed', bottom: 88, right: 24, zIndex: 1200 }}
-          >
-            <Badge badgeContent={favorites.length} color="error">
-              <Fab
-                sx={{
-                  bgcolor: '#D08B7B',
-                  color: '#fff',
-                  boxShadow: '0 4px 14px rgba(208,139,123,0.4)',
-                  '&:hover': { bgcolor: '#B57364' },
-                }}
-              >
-                <Favorite sx={{ fontSize: 22 }} />
-              </Fab>
-            </Badge>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Box>
   );
-};
-
-export default GirlNames;
+}

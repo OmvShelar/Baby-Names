@@ -1,0 +1,9 @@
+# Robots.txt for Sweet Baby Names
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*?*sort=
+
+# Host and Sitemaps
+Host: https://sweetbabynames.com
+Sitemap: https://sweetbabynames.com/sitemap.xml

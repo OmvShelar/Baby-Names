@@ -15,6 +15,7 @@ import {
   Fab,
   alpha,
   useTheme,
+  Paper,
 } from '@mui/material';
 import {
   Search,
@@ -32,6 +33,7 @@ import confetti from 'canvas-confetti';
 import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
+import SEO from './SEO';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
@@ -42,10 +44,10 @@ const TABS = [
   })),
 ];
 
-const BoyNames = () => {
+export default function BoyNames() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTab, setSelectedTab] = useState('all');
-  const { favorites, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -59,8 +61,8 @@ const BoyNames = () => {
 
   const handleToggleFavorite = (name) => {
     toggleFavorite(name);
-    if (!favorites.includes(name)) {
-      confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#D08B7B', '#E5B7A9', '#6B8FAD'] });
+    if (!isFavorite(name)) {
+      confetti({ particleCount: 80, spread: 50, origin: { y: 0.7 }, colors: ['#0284C7', '#38BDF8', '#FF7E67'] });
     }
   };
 
@@ -102,64 +104,83 @@ const BoyNames = () => {
   }, [allBoyNames, selectedTab, searchQuery]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      {/* Header */}
-      <Box sx={{ pt: { xs: 2, md: 3 }, pb: { xs: 3, md: 4 }, borderBottom: `1px solid ${custom.borderLight}` }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
+      <SEO
+        title="25,000+ Baby Boy Names (2026) | Unique, Sanskrit & Modern Boy Names with Meanings"
+        description="Discover the perfect baby boy name from our 2026 curated collection. Strong, meaningful, Vedic, and contemporary boy names with meanings and zodiac insights."
+        keywords="baby boy names, boy names 2026, sanskrit boy names, modern boy names, hindu boy names, unique boy names"
+        canonical="https://sweetbabynames.com/boy-names"
+      />
+
+      {/* Header Banner */}
+      <Box
+        sx={{
+          pt: { xs: 4, md: 5 },
+          pb: { xs: 4, md: 5 },
+          background: `linear-gradient(180deg, ${alpha('#0284C7', 0.08)} 0%, transparent 100%)`,
+          borderBottom: `1px solid ${custom.borderLight}`,
+        }}
+      >
         <Container maxWidth="lg">
           <Button
-            startIcon={<ArrowBack sx={{ fontSize: 16 }} />}
+            startIcon={<ArrowBack sx={{ fontSize: 18 }} />}
             onClick={() => navigate('/')}
-            sx={{ mb: 2, color: 'text.secondary', fontSize: '0.8rem' }}
+            sx={{ mb: 2, color: 'text.secondary', fontSize: '0.85rem' }}
           >
             Back to Home
           </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-            <Box sx={{ p: 0.8, bgcolor: alpha('#6B8FAD', 0.1), display: 'flex' }}>
-              <Boy sx={{ fontSize: 20, color: '#6B8FAD' }} />
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#0284C7', 0.15), display: 'flex', color: '#0284C7' }}>
+              <Boy sx={{ fontSize: 26 }} />
             </Box>
-            <Typography variant="h3" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", serif', fontSize: { xs: '1.5rem', md: '1.8rem' } }}>
-              Boy Names
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+              Baby Boy Names
             </Typography>
           </Box>
-          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, fontSize: '0.9rem' }}>
-            Strong and timeless names for boys from diverse cultures and traditions.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
+            Noble, handsome, and meaningful names for your little prince. Filter by Indian heritage, modern trends, and astrological signs.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
             <TextField
               fullWidth
-              placeholder="Search boy names..."
+              placeholder="Search boy names by letter, origin, or meaning..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               InputProps={{
-                startAdornment: <InputAdornment position="start"><Search sx={{ fontSize: 18, color: 'text.secondary' }} /></InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search sx={{ fontSize: 20, color: 'text.secondary' }} />
+                  </InputAdornment>
+                ),
                 endAdornment: searchQuery && (
                   <InputAdornment position="end">
                     <IconButton size="small" onClick={() => setSearchQuery('')} sx={{ p: 0.3 }}>
-                      <Close sx={{ fontSize: 16 }} />
+                      <Close sx={{ fontSize: 18 }} />
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
               sx={{
                 flex: 1,
-                minWidth: 200,
+                minWidth: 260,
                 '& .MuiOutlinedInput-root': {
                   bgcolor: custom.cardWhite,
-                  border: `1px solid ${custom.borderLight}`,
-                  '& fieldset': { border: 'none' },
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
                 },
               }}
             />
             <Chip
-              label={`${filteredNames.length} names`}
+              label={`${filteredNames.length} names found`}
               sx={{
-                height: 36,
-                bgcolor: alpha('#6B8FAD', 0.08),
-                color: '#6B8FAD',
-                fontWeight: 600,
-                fontSize: '0.8rem',
-                border: `1px solid ${alpha('#6B8FAD', 0.15)}`,
+                height: 42,
+                px: 1,
+                bgcolor: alpha('#0284C7', 0.1),
+                color: '#0284C7',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                border: `1px solid ${alpha('#0284C7', 0.25)}`,
               }}
             />
           </Box>
@@ -167,33 +188,30 @@ const BoyNames = () => {
       </Box>
 
       {/* Tabs */}
-      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: 'background.paper' }}>
+      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, py: 1 }}>
         <Container maxWidth="lg">
           <Tabs
             value={selectedTab}
             onChange={(e, v) => setSelectedTab(v)}
             variant="scrollable"
             scrollButtons="auto"
-            TabIndicatorProps={{ style: { display: 'none' } }}
           >
             {TABS.map((tab) => (
               <Tab
                 key={tab.value}
                 value={tab.value}
                 label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.7 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
                     {tab.icon}
                     {tab.label}
                   </Box>
                 }
                 sx={{
-                  minHeight: 48,
+                  minHeight: 44,
                   textTransform: 'none',
-                  fontWeight: selectedTab === tab.value ? 600 : 400,
-                  color: selectedTab === tab.value ? '#D08B7B' : 'text.secondary',
-                  borderBottom: selectedTab === tab.value ? '2px solid #D08B7B' : '2px solid transparent',
-                  fontSize: '0.825rem',
-                  '&:hover': { color: '#D08B7B' },
+                  fontWeight: selectedTab === tab.value ? 700 : 500,
+                  color: selectedTab === tab.value ? '#0284C7' : 'text.secondary',
+                  fontSize: '0.9rem',
                 }}
               />
             ))}
@@ -202,21 +220,24 @@ const BoyNames = () => {
       </Box>
 
       {/* Names Grid */}
-      <Container maxWidth="lg" sx={{ py: { xs: 3, md: 4 } }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         {filteredNames.length === 0 ? (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Boy sx={{ fontSize: 48, color: alpha('#6B8FAD', 0.2), mb: 2 }} />
-            <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", serif', fontWeight: 600, mb: 1 }}>
-              No names found
+          <Paper sx={{ textAlign: 'center', py: 8, px: 3, borderRadius: 4, bgcolor: custom.cardWhite }}>
+            <Boy sx={{ fontSize: 56, color: alpha('#0284C7', 0.3), mb: 2 }} />
+            <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 1 }}>
+              No boy names found
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              Try a different search term or category.
+            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+              Try searching with another spelling, letter, or reset the category filter.
             </Typography>
-          </Box>
+            <Button variant="outlined" onClick={() => { setSelectedTab('all'); setSearchQuery(''); }}>
+              Clear Search
+            </Button>
+          </Paper>
         ) : (
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {filteredNames.map((name, i) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={name.name + name.origin}>
+              <Grid item xs={12} sm={6} md={4} lg={3} key={name.name + name.origin + i}>
                 <NameCard
                   name={name.name}
                   meaning={name.meaning}
@@ -224,7 +245,7 @@ const BoyNames = () => {
                   origin={name.origin}
                   zodiac={name.zodiac}
                   popularity={name.popularity}
-                  isFavorite={favorites.includes(name.name)}
+                  isFavorite={isFavorite(name.name)}
                   onToggleFavorite={handleToggleFavorite}
                   index={i}
                 />
@@ -233,33 +254,6 @@ const BoyNames = () => {
           </Grid>
         )}
       </Container>
-
-      {/* Favorites FAB */}
-      <AnimatePresence>
-        {favorites.length > 0 && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
-            style={{ position: 'fixed', bottom: 88, right: 24, zIndex: 1200 }}
-          >
-            <Badge badgeContent={favorites.length} color="error">
-              <Fab
-                sx={{
-                  bgcolor: '#D08B7B',
-                  color: '#fff',
-                  boxShadow: '0 4px 14px rgba(208,139,123,0.4)',
-                  '&:hover': { bgcolor: '#B57364' },
-                }}
-              >
-                <Favorite sx={{ fontSize: 22 }} />
-              </Fab>
-            </Badge>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </Box>
   );
-};
-
-export default BoyNames;
+}
