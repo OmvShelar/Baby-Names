@@ -31,6 +31,8 @@ import {
   FavoriteBorder,
   MenuBook,
   ExpandMore,
+  Verified,
+  VolumeUp,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -42,8 +44,8 @@ import BoyGirlShowcase from './ui/BoyGirlShowcase';
 import SEO from './SEO';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.38, ease: 'easeOut' } },
 };
 
 const FAQ_LIST = [
@@ -74,6 +76,7 @@ export default function Home() {
   const { toggleFavorite, isFavorite } = useFavorites();
   const navigate = useNavigate();
   const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const custom = theme.palette.custom;
 
   const handleSearchSubmit = (e) => {
@@ -84,12 +87,12 @@ export default function Home() {
   };
 
   const categories = [
-    { name: 'Boy Names', desc: 'Noble, strong & modern picks', icon: <Boy sx={{ fontSize: 28 }} />, path: '/boy-names', count: '25,000+', color: '#0284C7', bg: alpha('#0284C7', 0.08) },
-    { name: 'Girl Names', desc: 'Graceful, lyrical & divine gems', icon: <Girl sx={{ fontSize: 28 }} />, path: '/girl-names', count: '28,000+', color: '#E11D48', bg: alpha('#E11D48', 0.08) },
-    { name: 'Indian Heritage', desc: 'Sanskrit, Vedic & cultural roots', icon: <Public sx={{ fontSize: 28 }} />, path: '/indian-names', count: '18,000+', color: '#F59E0B', bg: alpha('#F59E0B', 0.08) },
-    { name: 'Modern & Trendy', desc: '2-syllable contemporary favorites', icon: <TrendingUp sx={{ fontSize: 28 }} />, path: '/modern-names', count: '10,000+', color: '#10B981', bg: alpha('#10B981', 0.08) },
-    { name: 'Zodiac & Rashi', desc: 'Auspicious Nakshatra syllables', icon: <Star sx={{ fontSize: 28 }} />, path: '/zodiac-names', count: '12,000+', color: '#8B5CF6', bg: alpha('#8B5CF6', 0.08) },
-    { name: 'Naming Blogs', desc: 'Expert guides, trends & advice', icon: <MenuBook sx={{ fontSize: 28 }} />, path: '/blogs', count: 'Editorial', color: '#EC4899', bg: alpha('#EC4899', 0.08) },
+    { name: 'Boy Names', desc: 'Noble, strong & modern picks', icon: <Boy sx={{ fontSize: 26 }} />, path: '/boy-names', count: '25,000+', color: '#0369A1', bg: alpha('#0369A1', 0.06) },
+    { name: 'Girl Names', desc: 'Graceful, lyrical & divine gems', icon: <Girl sx={{ fontSize: 26 }} />, path: '/girl-names', count: '28,000+', color: '#BE123C', bg: alpha('#BE123C', 0.06) },
+    { name: 'Indian Heritage', desc: 'Sanskrit, Vedic & cultural roots', icon: <Public sx={{ fontSize: 26 }} />, path: '/indian-names', count: '18,000+', color: '#D97706', bg: alpha('#D97706', 0.06) },
+    { name: 'Modern & Trendy', desc: '2-syllable contemporary favorites', icon: <TrendingUp sx={{ fontSize: 26 }} />, path: '/modern-names', count: '10,000+', color: '#059669', bg: alpha('#059669', 0.06) },
+    { name: 'Zodiac & Rashi', desc: 'Auspicious Nakshatra syllables', icon: <Star sx={{ fontSize: 26 }} />, path: '/zodiac-names', count: '12,000+', color: '#7C3AED', bg: alpha('#7C3AED', 0.06) },
+    { name: 'Editorial Blogs', desc: 'Expert guides, trends & advice', icon: <MenuBook sx={{ fontSize: 26 }} />, path: '/blogs', count: 'Curated', color: '#C86D51', bg: alpha('#C86D51', 0.06) },
   ];
 
   // Interactive Live Name Finder list
@@ -130,7 +133,7 @@ export default function Home() {
         particleCount: 65,
         spread: 55,
         origin: { y: 0.7 },
-        colors: ['#FF7E67', '#F43F5E', '#0284C7', '#F59E0B'],
+        colors: ['#C86D51', '#C59B27', '#0369A1', '#BE123C'],
       });
     }
   };
@@ -178,8 +181,8 @@ export default function Home() {
       <Box
         sx={{
           pt: { xs: 6, md: 9 },
-          pb: { xs: 7, md: 10 },
-          background: `radial-gradient(ellipse 90% 80% at 50% -20%, ${alpha(custom.coral, 0.12)}, transparent), linear-gradient(180deg, ${custom.heroGradientStart} 0%, ${custom.heroGradientEnd} 100%)`,
+          pb: { xs: 6, md: 9 },
+          background: `radial-gradient(ellipse 90% 70% at 50% -10%, ${alpha(custom.coral, 0.08)}, transparent), linear-gradient(180deg, ${custom.heroGradientStart} 0%, ${custom.heroGradientEnd} 100%)`,
           borderBottom: `1px solid ${custom.borderLight}`,
           position: 'relative',
         }}
@@ -188,35 +191,35 @@ export default function Home() {
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+            variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
           >
-            {/* Top Badge */}
+            {/* Masthead Label */}
             <motion.div variants={fadeInUp}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2.5 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Box
                   sx={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: 1,
                     px: 1.8,
-                    py: 0.6,
-                    borderRadius: '3px',
-                    bgcolor: alpha(custom.coral, 0.1),
-                    border: `1px solid ${alpha(custom.coral, 0.25)}`,
+                    py: 0.5,
+                    borderRadius: '2px',
+                    bgcolor: alpha(custom.gold, 0.1),
+                    border: `1px solid ${alpha(custom.gold, 0.3)}`,
                   }}
                 >
-                  <AutoAwesome sx={{ fontSize: 14, color: custom.coral }} />
+                  <AutoAwesome sx={{ fontSize: 13, color: isDark ? '#E5C158' : '#9A7611' }} />
                   <Typography
                     variant="caption"
                     sx={{
                       fontWeight: 700,
-                      color: custom.coral,
-                      letterSpacing: '0.12em',
+                      color: isDark ? '#E5C158' : '#9A7611',
+                      letterSpacing: '0.16em',
                       textTransform: 'uppercase',
                       fontSize: '0.72rem',
                     }}
                   >
-                    50,000+ Curated Names • 2026 Edition
+                    THE 2026 GLOBAL DIRECTORY • 50,000+ ENTRIES
                   </Typography>
                 </Box>
               </Box>
@@ -228,27 +231,26 @@ export default function Home() {
                 variant="h1"
                 align="center"
                 sx={{
-                  fontSize: { xs: '2.4rem', sm: '3.4rem', md: '4rem' },
-                  fontWeight: 800,
+                  fontSize: { xs: '2.4rem', sm: '3.4rem', md: '4.2rem' },
+                  fontWeight: 700,
                   lineHeight: 1.15,
                   mb: 2,
                   fontFamily: '"Playfair Display", Georgia, serif',
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.025em',
                 }}
               >
-                The Name They'll{' '}
+                A Name to Carry with{' '}
                 <Box
                   component="span"
                   sx={{
                     fontStyle: 'italic',
-                    background: `linear-gradient(135deg, ${custom.coral} 0%, #F43F5E 100%)`,
+                    background: `linear-gradient(135deg, ${custom.coral} 0%, #A85238 100%)`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                   }}
                 >
-                  Carry Forever
-                </Box>{' '}
-                Starts Here
+                  Grace &amp; Meaning
+                </Box>
               </Typography>
             </motion.div>
 
@@ -259,18 +261,18 @@ export default function Home() {
                 align="center"
                 sx={{
                   color: 'text.secondary',
-                  mb: 4.5,
-                  fontSize: { xs: '1.02rem', md: '1.15rem' },
-                  maxWidth: 600,
+                  mb: 4,
+                  fontSize: { xs: '1.02rem', md: '1.14rem' },
+                  maxWidth: 620,
                   mx: 'auto',
                   lineHeight: 1.7,
                 }}
               >
-                Explore meaningful boy and girl names inspired by Sanskrit roots, modern trends, and planetary nakshatras. Every name holds a story.
+                Discover revered Sanskrit names, contemporary global favorites, and Vedic Nakshatra syllables curated for expecting parents worldwide.
               </Typography>
             </motion.div>
 
-            {/* Sharp Search Bar */}
+            {/* Sharp Luxury Search Console */}
             <motion.div variants={fadeInUp}>
               <Box
                 component="form"
@@ -278,10 +280,10 @@ export default function Home() {
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
-                  maxWidth: 620,
+                  maxWidth: 640,
                   mx: 'auto',
                   mb: 3,
-                  gap: 1.2,
+                  gap: 1,
                   flexDirection: { xs: 'column', sm: 'row' },
                 }}
               >
@@ -300,10 +302,10 @@ export default function Home() {
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       bgcolor: custom.cardWhite,
-                      borderRadius: '4px',
-                      height: 52,
-                      fontSize: '0.95rem',
-                      boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+                      borderRadius: '2px',
+                      height: 50,
+                      fontSize: '0.94rem',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                     },
                   }}
                 />
@@ -312,10 +314,10 @@ export default function Home() {
                   variant="contained"
                   sx={{
                     px: 3.5,
-                    height: 52,
-                    fontSize: '0.95rem',
+                    height: 50,
+                    fontSize: '0.9rem',
                     whiteSpace: 'nowrap',
-                    borderRadius: '4px',
+                    borderRadius: '2px',
                   }}
                 >
                   Find Names
@@ -323,47 +325,70 @@ export default function Home() {
               </Box>
             </motion.div>
 
-            {/* Quick Action Chips */}
+            {/* Quick Filter Badges */}
             <motion.div variants={fadeInUp}>
               <Box
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: 1,
+                  gap: 0.8,
                   flexWrap: 'wrap',
                 }}
               >
                 <Chip
-                  icon={<Boy sx={{ fontSize: 16, color: '#0284C7 !important' }} />}
-                  label="Boy Names"
+                  icon={<Boy sx={{ fontSize: 16, color: '#0369A1 !important' }} />}
+                  label="Boy Compendium"
                   clickable
                   onClick={() => navigate('/boy-names')}
-                  sx={{ borderRadius: '3px', bgcolor: alpha('#0284C7', 0.08), color: '#0284C7', fontWeight: 600, border: `1px solid ${alpha('#0284C7', 0.2)}` }}
+                  sx={{ borderRadius: '2px', bgcolor: alpha('#0369A1', 0.06), color: '#0369A1', fontWeight: 600, border: `1px solid ${alpha('#0369A1', 0.2)}` }}
                 />
                 <Chip
-                  icon={<Girl sx={{ fontSize: 16, color: '#E11D48 !important' }} />}
-                  label="Girl Names"
+                  icon={<Girl sx={{ fontSize: 16, color: '#BE123C !important' }} />}
+                  label="Girl Compendium"
                   clickable
                   onClick={() => navigate('/girl-names')}
-                  sx={{ borderRadius: '3px', bgcolor: alpha('#E11D48', 0.08), color: '#E11D48', fontWeight: 600, border: `1px solid ${alpha('#E11D48', 0.2)}` }}
+                  sx={{ borderRadius: '2px', bgcolor: alpha('#BE123C', 0.06), color: '#BE123C', fontWeight: 600, border: `1px solid ${alpha('#BE123C', 0.2)}` }}
                 />
                 <Chip
-                  icon={<Star sx={{ fontSize: 16, color: '#8B5CF6 !important' }} />}
+                  icon={<Star sx={{ fontSize: 16, color: '#7C3AED !important' }} />}
                   label="Zodiac (Rashi)"
                   clickable
                   onClick={() => navigate('/zodiac-names')}
-                  sx={{ borderRadius: '3px', bgcolor: alpha('#8B5CF6', 0.08), color: '#8B5CF6', fontWeight: 600, border: `1px solid ${alpha('#8B5CF6', 0.2)}` }}
+                  sx={{ borderRadius: '2px', bgcolor: alpha('#7C3AED', 0.06), color: '#7C3AED', fontWeight: 600, border: `1px solid ${alpha('#7C3AED', 0.2)}` }}
                 />
                 <Chip
-                  icon={<MenuBook sx={{ fontSize: 16, color: '#EC4899 !important' }} />}
-                  label="Editorial Blogs"
+                  icon={<MenuBook sx={{ fontSize: 16, color: '#C86D51 !important' }} />}
+                  label="Editorial Guides"
                   clickable
                   onClick={() => navigate('/blogs')}
-                  sx={{ borderRadius: '3px', bgcolor: alpha('#EC4899', 0.08), color: '#EC4899', fontWeight: 600, border: `1px solid ${alpha('#EC4899', 0.2)}` }}
+                  sx={{ borderRadius: '2px', bgcolor: alpha(custom.coral, 0.06), color: custom.coral, fontWeight: 600, border: `1px solid ${alpha(custom.coral, 0.2)}` }}
                 />
               </Box>
             </motion.div>
           </motion.div>
+        </Container>
+      </Box>
+
+      {/* Trust Highlights Bar */}
+      <Box sx={{ borderBottom: `1px solid ${custom.borderLight}`, bgcolor: custom.cardWhite, py: 2 }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={2} justifyContent="space-around" alignItems="center">
+            {[
+              { icon: <Verified sx={{ fontSize: 18, color: '#059669' }} />, label: '50,000+ Verified Meanings' },
+              { icon: <Star sx={{ fontSize: 18, color: '#C59B27' }} />, label: 'Vedic Nakshatra Syllables' },
+              { icon: <VolumeUp sx={{ fontSize: 18, color: '#0369A1' }} />, label: 'Speech Pronunciation Audio' },
+              { icon: <Favorite sx={{ fontSize: 18, color: '#BE123C' }} />, label: 'Partner Shortlist Sharing' },
+            ].map((item, i) => (
+              <Grid item xs={6} sm={3} key={i}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                  {item.icon}
+                  <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', fontSize: '0.78rem' }}>
+                    {item.label}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
         </Container>
       </Box>
 
@@ -375,14 +400,14 @@ export default function Home() {
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 4.5 }}>
             <Chip
-              icon={<AutoAwesome sx={{ fontSize: 14 }} />}
+              icon={<AutoAwesome sx={{ fontSize: 13 }} />}
               label="Instant Match Finder"
-              sx={{ borderRadius: '3px', bgcolor: alpha(custom.coral, 0.1), color: custom.coral, fontWeight: 700, mb: 1.5 }}
+              sx={{ borderRadius: '2px', bgcolor: alpha(custom.coral, 0.08), color: custom.coral, fontWeight: 700, mb: 1.5 }}
             />
             <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1 }}>
               Find Your Baby's Name in Seconds
             </Typography>
-            <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 500, mx: 'auto' }}>
+            <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 500, mx: 'auto', fontSize: '0.96rem' }}>
               Filter by gender, starting letter, and tradition to discover instant matches.
             </Typography>
           </Box>
@@ -392,20 +417,20 @@ export default function Home() {
             elevation={0}
             sx={{
               p: { xs: 2.5, md: 3 },
-              borderRadius: '4px',
+              borderRadius: '2px',
               bgcolor: custom.cardWhite,
               border: `1px solid ${custom.borderLight}`,
-              boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
               mb: 3.5,
             }}
           >
             <Grid container spacing={3} alignItems="center">
               {/* Gender Filter */}
               <Grid item xs={12} sm={4}>
-                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1, letterSpacing: '0.08em' }}>
                   1. SELECT GENDER
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 0.8 }}>
+                <Box sx={{ display: 'flex', gap: 0.6 }}>
                   {['all', 'Boy', 'Girl'].map((g) => (
                     <Chip
                       key={g}
@@ -414,7 +439,7 @@ export default function Home() {
                       onClick={() => setFilterGender(g)}
                       sx={{
                         flex: 1,
-                        borderRadius: '3px',
+                        borderRadius: '2px',
                         bgcolor: filterGender === g ? custom.coral : 'transparent',
                         color: filterGender === g ? '#FFFFFF' : 'text.primary',
                         border: `1px solid ${filterGender === g ? custom.coral : custom.borderLight}`,
@@ -427,7 +452,7 @@ export default function Home() {
 
               {/* Starting Letter Filter */}
               <Grid item xs={12} sm={4}>
-                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1, letterSpacing: '0.08em' }}>
                   2. STARTING LETTER
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
@@ -444,7 +469,7 @@ export default function Home() {
                         color: filterLetter === ltr ? '#FFFFFF' : 'text.primary',
                         border: `1px solid ${filterLetter === ltr ? custom.coral : custom.borderLight}`,
                         fontWeight: 600,
-                        minWidth: 30,
+                        minWidth: 28,
                       }}
                     />
                   ))}
@@ -453,10 +478,10 @@ export default function Home() {
 
               {/* Style / Origin Filter */}
               <Grid item xs={12} sm={4}>
-                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1, letterSpacing: '0.08em' }}>
                   3. TRADITION / STYLE
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 0.8 }}>
+                <Box sx={{ display: 'flex', gap: 0.6 }}>
                   {[
                     { id: 'all', label: 'All Styles' },
                     { id: 'Indian', label: 'Sanskrit' },
@@ -470,12 +495,12 @@ export default function Home() {
                       onClick={() => setFilterStyle(st.id)}
                       sx={{
                         flex: 1,
-                        borderRadius: '3px',
+                        borderRadius: '2px',
                         bgcolor: filterStyle === st.id ? custom.coral : 'transparent',
                         color: filterStyle === st.id ? '#FFFFFF' : 'text.primary',
                         border: `1px solid ${filterStyle === st.id ? custom.coral : custom.borderLight}`,
                         fontWeight: 600,
-                        fontSize: '0.78rem',
+                        fontSize: '0.76rem',
                       }}
                     />
                   ))}
@@ -489,17 +514,17 @@ export default function Home() {
             {wizardResults.map((item, idx) => {
               const isGirl = item.gender === 'Girl';
               const fav = isFavorite(item.name);
-              const accentColor = isGirl ? '#E11D48' : '#0284C7';
+              const accentColor = isGirl ? '#BE123C' : '#0369A1';
               return (
                 <Grid item xs={12} sm={6} md={4} key={`${item.name}-${idx}`}>
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.04 }}>
                     <Card
                       sx={{
                         p: 2.5,
-                        borderRadius: '4px',
+                        borderRadius: '2px',
                         bgcolor: custom.cardWhite,
                         border: `1px solid ${fav ? alpha(accentColor, 0.4) : custom.borderLight}`,
-                        boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                         transition: 'all 0.22s ease',
                         position: 'relative',
                         '&::before': {
@@ -508,20 +533,20 @@ export default function Home() {
                           top: 0,
                           left: 0,
                           width: '100%',
-                          height: 3,
-                          background: isGirl ? 'linear-gradient(90deg, #FB7185, #E11D48)' : 'linear-gradient(90deg, #38BDF8, #0284C7)',
-                          opacity: fav ? 1 : 0.3,
+                          height: 2.5,
+                          background: isGirl ? 'linear-gradient(90deg, #E11D48, #BE123C)' : 'linear-gradient(90deg, #0284C7, #0369A1)',
+                          opacity: fav ? 1 : 0.35,
                         },
                         '&:hover': {
                           transform: 'translateY(-2px)',
-                          boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
+                          boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
                           borderColor: accentColor,
                         },
                       }}
                     >
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
-                          <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: '1.25rem' }}>
+                          <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: '1.24rem' }}>
                             {item.name}
                           </Typography>
                           <Chip
@@ -530,15 +555,15 @@ export default function Home() {
                             sx={{
                               height: 20,
                               borderRadius: '2px',
-                              fontSize: '0.68rem',
-                              bgcolor: isGirl ? alpha('#E11D48', 0.08) : alpha('#0284C7', 0.08),
-                              color: isGirl ? '#E11D48' : '#0284C7',
+                              fontSize: '0.66rem',
+                              bgcolor: isGirl ? alpha('#BE123C', 0.06) : alpha('#0369A1', 0.06),
+                              color: isGirl ? '#BE123C' : '#0369A1',
                               fontWeight: 700,
                             }}
                           />
                         </Box>
-                        <IconButton size="small" onClick={() => handleToggleFavorite(item.name)} sx={{ borderRadius: '3px', color: fav ? '#E11D48' : 'text.secondary' }}>
-                          {fav ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
+                        <IconButton size="small" onClick={() => handleToggleFavorite(item.name)} sx={{ borderRadius: '2px', color: fav ? '#BE123C' : 'text.secondary' }}>
+                          {fav ? <Favorite sx={{ fontSize: 17 }} /> : <FavoriteBorder sx={{ fontSize: 17 }} />}
                         </IconButton>
                       </Box>
 
@@ -546,9 +571,9 @@ export default function Home() {
                         "{item.meaning}"
                       </Typography>
 
-                      <Box sx={{ display: 'flex', gap: 0.8, flexWrap: 'wrap' }}>
-                        <Chip label={item.origin} size="small" sx={{ borderRadius: '2px', fontSize: '0.7rem', bgcolor: alpha(custom.coral, 0.08), color: custom.coral }} />
-                        <Chip label={`Rashi: ${item.zodiac}`} size="small" sx={{ borderRadius: '2px', fontSize: '0.7rem', bgcolor: alpha('#8B5CF6', 0.08), color: '#8B5CF6' }} />
+                      <Box sx={{ display: 'flex', gap: 0.6, flexWrap: 'wrap' }}>
+                        <Chip label={item.origin} size="small" sx={{ borderRadius: '2px', fontSize: '0.68rem', bgcolor: alpha(custom.coral, 0.06), color: custom.coral }} />
+                        <Chip label={`Rashi: ${item.zodiac}`} size="small" sx={{ borderRadius: '2px', fontSize: '0.68rem', bgcolor: alpha('#7C3AED', 0.06), color: '#7C3AED' }} />
                       </Box>
                     </Card>
                   </motion.div>
@@ -560,9 +585,9 @@ export default function Home() {
           <Box sx={{ textAlign: 'center', mt: 4 }}>
             <Button
               variant="outlined"
-              endIcon={<ArrowForward />}
+              endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
               onClick={() => navigate(filterGender === 'Girl' ? '/girl-names' : '/boy-names')}
-              sx={{ borderRadius: '4px', px: 4 }}
+              sx={{ borderRadius: '2px', px: 4 }}
             >
               View More in Category
             </Button>
@@ -573,14 +598,14 @@ export default function Home() {
       {/* Explore By Category */}
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
         <Box sx={{ textAlign: 'center', mb: 5 }}>
-          <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.18em', fontWeight: 700, fontSize: '0.75rem', display: 'block', mb: 0.8 }}>
-            CURATED COLLECTIONS
+          <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.18em', fontWeight: 700, fontSize: '0.74rem', display: 'block', mb: 0.8 }}>
+            CURATED REALMS
           </Typography>
           <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1 }}>
-            Browse Names by Category
+            Browse Names by Realm
           </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 500, mx: 'auto' }}>
-            Carefully curated baby naming realms designed to make exploration simple and joyful.
+          <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 500, mx: 'auto', fontSize: '0.96rem' }}>
+            Carefully curated baby naming realms designed to make exploration simple, dignified, and joyful.
           </Typography>
         </Box>
 
@@ -592,36 +617,35 @@ export default function Home() {
                 sx={{
                   cursor: 'pointer',
                   p: 3,
-                  borderRadius: '4px',
+                  borderRadius: '2px',
                   bgcolor: custom.cardWhite,
                   border: `1px solid ${custom.borderLight}`,
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
                   transition: 'all 0.22s ease',
                   display: 'flex',
                   flexDirection: 'column',
                   height: '100%',
-                  position: 'relative',
                   '&:hover': {
-                    transform: 'translateY(-3px)',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 8px 20px rgba(0,0,0,0.05)',
                     borderColor: cat.color,
                   },
                 }}
               >
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Box sx={{ p: 1.2, borderRadius: '3px', bgcolor: cat.bg, color: cat.color, display: 'flex' }}>
+                  <Box sx={{ p: 1.2, borderRadius: '2px', bgcolor: cat.bg, color: cat.color, display: 'flex' }}>
                     {cat.icon}
                   </Box>
-                  <Chip label={cat.count} size="small" sx={{ borderRadius: '2px', bgcolor: cat.bg, color: cat.color, fontWeight: 700, fontSize: '0.72rem' }} />
+                  <Chip label={cat.count} size="small" sx={{ borderRadius: '2px', bgcolor: cat.bg, color: cat.color, fontWeight: 700, fontSize: '0.7rem' }} />
                 </Box>
-                <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 0.8, fontSize: '1.25rem' }}>
+                <Typography variant="h5" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, mb: 0.8, fontSize: '1.24rem' }}>
                   {cat.name}
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2.5, flexGrow: 1, lineHeight: 1.6, fontSize: '0.85rem' }}>
                   {cat.desc}
                 </Typography>
                 <Typography variant="caption" sx={{ color: cat.color, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  Explore Names <ArrowForward sx={{ fontSize: 13 }} />
+                  Explore Collection <ArrowForward sx={{ fontSize: 13 }} />
                 </Typography>
               </Card>
             </Grid>
@@ -635,13 +659,13 @@ export default function Home() {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mb: 4, flexWrap: 'wrap', gap: 2 }}>
             <Box>
               <Typography variant="overline" sx={{ color: custom.coral, letterSpacing: '0.15em', fontWeight: 700, display: 'block', mb: 0.8 }}>
-                EDITORIAL &amp; GUIDES
+                EDITORIAL COMPENDIUM
               </Typography>
               <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.4rem' } }}>
                 Latest from Our Baby Naming Blog
               </Typography>
             </Box>
-            <Button endIcon={<ArrowForward />} onClick={() => navigate('/blogs')} sx={{ borderRadius: '4px', fontWeight: 700 }}>
+            <Button endIcon={<ArrowForward sx={{ fontSize: 16 }} />} onClick={() => navigate('/blogs')} sx={{ borderRadius: '2px', fontWeight: 700 }}>
               View All Articles
             </Button>
           </Box>
@@ -653,7 +677,7 @@ export default function Home() {
                   onClick={() => navigate(`/blogs/${post.slug}`)}
                   sx={{
                     cursor: 'pointer',
-                    borderRadius: '4px',
+                    borderRadius: '2px',
                     bgcolor: custom.cardWhite,
                     border: `1px solid ${custom.borderLight}`,
                     height: '100%',
@@ -662,8 +686,8 @@ export default function Home() {
                     overflow: 'hidden',
                     transition: 'all 0.22s ease',
                     '&:hover': {
-                      transform: 'translateY(-3px)',
-                      boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.06)',
                       borderColor: custom.coral,
                     },
                   }}
@@ -676,7 +700,7 @@ export default function Home() {
                   />
                   <CardContent sx={{ p: 2.5, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.2 }}>
-                      <Chip label={post.tags[0]} size="small" sx={{ borderRadius: '2px', bgcolor: alpha(custom.coral, 0.1), color: custom.coral, fontWeight: 700 }} />
+                      <Chip label={post.tags[0]} size="small" sx={{ borderRadius: '2px', bgcolor: alpha(custom.coral, 0.08), color: custom.coral, fontWeight: 700 }} />
                       <Typography variant="caption" sx={{ color: 'text.secondary' }}>{post.readTime}</Typography>
                     </Box>
                     <Typography variant="h6" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: '1.1rem', mb: 1.2, lineHeight: 1.3 }}>
@@ -705,7 +729,7 @@ export default function Home() {
           <Typography variant="h2" sx={{ fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 700, fontSize: { xs: '1.8rem', md: '2.4rem' }, mb: 1 }}>
             Everything You Need to Know
           </Typography>
-          <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '0.96rem' }}>
             Answers to common questions about baby naming, trends, astrology, and saving favorites.
           </Typography>
         </Box>
@@ -718,18 +742,18 @@ export default function Home() {
               sx={{
                 bgcolor: custom.cardWhite,
                 border: `1px solid ${custom.borderLight}`,
-                borderRadius: '4px !important',
+                borderRadius: '2px !important',
                 '&::before': { display: 'none' },
                 overflow: 'hidden',
               }}
             >
               <AccordionSummary expandIcon={<ExpandMore sx={{ color: custom.coral }} />} sx={{ px: 2.5, py: 0.8 }}>
-                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '1rem' }}>
+                <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: '0.98rem' }}>
                   {faq.q}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ px: 2.5, pb: 2.5, pt: 0 }}>
-                <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, fontSize: '0.92rem' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, fontSize: '0.9rem' }}>
                   {faq.a}
                 </Typography>
               </AccordionDetails>

@@ -23,6 +23,7 @@ import {
   Share,
   Check,
   TrendingUp,
+  VolumeUp,
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -53,9 +54,10 @@ const TWIN_PAIRS = [
 ];
 
 export default function BoyGirlShowcase() {
-  const [activeTab, setActiveTab] = useState('boy'); // 'boy' | 'girl' | 'twins'
+  const [activeTab, setActiveTab] = useState('boy');
   const [currentSampleIndex, setCurrentSampleIndex] = useState(0);
   const [copiedName, setCopiedName] = useState(null);
+  const [speakingName, setSpeakingName] = useState(null);
   const { toggleFavorite, isFavorite } = useFavorites();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -70,10 +72,10 @@ export default function BoyGirlShowcase() {
     toggleFavorite(name);
     if (!isFavorite(name)) {
       confetti({
-        particleCount: 75,
+        particleCount: 70,
         spread: 60,
         origin: { y: 0.65 },
-        colors: activeTab === 'boy' ? ['#0284C7', '#38BDF8', '#F59E0B'] : ['#E11D48', '#FB7185', '#FF7E67'],
+        colors: activeTab === 'boy' ? ['#0369A1', '#0284C7', '#C59B27'] : ['#BE123C', '#E11D48', '#C59B27'],
       });
     }
   };
@@ -84,99 +86,131 @@ export default function BoyGirlShowcase() {
     setTimeout(() => setCopiedName(null), 2000);
   };
 
+  const handleSpeak = (name) => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(name);
+      utterance.rate = 0.85;
+      utterance.pitch = 1.05;
+      utterance.onend = () => setSpeakingName(null);
+      setSpeakingName(name);
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
   return (
-    <Box sx={{ position: 'relative', overflow: 'hidden', py: { xs: 5, md: 8 } }}>
+    <Box sx={{ position: 'relative', overflow: 'hidden', py: { xs: 6, md: 9 } }}>
       <Container maxWidth="lg">
         {/* Section Header */}
         <Box sx={{ textAlign: 'center', mb: 5 }}>
           <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, px: 2, py: 0.6, borderRadius: '3px', bgcolor: alpha(custom.coral, 0.1), color: custom.coral, mb: 2 }}>
-              <AutoAwesome sx={{ fontSize: 15 }} />
-              <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                Interactive Boy &amp; Girl Showcase
+            <Box
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 0.5,
+                borderRadius: '2px',
+                bgcolor: alpha(custom.gold, 0.1),
+                border: `1px solid ${alpha(custom.gold, 0.3)}`,
+                color: isDark ? '#E5C158' : '#9A7611',
+                mb: 2,
+              }}
+            >
+              <AutoAwesome sx={{ fontSize: 13 }} />
+              <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', fontSize: '0.72rem' }}>
+                Curated Compendium • Boy &amp; Girl Showcases
               </Typography>
             </Box>
             <Typography
               variant="h2"
               sx={{
                 fontFamily: '"Playfair Display", Georgia, serif',
-                fontSize: { xs: '2rem', sm: '2.6rem', md: '3.2rem' },
+                fontSize: { xs: '2.1rem', sm: '2.7rem', md: '3.3rem' },
                 fontWeight: 700,
-                mb: 2,
+                letterSpacing: '-0.02em',
+                mb: 1.5,
               }}
             >
-              Meet Your Future{' '}
-              <Box component="span" sx={{ color: activeTab === 'boy' ? '#0284C7' : activeTab === 'girl' ? '#E11D48' : '#8B5CF6', transition: 'color 0.3s ease' }}>
-                {activeTab === 'boy' ? 'Little Prince 👦' : activeTab === 'girl' ? 'Little Princess 👧' : 'Sweet Twins ✨'}
+              Discover The{' '}
+              <Box component="span" sx={{ color: activeTab === 'boy' ? '#0369A1' : activeTab === 'girl' ? '#BE123C' : '#7C3AED', transition: 'color 0.25s ease', fontStyle: 'italic' }}>
+                {activeTab === 'boy' ? 'Little Prince 👦' : activeTab === 'girl' ? 'Little Princess 👧' : 'Harmonious Twins ✨'}
               </Box>
             </Typography>
-            <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 620, mx: 'auto', fontSize: '1.05rem', lineHeight: 1.7 }}>
-              Switch between boy and girl naming universes. Discover live curated trending picks, meanings, astrology, and harmonious twin sets.
+            <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 600, mx: 'auto', fontSize: '1.02rem', lineHeight: 1.7 }}>
+              Switch between boy and girl naming realms. Verified Sanskrit etymology, planetary Nakshatra alignments, and melodic resonance.
             </Typography>
           </motion.div>
 
-          {/* Sharp Luxury Mode Switcher */}
+          {/* Luxury Segmented Selector */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <Paper
               elevation={0}
               sx={{
                 display: 'inline-flex',
                 p: 0.5,
-                borderRadius: '4px',
-                bgcolor: isDark ? 'rgba(255,255,255,0.06)' : '#F3EDE4',
+                borderRadius: '2px',
+                bgcolor: isDark ? '#141822' : '#F5EFE6',
                 border: `1px solid ${custom.borderLight}`,
               }}
             >
               <Button
-                startIcon={<Boy />}
+                startIcon={<Boy sx={{ fontSize: 18 }} />}
                 onClick={() => { setActiveTab('boy'); setCurrentSampleIndex(0); }}
                 sx={{
-                  borderRadius: '3px',
-                  px: { xs: 2, sm: 3.5 },
+                  borderRadius: '2px',
+                  px: { xs: 2.2, sm: 3.5 },
                   py: 1,
-                  bgcolor: activeTab === 'boy' ? '#0284C7' : 'transparent',
+                  fontSize: '0.84rem',
+                  letterSpacing: '0.04em',
+                  bgcolor: activeTab === 'boy' ? '#0369A1' : 'transparent',
                   color: activeTab === 'boy' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'boy' ? '0 4px 12px rgba(2, 132, 199, 0.3)' : 'none',
+                  boxShadow: activeTab === 'boy' ? '0 2px 8px rgba(3, 105, 161, 0.3)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'boy' ? '#0369A1' : alpha('#0284C7', 0.08),
+                    bgcolor: activeTab === 'boy' ? '#0C4A6E' : alpha('#0369A1', 0.08),
                   },
                 }}
               >
-                Baby Boy
+                Little Prince
               </Button>
               <Button
-                startIcon={<Girl />}
+                startIcon={<Girl sx={{ fontSize: 18 }} />}
                 onClick={() => { setActiveTab('girl'); setCurrentSampleIndex(0); }}
                 sx={{
-                  borderRadius: '3px',
-                  px: { xs: 2, sm: 3.5 },
+                  borderRadius: '2px',
+                  px: { xs: 2.2, sm: 3.5 },
                   py: 1,
-                  bgcolor: activeTab === 'girl' ? '#E11D48' : 'transparent',
+                  fontSize: '0.84rem',
+                  letterSpacing: '0.04em',
+                  bgcolor: activeTab === 'girl' ? '#BE123C' : 'transparent',
                   color: activeTab === 'girl' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'girl' ? '0 4px 12px rgba(225, 29, 72, 0.3)' : 'none',
+                  boxShadow: activeTab === 'girl' ? '0 2px 8px rgba(190, 18, 60, 0.3)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'girl' ? '#BE123C' : alpha('#E11D48', 0.08),
+                    bgcolor: activeTab === 'girl' ? '#881337' : alpha('#BE123C', 0.08),
                   },
                 }}
               >
-                Baby Girl
+                Little Princess
               </Button>
               <Button
-                startIcon={<AutoAwesome />}
+                startIcon={<AutoAwesome sx={{ fontSize: 16 }} />}
                 onClick={() => { setActiveTab('twins'); setCurrentSampleIndex(0); }}
                 sx={{
-                  borderRadius: '3px',
-                  px: { xs: 2, sm: 3.5 },
+                  borderRadius: '2px',
+                  px: { xs: 2.2, sm: 3.5 },
                   py: 1,
-                  bgcolor: activeTab === 'twins' ? '#8B5CF6' : 'transparent',
+                  fontSize: '0.84rem',
+                  letterSpacing: '0.04em',
+                  bgcolor: activeTab === 'twins' ? '#7C3AED' : 'transparent',
                   color: activeTab === 'twins' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'twins' ? '0 4px 12px rgba(139, 92, 246, 0.3)' : 'none',
+                  boxShadow: activeTab === 'twins' ? '0 2px 8px rgba(124, 58, 237, 0.3)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'twins' ? '#7C3AED' : alpha('#8B5CF6', 0.08),
+                    bgcolor: activeTab === 'twins' ? '#6D28D9' : alpha('#7C3AED', 0.08),
                   },
                 }}
               >
-                Twins
+                Twin Harmony
               </Button>
             </Paper>
           </Box>
@@ -190,7 +224,7 @@ export default function BoyGirlShowcase() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.28 }}
             >
               <Grid container spacing={3.5} alignItems="center">
                 {/* Boy Visual Avatar & Stats */}
@@ -198,76 +232,87 @@ export default function BoyGirlShowcase() {
                   <Box
                     sx={{
                       p: { xs: 3, md: 4 },
-                      borderRadius: '4px',
-                      background: `linear-gradient(145deg, ${alpha('#0284C7', 0.1)}, ${alpha('#38BDF8', 0.04)})`,
-                      border: `1px solid ${alpha('#0284C7', 0.3)}`,
+                      borderRadius: '2px',
+                      bgcolor: custom.cardWhite,
+                      border: `1px solid ${alpha('#0369A1', 0.35)}`,
                       position: 'relative',
                       textAlign: 'center',
+                      boxShadow: '0 4px 18px rgba(3, 105, 161, 0.06)',
                     }}
                   >
-                    {/* Floating Avatar Illustration */}
+                    {/* Regal Monogram Frame */}
                     <Box
-                      className="float-slow"
                       sx={{
-                        width: 120,
-                        height: 120,
+                        width: 108,
+                        height: 108,
                         mx: 'auto',
                         mb: 2.5,
-                        borderRadius: '4px',
-                        background: 'linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)',
+                        borderRadius: '2px',
+                        border: '2px solid #C59B27',
+                        p: 0.5,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 8px 24px rgba(2, 132, 199, 0.3)',
+                        bgcolor: alpha('#0369A1', 0.06),
                         position: 'relative',
                       }}
                     >
-                      <Typography sx={{ fontSize: 58, lineHeight: 1 }}>👶</Typography>
                       <Box
                         sx={{
-                          position: 'absolute',
-                          top: -8,
-                          right: -8,
-                          bgcolor: '#F59E0B',
+                          width: '100%',
+                          height: '100%',
+                          bgcolor: '#0369A1',
                           color: '#FFFFFF',
-                          borderRadius: '2px',
-                          px: 0.8,
-                          py: 0.2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 2px 8px rgba(245, 158, 11, 0.4)',
                         }}
                       >
-                        <Typography sx={{ fontSize: 14 }}>👑 PRINCE</Typography>
+                        <Typography sx={{ fontSize: 44, lineHeight: 1 }}>👦</Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: -10,
+                          bgcolor: '#C59B27',
+                          color: '#FFFFFF',
+                          px: 1,
+                          py: 0.1,
+                          fontSize: '0.62rem',
+                          fontWeight: 800,
+                          letterSpacing: '0.14em',
+                          borderRadius: '1px',
+                        }}
+                      >
+                        PRINCE
                       </Box>
                     </Box>
 
-                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1, color: '#0284C7' }}>
-                      Little Prince Collection
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1, color: '#0369A1', fontSize: '1.5rem' }}>
+                      The Prince Compendium
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                      Over 25,000 strong, noble, and contemporary names crafted for boys.
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, fontSize: '0.86rem', lineHeight: 1.6 }}>
+                      Over 25,000 noble, enduring, and modern names imbued with courage, wisdom, and dignity.
                     </Typography>
 
-                    {/* Quick Stats Badges */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap' }}>
-                      <Chip label="25,000+ Boy Names" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0284C7', 0.1), color: '#0284C7', fontWeight: 700 }} />
-                      <Chip label="Sanskrit & Global" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0284C7', 0.1), color: '#0284C7', fontWeight: 700 }} />
-                      <Chip label="Zodiac & Rashi" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0284C7', 0.1), color: '#0284C7', fontWeight: 700 }} />
+                    {/* Quick Badges */}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.8, flexWrap: 'wrap' }}>
+                      <Chip label="25,000+ Boy Entries" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0369A1', 0.08), color: '#0369A1', fontWeight: 700 }} />
+                      <Chip label="Vedic Heritage" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0369A1', 0.08), color: '#0369A1', fontWeight: 700 }} />
+                      <Chip label="Nakshatra Syllables" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#0369A1', 0.08), color: '#0369A1', fontWeight: 700 }} />
                     </Box>
 
                     <Box sx={{ mt: 3 }}>
                       <Button
                         variant="contained"
                         fullWidth
-                        endIcon={<ArrowForward />}
+                        endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
                         onClick={() => navigate('/boy-names')}
                         sx={{
-                          py: 1.3,
-                          borderRadius: '4px',
-                          background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
-                          boxShadow: '0 4px 16px rgba(2, 132, 199, 0.3)',
+                          py: 1.2,
+                          borderRadius: '2px',
+                          background: 'linear-gradient(135deg, #0369A1 0%, #0C4A6E 100%)',
+                          boxShadow: '0 2px 8px rgba(3, 105, 161, 0.3)',
                         }}
                       >
                         Explore All Boy Names
@@ -282,33 +327,38 @@ export default function BoyGirlShowcase() {
                     elevation={0}
                     sx={{
                       p: { xs: 3, md: 4 },
-                      borderRadius: '4px',
+                      borderRadius: '2px',
                       bgcolor: custom.cardWhite,
-                      border: `1px solid ${alpha('#0284C7', 0.35)}`,
-                      boxShadow: '0 8px 30px rgba(2, 132, 199, 0.08)',
+                      border: `1px solid ${alpha('#0369A1', 0.4)}`,
+                      boxShadow: '0 4px 20px rgba(3, 105, 161, 0.06)',
                       position: 'relative',
                     }}
                   >
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                       <Chip
-                        icon={<TrendingUp sx={{ fontSize: 15 }} />}
+                        icon={<TrendingUp sx={{ fontSize: 14 }} />}
                         label={currentBoy.popularRank}
-                        sx={{ borderRadius: '2px', bgcolor: alpha('#0284C7', 0.1), color: '#0284C7', fontWeight: 700 }}
+                        sx={{ borderRadius: '2px', bgcolor: alpha('#0369A1', 0.08), color: '#0369A1', fontWeight: 700 }}
                       />
-                      <Box sx={{ display: 'flex', gap: 0.8 }}>
+                      <Box sx={{ display: 'flex', gap: 0.6 }}>
+                        <Tooltip title={speakingName === currentBoy.name ? 'Playing...' : `Listen: pronounce "${currentBoy.name}"`}>
+                          <IconButton size="small" onClick={() => handleSpeak(currentBoy.name)} sx={{ borderRadius: '2px', border: `1px solid ${custom.borderLight}` }}>
+                            <VolumeUp sx={{ fontSize: 16, color: speakingName === currentBoy.name ? '#0369A1' : 'text.secondary' }} />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title={copiedName === currentBoy.name ? 'Copied!' : 'Copy Name'}>
-                          <IconButton size="small" onClick={() => handleCopy(currentBoy.name)} sx={{ borderRadius: '3px', border: `1px solid ${custom.borderLight}` }}>
-                            {copiedName === currentBoy.name ? <Check sx={{ fontSize: 17, color: 'success.main' }} /> : <Share sx={{ fontSize: 16 }} />}
+                          <IconButton size="small" onClick={() => handleCopy(currentBoy.name)} sx={{ borderRadius: '2px', border: `1px solid ${custom.borderLight}` }}>
+                            {copiedName === currentBoy.name ? <Check sx={{ fontSize: 16, color: 'success.main' }} /> : <Share sx={{ fontSize: 15 }} />}
                           </IconButton>
                         </Tooltip>
                         <IconButton
                           size="small"
                           onClick={() => handleFavorite(currentBoy.name)}
                           sx={{
-                            borderRadius: '3px',
-                            border: `1px solid ${isFavorite(currentBoy.name) ? alpha('#E11D48', 0.3) : custom.borderLight}`,
-                            bgcolor: isFavorite(currentBoy.name) ? alpha('#E11D48', 0.08) : 'transparent',
-                            color: isFavorite(currentBoy.name) ? '#E11D48' : 'text.secondary',
+                            borderRadius: '2px',
+                            border: `1px solid ${isFavorite(currentBoy.name) ? alpha('#BE123C', 0.4) : custom.borderLight}`,
+                            bgcolor: isFavorite(currentBoy.name) ? alpha('#BE123C', 0.08) : 'transparent',
+                            color: isFavorite(currentBoy.name) ? '#BE123C' : 'text.secondary',
                           }}
                         >
                           {isFavorite(currentBoy.name) ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
@@ -321,53 +371,53 @@ export default function BoyGirlShowcase() {
                       sx={{
                         fontSize: { xs: '2.4rem', sm: '3rem', md: '3.4rem' },
                         fontWeight: 700,
-                        color: '#0284C7',
+                        color: '#0369A1',
                         lineHeight: 1.15,
                         mb: 1,
                         fontFamily: '"Playfair Display", Georgia, serif',
-                        letterSpacing: '-0.01em',
+                        letterSpacing: '-0.02em',
                       }}
                     >
                       {currentBoy.name}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 3, fontWeight: 500, fontSize: '1.05rem' }}>
+                    <Typography variant="h6" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 3, fontWeight: 500, fontSize: '1rem' }}>
                       "{currentBoy.meaning}"
                     </Typography>
 
                     <Grid container spacing={1.5} sx={{ mb: 3 }}>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0284C7', 0.04), border: `1px solid ${alpha('#0284C7', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Origin</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0369A1', 0.04), border: `1px solid ${alpha('#0369A1', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Origin</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{currentBoy.origin}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0284C7', 0.04), border: `1px solid ${alpha('#0284C7', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Zodiac (Rashi)</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0369A1', 0.04), border: `1px solid ${alpha('#0369A1', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Zodiac (Rashi)</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{currentBoy.zodiac}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0284C7', 0.04), border: `1px solid ${alpha('#0284C7', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Numerology</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0369A1', 0.04), border: `1px solid ${alpha('#0369A1', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Numerology</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Number {currentBoy.luckyNumber}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0284C7', 0.04), border: `1px solid ${alpha('#0284C7', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Gender</Typography>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0284C7' }}>Baby Boy</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#0369A1', 0.04), border: `1px solid ${alpha('#0369A1', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Gender</Typography>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0369A1' }}>Baby Boy</Typography>
                         </Paper>
                       </Grid>
                     </Grid>
 
                     {/* Live Sample Switcher Buttons */}
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 2, borderTop: `1px solid ${custom.borderLight}`, flexWrap: 'wrap', gap: 1.5 }}>
-                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                        Trending sample {((currentSampleIndex % BOY_NAMES_SAMPLE.length) + 1)} of {BOY_NAMES_SAMPLE.length}
+                      <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
+                        Curated Sample {((currentSampleIndex % BOY_NAMES_SAMPLE.length) + 1)} of {BOY_NAMES_SAMPLE.length}
                       </Typography>
-                      <Box sx={{ display: 'flex', gap: 0.8 }}>
+                      <Box sx={{ display: 'flex', gap: 0.6 }}>
                         {BOY_NAMES_SAMPLE.map((b, i) => (
                           <Chip
                             key={b.name}
@@ -377,8 +427,8 @@ export default function BoyGirlShowcase() {
                             onClick={() => setCurrentSampleIndex(i)}
                             sx={{
                               borderRadius: '2px',
-                              bgcolor: (currentSampleIndex % BOY_NAMES_SAMPLE.length) === i ? '#0284C7' : alpha('#0284C7', 0.08),
-                              color: (currentSampleIndex % BOY_NAMES_SAMPLE.length) === i ? '#FFFFFF' : '#0284C7',
+                              bgcolor: (currentSampleIndex % BOY_NAMES_SAMPLE.length) === i ? '#0369A1' : alpha('#0369A1', 0.06),
+                              color: (currentSampleIndex % BOY_NAMES_SAMPLE.length) === i ? '#FFFFFF' : '#0369A1',
                               fontWeight: 600,
                             }}
                           />
@@ -397,7 +447,7 @@ export default function BoyGirlShowcase() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.28 }}
             >
               <Grid container spacing={3.5} alignItems="center">
                 {/* Girl Visual Avatar & Stats */}
@@ -405,76 +455,87 @@ export default function BoyGirlShowcase() {
                   <Box
                     sx={{
                       p: { xs: 3, md: 4 },
-                      borderRadius: '4px',
-                      background: `linear-gradient(145deg, ${alpha('#E11D48', 0.1)}, ${alpha('#FB7185', 0.04)})`,
-                      border: `1px solid ${alpha('#E11D48', 0.3)}`,
+                      borderRadius: '2px',
+                      bgcolor: custom.cardWhite,
+                      border: `1px solid ${alpha('#BE123C', 0.35)}`,
                       position: 'relative',
                       textAlign: 'center',
+                      boxShadow: '0 4px 18px rgba(190, 18, 60, 0.06)',
                     }}
                   >
-                    {/* Floating Avatar Illustration */}
+                    {/* Regal Monogram Frame */}
                     <Box
-                      className="float-slow"
                       sx={{
-                        width: 120,
-                        height: 120,
+                        width: 108,
+                        height: 108,
                         mx: 'auto',
                         mb: 2.5,
-                        borderRadius: '4px',
-                        background: 'linear-gradient(135deg, #FB7185 0%, #E11D48 100%)',
+                        borderRadius: '2px',
+                        border: '2px solid #C59B27',
+                        p: 0.5,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 8px 24px rgba(225, 29, 72, 0.3)',
+                        bgcolor: alpha('#BE123C', 0.06),
                         position: 'relative',
                       }}
                     >
-                      <Typography sx={{ fontSize: 58, lineHeight: 1 }}>👧</Typography>
                       <Box
                         sx={{
-                          position: 'absolute',
-                          top: -8,
-                          right: -8,
-                          bgcolor: '#EC4899',
+                          width: '100%',
+                          height: '100%',
+                          bgcolor: '#BE123C',
                           color: '#FFFFFF',
-                          borderRadius: '2px',
-                          px: 0.8,
-                          py: 0.2,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 2px 8px rgba(236, 72, 153, 0.4)',
                         }}
                       >
-                        <Typography sx={{ fontSize: 14 }}>🌸 PRINCESS</Typography>
+                        <Typography sx={{ fontSize: 44, lineHeight: 1 }}>👧</Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: -10,
+                          bgcolor: '#C59B27',
+                          color: '#FFFFFF',
+                          px: 1,
+                          py: 0.1,
+                          fontSize: '0.62rem',
+                          fontWeight: 800,
+                          letterSpacing: '0.14em',
+                          borderRadius: '1px',
+                        }}
+                      >
+                        PRINCESS
                       </Box>
                     </Box>
 
-                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1, color: '#E11D48' }}>
-                      Little Princess Collection
+                    <Typography variant="h4" sx={{ fontWeight: 700, mb: 1, color: '#BE123C', fontSize: '1.5rem' }}>
+                      The Princess Compendium
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                      Over 28,000 graceful, poetic, and timeless names crafted for girls.
+                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3, fontSize: '0.86rem', lineHeight: 1.6 }}>
+                      Over 28,000 graceful, poetic, and timeless names celebrating goddess virtues, celestial lights, and elegance.
                     </Typography>
 
-                    {/* Quick Stats Badges */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap' }}>
-                      <Chip label="28,000+ Girl Names" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#E11D48', 0.1), color: '#E11D48', fontWeight: 700 }} />
-                      <Chip label="Goddess & Divine" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#E11D48', 0.1), color: '#E11D48', fontWeight: 700 }} />
-                      <Chip label="Melodic & Short" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#E11D48', 0.1), color: '#E11D48', fontWeight: 700 }} />
+                    {/* Quick Badges */}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.8, flexWrap: 'wrap' }}>
+                      <Chip label="28,000+ Girl Entries" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#BE123C', 0.08), color: '#BE123C', fontWeight: 700 }} />
+                      <Chip label="Goddess Lakshmi Roots" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#BE123C', 0.08), color: '#BE123C', fontWeight: 700 }} />
+                      <Chip label="Lyrical & Celestial" size="small" sx={{ borderRadius: '2px', bgcolor: alpha('#BE123C', 0.08), color: '#BE123C', fontWeight: 700 }} />
                     </Box>
 
                     <Box sx={{ mt: 3 }}>
                       <Button
                         variant="contained"
                         fullWidth
-                        endIcon={<ArrowForward />}
+                        endIcon={<ArrowForward sx={{ fontSize: 16 }} />}
                         onClick={() => navigate('/girl-names')}
                         sx={{
-                          py: 1.3,
-                          borderRadius: '4px',
-                          background: 'linear-gradient(135deg, #FB7185 0%, #E11D48 100%)',
-                          boxShadow: '0 4px 16px rgba(225, 29, 72, 0.3)',
+                          py: 1.2,
+                          borderRadius: '2px',
+                          background: 'linear-gradient(135deg, #BE123C 0%, #881337 100%)',
+                          boxShadow: '0 2px 8px rgba(190, 18, 60, 0.3)',
                         }}
                       >
                         Explore All Girl Names
@@ -489,33 +550,38 @@ export default function BoyGirlShowcase() {
                     elevation={0}
                     sx={{
                       p: { xs: 3, md: 4 },
-                      borderRadius: '4px',
+                      borderRadius: '2px',
                       bgcolor: custom.cardWhite,
-                      border: `1px solid ${alpha('#E11D48', 0.35)}`,
-                      boxShadow: '0 8px 30px rgba(225, 29, 72, 0.08)',
+                      border: `1px solid ${alpha('#BE123C', 0.4)}`,
+                      boxShadow: '0 4px 20px rgba(190, 18, 60, 0.06)',
                       position: 'relative',
                     }}
                   >
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                       <Chip
-                        icon={<TrendingUp sx={{ fontSize: 15 }} />}
+                        icon={<TrendingUp sx={{ fontSize: 14 }} />}
                         label={currentGirl.popularRank}
-                        sx={{ borderRadius: '2px', bgcolor: alpha('#E11D48', 0.1), color: '#E11D48', fontWeight: 700 }}
+                        sx={{ borderRadius: '2px', bgcolor: alpha('#BE123C', 0.08), color: '#BE123C', fontWeight: 700 }}
                       />
-                      <Box sx={{ display: 'flex', gap: 0.8 }}>
+                      <Box sx={{ display: 'flex', gap: 0.6 }}>
+                        <Tooltip title={speakingName === currentGirl.name ? 'Playing...' : `Listen: pronounce "${currentGirl.name}"`}>
+                          <IconButton size="small" onClick={() => handleSpeak(currentGirl.name)} sx={{ borderRadius: '2px', border: `1px solid ${custom.borderLight}` }}>
+                            <VolumeUp sx={{ fontSize: 16, color: speakingName === currentGirl.name ? '#BE123C' : 'text.secondary' }} />
+                          </IconButton>
+                        </Tooltip>
                         <Tooltip title={copiedName === currentGirl.name ? 'Copied!' : 'Copy Name'}>
-                          <IconButton size="small" onClick={() => handleCopy(currentGirl.name)} sx={{ borderRadius: '3px', border: `1px solid ${custom.borderLight}` }}>
-                            {copiedName === currentGirl.name ? <Check sx={{ fontSize: 17, color: 'success.main' }} /> : <Share sx={{ fontSize: 16 }} />}
+                          <IconButton size="small" onClick={() => handleCopy(currentGirl.name)} sx={{ borderRadius: '2px', border: `1px solid ${custom.borderLight}` }}>
+                            {copiedName === currentGirl.name ? <Check sx={{ fontSize: 16, color: 'success.main' }} /> : <Share sx={{ fontSize: 15 }} />}
                           </IconButton>
                         </Tooltip>
                         <IconButton
                           size="small"
                           onClick={() => handleFavorite(currentGirl.name)}
                           sx={{
-                            borderRadius: '3px',
-                            border: `1px solid ${isFavorite(currentGirl.name) ? alpha('#E11D48', 0.3) : custom.borderLight}`,
-                            bgcolor: isFavorite(currentGirl.name) ? alpha('#E11D48', 0.08) : 'transparent',
-                            color: isFavorite(currentGirl.name) ? '#E11D48' : 'text.secondary',
+                            borderRadius: '2px',
+                            border: `1px solid ${isFavorite(currentGirl.name) ? alpha('#BE123C', 0.4) : custom.borderLight}`,
+                            bgcolor: isFavorite(currentGirl.name) ? alpha('#BE123C', 0.08) : 'transparent',
+                            color: isFavorite(currentGirl.name) ? '#BE123C' : 'text.secondary',
                           }}
                         >
                           {isFavorite(currentGirl.name) ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
@@ -528,53 +594,53 @@ export default function BoyGirlShowcase() {
                       sx={{
                         fontSize: { xs: '2.4rem', sm: '3rem', md: '3.4rem' },
                         fontWeight: 700,
-                        color: '#E11D48',
+                        color: '#BE123C',
                         lineHeight: 1.15,
                         mb: 1,
                         fontFamily: '"Playfair Display", Georgia, serif',
-                        letterSpacing: '-0.01em',
+                        letterSpacing: '-0.02em',
                       }}
                     >
                       {currentGirl.name}
                     </Typography>
 
-                    <Typography variant="h6" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 3, fontWeight: 500, fontSize: '1.05rem' }}>
+                    <Typography variant="h6" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 3, fontWeight: 500, fontSize: '1rem' }}>
                       "{currentGirl.meaning}"
                     </Typography>
 
                     <Grid container spacing={1.5} sx={{ mb: 3 }}>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#E11D48', 0.04), border: `1px solid ${alpha('#E11D48', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Origin</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#BE123C', 0.04), border: `1px solid ${alpha('#BE123C', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Origin</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{currentGirl.origin}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#E11D48', 0.04), border: `1px solid ${alpha('#E11D48', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Zodiac (Rashi)</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#BE123C', 0.04), border: `1px solid ${alpha('#BE123C', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Zodiac (Rashi)</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{currentGirl.zodiac}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#E11D48', 0.04), border: `1px solid ${alpha('#E11D48', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Numerology</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#BE123C', 0.04), border: `1px solid ${alpha('#BE123C', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Numerology</Typography>
                           <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Number {currentGirl.luckyNumber}</Typography>
                         </Paper>
                       </Grid>
                       <Grid item xs={6} sm={3}>
-                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#E11D48', 0.04), border: `1px solid ${alpha('#E11D48', 0.15)}`, borderRadius: '3px' }}>
-                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.72rem' }}>Gender</Typography>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#E11D48' }}>Baby Girl</Typography>
+                        <Paper sx={{ p: 1.5, textAlign: 'center', bgcolor: alpha('#BE123C', 0.04), border: `1px solid ${alpha('#BE123C', 0.15)}`, borderRadius: '2px' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontSize: '0.7rem' }}>Gender</Typography>
+                          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#BE123C' }}>Baby Girl</Typography>
                         </Paper>
                       </Grid>
                     </Grid>
 
                     {/* Live Sample Switcher Buttons */}
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pt: 2, borderTop: `1px solid ${custom.borderLight}`, flexWrap: 'wrap', gap: 1.5 }}>
-                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                        Trending sample {((currentSampleIndex % GIRL_NAMES_SAMPLE.length) + 1)} of {GIRL_NAMES_SAMPLE.length}
+                      <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
+                        Curated Sample {((currentSampleIndex % GIRL_NAMES_SAMPLE.length) + 1)} of {GIRL_NAMES_SAMPLE.length}
                       </Typography>
-                      <Box sx={{ display: 'flex', gap: 0.8 }}>
+                      <Box sx={{ display: 'flex', gap: 0.6 }}>
                         {GIRL_NAMES_SAMPLE.map((g, i) => (
                           <Chip
                             key={g.name}
@@ -584,8 +650,8 @@ export default function BoyGirlShowcase() {
                             onClick={() => setCurrentSampleIndex(i)}
                             sx={{
                               borderRadius: '2px',
-                              bgcolor: (currentSampleIndex % GIRL_NAMES_SAMPLE.length) === i ? '#E11D48' : alpha('#E11D48', 0.08),
-                              color: (currentSampleIndex % GIRL_NAMES_SAMPLE.length) === i ? '#FFFFFF' : '#E11D48',
+                              bgcolor: (currentSampleIndex % GIRL_NAMES_SAMPLE.length) === i ? '#BE123C' : alpha('#BE123C', 0.06),
+                              color: (currentSampleIndex % GIRL_NAMES_SAMPLE.length) === i ? '#FFFFFF' : '#BE123C',
                               fontWeight: 600,
                             }}
                           />
@@ -604,23 +670,23 @@ export default function BoyGirlShowcase() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.28 }}
             >
               <Paper
                 elevation={0}
                 sx={{
                   p: { xs: 3, md: 4.5 },
-                  borderRadius: '4px',
+                  borderRadius: '2px',
                   bgcolor: custom.cardWhite,
-                  border: `1px solid ${alpha('#8B5CF6', 0.35)}`,
-                  boxShadow: '0 8px 30px rgba(139, 92, 246, 0.08)',
+                  border: `1px solid ${alpha('#7C3AED', 0.35)}`,
+                  boxShadow: '0 4px 20px rgba(124, 58, 237, 0.06)',
                   textAlign: 'center',
                 }}
               >
                 <Chip
-                  icon={<AutoAwesome sx={{ fontSize: 15 }} />}
-                  label={`Twin Bond: ${currentTwin.bond}`}
-                  sx={{ borderRadius: '2px', bgcolor: alpha('#8B5CF6', 0.1), color: '#8B5CF6', fontWeight: 700, mb: 3 }}
+                  icon={<AutoAwesome sx={{ fontSize: 13 }} />}
+                  label={`Harmonious Bond: ${currentTwin.bond}`}
+                  sx={{ borderRadius: '2px', bgcolor: alpha('#7C3AED', 0.08), color: '#7C3AED', fontWeight: 700, mb: 3 }}
                 />
 
                 <Grid container spacing={3} alignItems="center" justifyContent="center">
@@ -628,26 +694,26 @@ export default function BoyGirlShowcase() {
                   <Grid item xs={12} sm={5}>
                     <Paper
                       sx={{
-                        p: 3,
-                        borderRadius: '4px',
-                        bgcolor: alpha('#0284C7', 0.04),
-                        border: `1px solid ${alpha('#0284C7', 0.25)}`,
+                        p: 2.8,
+                        borderRadius: '2px',
+                        bgcolor: alpha('#0369A1', 0.03),
+                        border: `1px solid ${alpha('#0369A1', 0.25)}`,
                       }}
                     >
-                      <Typography sx={{ fontSize: 36, mb: 1 }}>👦</Typography>
-                      <Typography variant="h3" sx={{ color: '#0284C7', fontWeight: 700, mb: 0.8, fontSize: '1.8rem' }}>
+                      <Typography sx={{ fontSize: 34, mb: 1 }}>👦</Typography>
+                      <Typography variant="h3" sx={{ color: '#0369A1', fontWeight: 700, mb: 0.8, fontSize: '1.75rem' }}>
                         {currentTwin.boy}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2, fontSize: '0.86rem' }}>
                         "{currentTwin.boyMeaning}"
                       </Typography>
                       <Button
                         size="small"
                         onClick={() => handleFavorite(currentTwin.boy)}
-                        startIcon={isFavorite(currentTwin.boy) ? <Favorite sx={{ color: '#E11D48', fontSize: 16 }} /> : <FavoriteBorder sx={{ fontSize: 16 }} />}
-                        sx={{ borderRadius: '3px' }}
+                        startIcon={isFavorite(currentTwin.boy) ? <Favorite sx={{ color: '#BE123C', fontSize: 15 }} /> : <FavoriteBorder sx={{ fontSize: 15 }} />}
+                        sx={{ borderRadius: '2px', fontSize: '0.78rem' }}
                       >
-                        {isFavorite(currentTwin.boy) ? 'Saved' : 'Save Boy'}
+                        {isFavorite(currentTwin.boy) ? 'Shortlisted' : 'Save Boy'}
                       </Button>
                     </Paper>
                   </Grid>
@@ -656,19 +722,19 @@ export default function BoyGirlShowcase() {
                   <Grid item xs={12} sm={2}>
                     <Box
                       sx={{
-                        width: 48,
-                        height: 48,
+                        width: 44,
+                        height: 44,
                         mx: 'auto',
-                        borderRadius: '4px',
-                        bgcolor: 'linear-gradient(135deg, #0284C7, #E11D48)',
+                        borderRadius: '2px',
+                        bgcolor: 'linear-gradient(135deg, #0369A1, #BE123C)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: '#FFFFFF',
                         fontWeight: 800,
-                        fontSize: '1.1rem',
-                        boxShadow: '0 4px 14px rgba(139, 92, 246, 0.3)',
-                        background: 'linear-gradient(135deg, #0284C7, #E11D48)',
+                        fontSize: '1rem',
+                        boxShadow: '0 2px 10px rgba(124, 58, 237, 0.25)',
+                        background: 'linear-gradient(135deg, #0369A1, #BE123C)',
                       }}
                     >
                       &amp;
@@ -679,33 +745,33 @@ export default function BoyGirlShowcase() {
                   <Grid item xs={12} sm={5}>
                     <Paper
                       sx={{
-                        p: 3,
-                        borderRadius: '4px',
-                        bgcolor: alpha('#E11D48', 0.04),
-                        border: `1px solid ${alpha('#E11D48', 0.25)}`,
+                        p: 2.8,
+                        borderRadius: '2px',
+                        bgcolor: alpha('#BE123C', 0.03),
+                        border: `1px solid ${alpha('#BE123C', 0.25)}`,
                       }}
                     >
-                      <Typography sx={{ fontSize: 36, mb: 1 }}>👧</Typography>
-                      <Typography variant="h3" sx={{ color: '#E11D48', fontWeight: 700, mb: 0.8, fontSize: '1.8rem' }}>
+                      <Typography sx={{ fontSize: 34, mb: 1 }}>👧</Typography>
+                      <Typography variant="h3" sx={{ color: '#BE123C', fontWeight: 700, mb: 0.8, fontSize: '1.75rem' }}>
                         {currentTwin.girl}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2 }}>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', fontStyle: 'italic', mb: 2, fontSize: '0.86rem' }}>
                         "{currentTwin.girlMeaning}"
                       </Typography>
                       <Button
                         size="small"
                         onClick={() => handleFavorite(currentTwin.girl)}
-                        startIcon={isFavorite(currentTwin.girl) ? <Favorite sx={{ color: '#E11D48', fontSize: 16 }} /> : <FavoriteBorder sx={{ fontSize: 16 }} />}
-                        sx={{ borderRadius: '3px' }}
+                        startIcon={isFavorite(currentTwin.girl) ? <Favorite sx={{ color: '#BE123C', fontSize: 15 }} /> : <FavoriteBorder sx={{ fontSize: 15 }} />}
+                        sx={{ borderRadius: '2px', fontSize: '0.78rem' }}
                       >
-                        {isFavorite(currentTwin.girl) ? 'Saved' : 'Save Girl'}
+                        {isFavorite(currentTwin.girl) ? 'Shortlisted' : 'Save Girl'}
                       </Button>
                     </Paper>
                   </Grid>
                 </Grid>
 
                 {/* Switcher Pairs */}
-                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.8, mt: 3.5, flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.6, mt: 3, flexWrap: 'wrap' }}>
                   {TWIN_PAIRS.map((p, i) => (
                     <Chip
                       key={p.bond}
@@ -714,8 +780,8 @@ export default function BoyGirlShowcase() {
                       onClick={() => setCurrentSampleIndex(i)}
                       sx={{
                         borderRadius: '2px',
-                        bgcolor: (currentSampleIndex % TWIN_PAIRS.length) === i ? '#8B5CF6' : alpha('#8B5CF6', 0.08),
-                        color: (currentSampleIndex % TWIN_PAIRS.length) === i ? '#FFFFFF' : '#8B5CF6',
+                        bgcolor: (currentSampleIndex % TWIN_PAIRS.length) === i ? '#7C3AED' : alpha('#7C3AED', 0.06),
+                        color: (currentSampleIndex % TWIN_PAIRS.length) === i ? '#FFFFFF' : '#7C3AED',
                         fontWeight: 600,
                       }}
                     />
