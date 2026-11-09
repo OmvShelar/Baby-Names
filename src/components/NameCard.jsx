@@ -9,19 +9,20 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
-  ChildCare,
-  ChildFriendly,
-  Star,
-  Favorite,
-  FavoriteBorder,
-  Public,
-  TrendingUp,
-  VolumeUp,
   Share,
   Check,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import {
+  CrownPrinceIcon,
+  PrincessTiaraIcon,
+  AudioChimeIcon,
+  FiligreeHeartIcon,
+  VedicLotusIcon,
+  AstrologyCompassIcon,
+  ModernSparkleIcon,
+} from './icons/CustomIcons';
 
 export default function NameCard({
   name,
@@ -44,8 +45,8 @@ export default function NameCard({
 
   const genderLower = (gender || '').toLowerCase();
   const isGirl = genderLower.includes('girl') || genderLower.includes('feminine') || genderLower.includes('female');
-  const accentColor = isGirl ? '#BE123C' : '#0369A1';
-  const accentBg = isGirl ? alpha('#BE123C', 0.06) : alpha('#0369A1', 0.06);
+  const accentColor = isGirl ? '#9F2241' : '#0F4C81'; // Imperial Ruby vs Royal Sapphire
+  const accentBg = isGirl ? alpha('#9F2241', 0.06) : alpha('#0F4C81', 0.06);
 
   const handleSpeak = (e) => {
     e.stopPropagation();
@@ -75,7 +76,7 @@ export default function NameCard({
         particleCount: 65,
         spread: 55,
         origin: { y: 0.7 },
-        colors: isGirl ? ['#BE123C', '#E11D48', '#C59B27'] : ['#0369A1', '#0284C7', '#C59B27'],
+        colors: isGirl ? ['#9F2241', '#B72B4E', '#C59B27'] : ['#0F4C81', '#1A5A96', '#C59B27'],
       });
     }
   };
@@ -95,10 +96,10 @@ export default function NameCard({
           display: 'flex',
           flexDirection: 'column',
           bgcolor: custom.cardWhite,
-          borderRadius: '2px',
-          border: `1px solid ${isFavorite ? alpha(accentColor, 0.5) : custom.borderLight}`,
+          borderRadius: '2px', // Sharp architectural lines
+          border: `1px solid ${isFavorite ? alpha(accentColor, 0.45) : custom.borderLight}`,
           boxShadow: isDark
-            ? '0 2px 8px rgba(0,0,0,0.3)'
+            ? '0 2px 8px rgba(0,0,0,0.4)'
             : '0 2px 8px rgba(0,0,0,0.02)',
           position: 'relative',
           transition: 'all 0.22s ease',
@@ -110,14 +111,14 @@ export default function NameCard({
             width: '100%',
             height: 2.5,
             background: isGirl
-              ? 'linear-gradient(90deg, #E11D48, #BE123C)'
-              : 'linear-gradient(90deg, #0284C7, #0369A1)',
-            opacity: isFavorite ? 1 : 0.4,
+              ? 'linear-gradient(90deg, #9F2241 0%, #C59B27 100%)'
+              : 'linear-gradient(90deg, #0F4C81 0%, #C59B27 100%)',
+            opacity: isFavorite ? 1 : 0.5,
             transition: 'opacity 0.2s ease',
           },
           '&:hover': {
             boxShadow: isDark
-              ? '0 8px 24px rgba(0,0,0,0.45)'
+              ? '0 8px 24px rgba(0,0,0,0.5)'
               : '0 8px 24px rgba(0,0,0,0.06)',
             borderColor: accentColor,
             '&::before': { opacity: 1 },
@@ -130,7 +131,7 @@ export default function NameCard({
             <Typography
               variant="h5"
               sx={{
-                fontFamily: '"Playfair Display", Georgia, serif',
+                fontFamily: '"Playfair Display", "Cinzel", Georgia, serif',
                 fontWeight: 700,
                 fontSize: { xs: '1.28rem', sm: '1.42rem' },
                 lineHeight: 1.2,
@@ -141,26 +142,25 @@ export default function NameCard({
               {name}
             </Typography>
 
-            {/* Audio Listen Button */}
-            <Tooltip title={isPlaying ? 'Playing pronunciation...' : `Listen: how to pronounce "${name}"`}>
+            {/* Audio Listen Button with Classy Heraldic Chime */}
+            <Tooltip title={isPlaying ? 'Pronouncing...' : `Listen: pronunciation of "${name}"`}>
               <IconButton
                 size="small"
                 onClick={handleSpeak}
                 sx={{
                   p: 0.4,
                   borderRadius: '2px',
-                  color: isPlaying ? accentColor : 'text.tertiary',
                   bgcolor: isPlaying ? accentBg : 'transparent',
-                  '&:hover': { color: accentColor, bgcolor: accentBg },
+                  '&:hover': { bgcolor: accentBg },
                 }}
               >
-                <VolumeUp sx={{ fontSize: 16 }} />
+                <AudioChimeIcon size={16} color={isPlaying ? custom.gold : 'var(--text-secondary)'} />
               </IconButton>
             </Tooltip>
           </Box>
 
           {/* Action Icons */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             <Tooltip title={copied ? 'Copied to clipboard' : 'Copy name'}>
               <IconButton
                 size="small"
@@ -168,7 +168,7 @@ export default function NameCard({
                 sx={{
                   p: 0.5,
                   borderRadius: '2px',
-                  color: copied ? 'success.main' : 'text.tertiary',
+                  color: copied ? 'success.main' : 'text.secondary',
                   '&:hover': { color: 'text.primary' },
                 }}
               >
@@ -176,6 +176,7 @@ export default function NameCard({
               </IconButton>
             </Tooltip>
 
+            {/* Classy Filigree Heart Shortlist Button */}
             <Tooltip title={isFavorite ? 'Remove from shortlist' : 'Add to shortlist'}>
               <IconButton
                 size="small"
@@ -183,32 +184,31 @@ export default function NameCard({
                 sx={{
                   p: 0.5,
                   borderRadius: '2px',
-                  color: isFavorite ? '#BE123C' : 'text.tertiary',
-                  bgcolor: isFavorite ? alpha('#BE123C', 0.08) : 'transparent',
+                  bgcolor: isFavorite ? alpha('#9F2241', 0.08) : 'transparent',
                   '&:hover': {
-                    color: '#BE123C',
-                    bgcolor: alpha('#BE123C', 0.12),
+                    bgcolor: alpha('#9F2241', 0.12),
                     transform: 'scale(1.1)',
                   },
                   transition: 'all 0.18s ease',
                 }}
               >
-                {isFavorite ? <Favorite sx={{ fontSize: 18 }} /> : <FavoriteBorder sx={{ fontSize: 18 }} />}
+                <FiligreeHeartIcon size={18} color="#9F2241" filled={Boolean(isFavorite)} />
               </IconButton>
             </Tooltip>
           </Box>
         </Box>
 
-        {/* Meaning */}
+        {/* Meaning in Cormorant Garamond Editorial Typography */}
         {meaning && (
           <Typography
             variant="body2"
             sx={{
-              color: 'text.secondary',
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontStyle: 'italic',
+              fontSize: '0.98rem',
+              color: 'text.secondary',
               mb: 2,
-              lineHeight: 1.55,
-              fontSize: '0.86rem',
+              lineHeight: 1.5,
               flexGrow: 1,
             }}
           >
@@ -216,12 +216,12 @@ export default function NameCard({
           </Typography>
         )}
 
-        {/* Badges / Chips Row */}
+        {/* Badges / Chips Row with Classy SVGs */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.6, mt: 'auto', pt: 1.4, borderTop: `1px solid ${custom.borderSubtle}` }}>
           {gender && (
             <Chip
               size="small"
-              icon={isGirl ? <ChildFriendly sx={{ fontSize: 12 }} /> : <ChildCare sx={{ fontSize: 12 }} />}
+              icon={isGirl ? <PrincessTiaraIcon size={13} color={accentColor} /> : <CrownPrinceIcon size={13} color={accentColor} />}
               label={gender}
               sx={{
                 height: 22,
@@ -231,7 +231,7 @@ export default function NameCard({
                 bgcolor: accentBg,
                 color: accentColor,
                 border: `1px solid ${alpha(accentColor, 0.2)}`,
-                '& .MuiChip-icon': { color: 'inherit' },
+                '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
               }}
             />
           )}
@@ -239,7 +239,7 @@ export default function NameCard({
           {origin && (
             <Chip
               size="small"
-              icon={<Public sx={{ fontSize: 11 }} />}
+              icon={<VedicLotusIcon size={13} color={custom.coral} />}
               label={origin}
               sx={{
                 height: 22,
@@ -249,7 +249,7 @@ export default function NameCard({
                 bgcolor: alpha(custom.coral, 0.06),
                 color: custom.coral,
                 border: `1px solid ${alpha(custom.coral, 0.2)}`,
-                '& .MuiChip-icon': { color: 'inherit' },
+                '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
               }}
             />
           )}
@@ -257,17 +257,17 @@ export default function NameCard({
           {zodiac && (
             <Chip
               size="small"
-              icon={<Star sx={{ fontSize: 11 }} />}
+              icon={<AstrologyCompassIcon size={13} color={custom.gold} />}
               label={zodiac}
               sx={{
                 height: 22,
                 fontSize: '0.68rem',
                 fontWeight: 600,
                 borderRadius: '2px',
-                bgcolor: alpha('#8B5CF6', 0.06),
-                color: '#7C3AED',
-                border: `1px solid ${alpha('#8B5CF6', 0.2)}`,
-                '& .MuiChip-icon': { color: 'inherit' },
+                bgcolor: alpha(custom.gold, 0.08),
+                color: isDark ? '#E5C158' : '#8F6E13',
+                border: `1px solid ${alpha(custom.gold, 0.25)}`,
+                '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
               }}
             />
           )}
@@ -275,7 +275,7 @@ export default function NameCard({
           {popularity && (
             <Chip
               size="small"
-              icon={<TrendingUp sx={{ fontSize: 11 }} />}
+              icon={<ModernSparkleIcon size={13} color="#059669" />}
               label={popularity}
               sx={{
                 height: 22,
@@ -285,7 +285,7 @@ export default function NameCard({
                 bgcolor: alpha('#059669', 0.06),
                 color: '#059669',
                 border: `1px solid ${alpha('#059669', 0.2)}`,
-                '& .MuiChip-icon': { color: 'inherit' },
+                '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
               }}
             />
           )}

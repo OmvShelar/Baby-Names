@@ -4,7 +4,7 @@ import {
   Tab, Tabs, IconButton, Button, alpha, useTheme, Paper,
 } from '@mui/material';
 import {
-  Search, Star, Boy, Girl, ArrowBack, Close, FilterList, AutoAwesome,
+  Search, ArrowBack, Close, FilterList,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
@@ -12,6 +12,11 @@ import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
 import SEO from './SEO';
+import {
+  AstrologyCompassIcon,
+  CrownPrinceIcon,
+  PrincessTiaraIcon,
+} from './icons/CustomIcons';
 
 const ZODIAC_SIGNS = [
   'All', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
@@ -107,15 +112,15 @@ export default function ZodiacNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#8B5CF6', 0.15), display: 'flex', color: '#8B5CF6' }}>
-              <Star sx={{ fontSize: 26 }} />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha(custom.gold, 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: custom.gold }}>
+              <AstrologyCompassIcon size={26} color={custom.gold} />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Zodiac (Rashi) Baby Names
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
-            Align your child's name with cosmic energies. Discover lucky starting letters and auspicious Nakshatras.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 620, fontSize: '0.98rem' }}>
+            Align your child's name with cosmic planetary energies. Discover lucky starting syllables and auspicious Nakshatra alignments.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>

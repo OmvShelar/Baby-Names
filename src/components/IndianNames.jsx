@@ -4,7 +4,7 @@ import {
   Tab, Tabs, IconButton, Button, alpha, useTheme, Paper,
 } from '@mui/material';
 import {
-  Search, Public, Boy, Girl, ArrowBack, Close, FilterList, AutoAwesome,
+  Search, ArrowBack, Close, FilterList,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
@@ -12,11 +12,16 @@ import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
 import SEO from './SEO';
+import {
+  VedicLotusIcon,
+  CrownPrinceIcon,
+  PrincessTiaraIcon,
+} from './icons/CustomIcons';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
-  { label: 'Boy', value: 'boy', icon: <Boy sx={{ fontSize: 16 }} /> },
-  { label: 'Girl', value: 'girl', icon: <Girl sx={{ fontSize: 16 }} /> },
+  { label: 'Boy', value: 'boy', icon: <CrownPrinceIcon size={15} color="currentColor" /> },
+  { label: 'Girl', value: 'girl', icon: <PrincessTiaraIcon size={15} color="currentColor" /> },
 ];
 
 export default function IndianNames() {
@@ -104,15 +109,15 @@ export default function IndianNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#F59E0B', 0.15), display: 'flex', color: '#F59E0B' }}>
-              <Public sx={{ fontSize: 26 }} />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#B65A3F', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#B65A3F' }}>
+              <VedicLotusIcon size={26} color="#B65A3F" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Indian &amp; Sanskrit Baby Names
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
-            Rooted in timeless Vedic philosophy, ancient Sanskrit epics, and sacred traditions.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 620, fontSize: '0.98rem' }}>
+            Rooted in timeless Vedic philosophy, ancient Sanskrit epics, and sacred cultural lineages.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>

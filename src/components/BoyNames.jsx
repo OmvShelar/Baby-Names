@@ -19,10 +19,6 @@ import {
 } from '@mui/material';
 import {
   Search,
-  Boy,
-  Star,
-  AutoAwesome,
-  Favorite,
   ArrowBack,
   Close,
   FilterList,
@@ -34,13 +30,19 @@ import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
 import SEO from './SEO';
+import {
+  CrownPrinceIcon,
+  VedicLotusIcon,
+  AstrologyCompassIcon,
+  ModernSparkleIcon,
+} from './icons/CustomIcons';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
   ...genderCategories.boy.map((cat) => ({
     label: cat.name,
     value: cat.name,
-    icon: cat.name === 'Indian' ? <Star sx={{ fontSize: 16 }} /> : cat.name === 'Zodiac' ? <Star sx={{ fontSize: 16 }} /> : <AutoAwesome sx={{ fontSize: 16 }} />,
+    icon: cat.name === 'Indian' ? <VedicLotusIcon size={15} color="currentColor" /> : cat.name === 'Zodiac' ? <AstrologyCompassIcon size={15} color="currentColor" /> : <ModernSparkleIcon size={15} color="currentColor" />,
   })),
 ];
 
@@ -131,15 +133,15 @@ export default function BoyNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '4px', bgcolor: alpha('#0284C7', 0.15), display: 'flex', color: '#0284C7' }}>
-              <Boy sx={{ fontSize: 26 }} />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#0F4C81', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#0F4C81' }}>
+              <CrownPrinceIcon size={26} color="#0F4C81" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Baby Boy Names
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
-            Noble, handsome, and meaningful names for your little prince. Filter by Indian heritage, modern trends, and astrological signs.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 620, fontSize: '0.98rem' }}>
+            Noble, handsome, and meaningful names for your little prince. Filter by Sanskrit heritage, modern brevity, and astrological Nakshatra signs.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>

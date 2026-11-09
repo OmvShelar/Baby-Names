@@ -20,13 +20,12 @@ import {
   Share,
   AccessTime,
   CalendarToday,
-  BookmarkBorder,
-  Bookmark,
   Check,
 } from '@mui/icons-material';
 import { FaWhatsapp, FaTwitter } from 'react-icons/fa';
 import { blogPosts } from '../data/blogsData';
 import SEO from './SEO';
+import { FiligreeHeartIcon } from './icons/CustomIcons';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -132,7 +131,8 @@ export default function BlogPost() {
               fontWeight: 700,
               lineHeight: 1.2,
               mb: 2.5,
-              fontFamily: '"Playfair Display", Georgia, serif',
+              fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+              letterSpacing: '-0.01em',
             }}
           >
             {post.title}
@@ -247,9 +247,9 @@ export default function BlogPost() {
             </Tooltip>
             <IconButton
               onClick={() => setBookmarked(!bookmarked)}
-              sx={{ borderRadius: '3px', color: bookmarked ? custom.coral : 'text.secondary' }}
+              sx={{ borderRadius: '2px', bgcolor: bookmarked ? alpha('#9F2241', 0.08) : 'transparent' }}
             >
-              {bookmarked ? <Bookmark /> : <BookmarkBorder />}
+              <FiligreeHeartIcon size={18} color="#9F2241" filled={bookmarked} />
             </IconButton>
           </Box>
         </Paper>

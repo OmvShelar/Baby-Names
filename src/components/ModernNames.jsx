@@ -4,7 +4,7 @@ import {
   Tab, Tabs, IconButton, Button, alpha, useTheme, Paper,
 } from '@mui/material';
 import {
-  Search, TrendingUp, Boy, Girl, ArrowBack, Close, FilterList,
+  Search, ArrowBack, Close, FilterList,
 } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
@@ -12,11 +12,16 @@ import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
 import SEO from './SEO';
+import {
+  ModernSparkleIcon,
+  CrownPrinceIcon,
+  PrincessTiaraIcon,
+} from './icons/CustomIcons';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
-  { label: 'Boy', value: 'boy', icon: <Boy sx={{ fontSize: 16 }} /> },
-  { label: 'Girl', value: 'girl', icon: <Girl sx={{ fontSize: 16 }} /> },
+  { label: 'Boy', value: 'boy', icon: <CrownPrinceIcon size={15} color="currentColor" /> },
+  { label: 'Girl', value: 'girl', icon: <PrincessTiaraIcon size={15} color="currentColor" /> },
 ];
 
 export default function ModernNames() {
@@ -104,14 +109,14 @@ export default function ModernNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: 3, bgcolor: alpha('#10B981', 0.15), display: 'flex', color: '#10B981' }}>
-              <TrendingUp sx={{ fontSize: 26 }} />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#059669', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#059669' }}>
+              <ModernSparkleIcon size={26} color="#059669" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Modern &amp; Trendy Baby Names
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 620, fontSize: '0.98rem' }}>
             Contemporary, punchy, and globally resonant baby names designed for the next generation.
           </Typography>
 

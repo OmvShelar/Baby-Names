@@ -17,10 +17,6 @@ import {
 } from '@mui/material';
 import {
   Search,
-  Girl,
-  Star,
-  AutoAwesome,
-  Favorite,
   ArrowBack,
   Close,
   FilterList,
@@ -32,13 +28,19 @@ import NameCard from './NameCard';
 import { namesDatabase, genderCategories } from '../data/data';
 import { useFavorites } from './ui/FavoritesProvider';
 import SEO from './SEO';
+import {
+  PrincessTiaraIcon,
+  VedicLotusIcon,
+  AstrologyCompassIcon,
+  ModernSparkleIcon,
+} from './icons/CustomIcons';
 
 const TABS = [
   { label: 'All', value: 'all', icon: <FilterList sx={{ fontSize: 16 }} /> },
   ...genderCategories.girl.map((cat) => ({
     label: cat.name,
     value: cat.name,
-    icon: cat.name === 'Indian' ? <Star sx={{ fontSize: 16 }} /> : cat.name === 'Goddess' ? <AutoAwesome sx={{ fontSize: 16 }} /> : cat.name === 'Zodiac' ? <Star sx={{ fontSize: 16 }} /> : <AutoAwesome sx={{ fontSize: 16 }} />,
+    icon: cat.name === 'Indian' ? <VedicLotusIcon size={15} color="currentColor" /> : cat.name === 'Goddess' ? <PrincessTiaraIcon size={15} color="currentColor" /> : cat.name === 'Zodiac' ? <AstrologyCompassIcon size={15} color="currentColor" /> : <ModernSparkleIcon size={15} color="currentColor" />,
   })),
 ];
 
@@ -129,15 +131,15 @@ export default function GirlNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '4px', bgcolor: alpha('#E11D48', 0.15), display: 'flex', color: '#E11D48' }}>
-              <Girl sx={{ fontSize: 26 }} />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#9F2241', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#9F2241' }}>
+              <PrincessTiaraIcon size={26} color="#9F2241" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Baby Girl Names
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 600 }}>
-            Graceful, enchanting, and lyrical names for your little princess. Explore Goddess Lakshmi epithets, Sanskrit wisdom, and modern trends.
+          <Typography variant="body1" sx={{ color: 'text.secondary', mb: 3.5, maxWidth: 620, fontSize: '0.98rem' }}>
+            Graceful, enchanting, and lyrical names for your little princess. Explore Goddess Lakshmi epithets, Sanskrit virtues, and modern global trends.
           </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>

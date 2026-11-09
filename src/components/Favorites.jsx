@@ -13,13 +13,10 @@ import {
   Tooltip,
 } from '@mui/material';
 import {
-  Favorite,
   ArrowBack,
   Share,
   DeleteOutline,
   Check,
-  Boy,
-  Girl,
 } from '@mui/icons-material';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +24,11 @@ import { useFavorites } from './ui/FavoritesProvider';
 import { namesDatabase } from '../data/data';
 import NameCard from './NameCard';
 import SEO from './SEO';
+import {
+  FiligreeHeartIcon,
+  CrownPrinceIcon,
+  PrincessTiaraIcon,
+} from './icons/CustomIcons';
 
 export default function Favorites() {
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
@@ -129,10 +131,10 @@ export default function Favorites() {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                <Box sx={{ p: 1, borderRadius: '4px', bgcolor: alpha('#E11D48', 0.15), display: 'flex', color: '#E11D48' }}>
-                  <Favorite sx={{ fontSize: 26 }} />
+                <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#9F2241', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex' }}>
+                  <FiligreeHeartIcon size={26} color="#9F2241" filled />
                 </Box>
-                <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' } }}>
+                <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
                   Your Favorites Shortlist
                 </Typography>
               </Box>
@@ -148,7 +150,7 @@ export default function Favorites() {
                   startIcon={<FaWhatsapp />}
                   onClick={handleShareWhatsApp}
                   sx={{
-                    borderRadius: '4px',
+                    borderRadius: '2px',
                     bgcolor: '#25D366',
                     '&:hover': { bgcolor: '#20BD5A' },
                     boxShadow: '0 2px 10px rgba(37,211,102,0.3)',
@@ -160,7 +162,7 @@ export default function Favorites() {
                   variant="outlined"
                   onClick={handleCopyShortlist}
                   startIcon={copied ? <Check /> : <Share />}
-                  sx={{ borderRadius: '4px' }}
+                  sx={{ borderRadius: '2px' }}
                 >
                   {copied ? 'Copied!' : 'Copy List'}
                 </Button>
@@ -177,8 +179,8 @@ export default function Favorites() {
             <Box sx={{ display: 'flex', gap: 1 }}>
               {[
                 { id: 'all', label: `All (${favorites.length})` },
-                { id: 'boy', label: 'Boys Only', icon: <Boy sx={{ fontSize: 18 }} /> },
-                { id: 'girl', label: 'Girls Only', icon: <Girl sx={{ fontSize: 18 }} /> },
+                { id: 'boy', label: 'Boys Only', icon: <CrownPrinceIcon size={15} color={selectedGender === 'boy' ? '#FFFFFF' : '#0F4C81'} /> },
+                { id: 'girl', label: 'Girls Only', icon: <PrincessTiaraIcon size={15} color={selectedGender === 'girl' ? '#FFFFFF' : '#9F2241'} /> },
               ].map((tab) => (
                 <Chip
                   key={tab.id}
@@ -188,10 +190,11 @@ export default function Favorites() {
                   onClick={() => setSelectedGender(tab.id)}
                   sx={{
                     borderRadius: '2px',
-                    bgcolor: selectedGender === tab.id ? '#E11D48' : 'transparent',
+                    bgcolor: selectedGender === tab.id ? '#9F2241' : 'transparent',
                     color: selectedGender === tab.id ? '#FFFFFF' : 'text.primary',
                     fontWeight: selectedGender === tab.id ? 700 : 500,
-                    border: `1px solid ${selectedGender === tab.id ? '#E11D48' : custom.borderLight}`,
+                    border: `1px solid ${selectedGender === tab.id ? '#9F2241' : custom.borderLight}`,
+                    '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
                     '&:hover': { bgcolor: selectedGender === tab.id ? '#BE123C' : alpha('#E11D48', 0.08) },
                   }}
                 />

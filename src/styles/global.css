@@ -1,15 +1,40 @@
-/* Global Styles & Animations for Sweet Baby Names */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+/* Global Styles & Luxury Color Grading for Sweet Baby Names */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --font-heading: 'Playfair Display', Georgia, serif;
+  /* Professional Typography System */
+  --font-brand: 'Cinzel', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-heading: 'Playfair Display', 'Cinzel', Georgia, serif;
   --font-body: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  --primary-coral: #FF7E67;
-  --primary-rose: #F43F5E;
-  --boy-blue: #0284C7;
-  --boy-bg: #E0F2FE;
-  --girl-pink: #E11D48;
-  --girl-bg: #FFE4E6;
+
+  /* Luxury Color Grading Palette */
+  --gold-primary: #C59B27;
+  --gold-light: #F7F0DC;
+  --gold-dark: #937113;
+  --gold-gradient: linear-gradient(135deg, #ECC876 0%, #C59B27 50%, #9A7611 100%);
+
+  --terracotta-primary: #B65A3F;
+  --terracotta-dark: #924129;
+  --terracotta-light: #FBF1ED;
+  --terracotta-gradient: linear-gradient(135deg, #C4674C 0%, #A44C33 100%);
+
+  --boy-navy: #0F4C81;
+  --boy-navy-light: #EEF6FC;
+  --boy-navy-dark: #0A3156;
+  --boy-gradient: linear-gradient(135deg, #1A5A96 0%, #0F4C81 100%);
+
+  --girl-ruby: #9F2241;
+  --girl-ruby-light: #FDF1F4;
+  --girl-ruby-dark: #78152D;
+  --girl-gradient: linear-gradient(135deg, #B72B4E 0%, #9F2241 100%);
+
+  --bg-cream: #FAF8F4;
+  --bg-card: #FFFFFF;
+  --border-light: #E8E1D5;
+  --border-subtle: #F2EDE4;
+  --text-primary: #1A1615;
+  --text-secondary: #5C544E;
 }
 
 *, *::before, *::after {
@@ -27,59 +52,72 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  background-color: var(--bg-cream);
+  color: var(--text-primary);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   letter-spacing: -0.015em;
+  font-weight: 700;
 }
 
-/* Custom modern scrollbar */
+.brand-crest-title {
+  font-family: var(--font-brand);
+  letter-spacing: 0.08em;
+}
+
+.editorial-italic {
+  font-family: var(--font-editorial);
+  font-style: italic;
+}
+
+/* Custom luxury scrollbar */
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(232, 225, 213, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 126, 103, 0.25);
-  border-radius: 9999px;
+  background: rgba(197, 155, 39, 0.35);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 126, 103, 0.45);
+  background: rgba(197, 155, 39, 0.65);
 }
 
-/* Floating animation keyframes */
+/* Luxury animations */
 @keyframes floatSlow {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-10px) rotate(1.5deg);
+    transform: translateY(-8px) rotate(1deg);
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes shimmer {
+@keyframes goldShimmer {
   0% {
     background-position: -200% 0;
   }
   100% {
     background-position: 200% 0;
+  }
+}
+
+@keyframes subtleGlow {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
   }
 }
 
@@ -91,27 +129,74 @@ h1, h2, h3, h4, h5, h6 {
   animation: floatSlow 7s ease-in-out infinite 2s;
 }
 
-.pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
+.gold-shimmer-text {
+  background: linear-gradient(90deg, #9A7611 0%, #D4AF37 40%, #ECC876 50%, #D4AF37 60%, #9A7611 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldShimmer 5s linear infinite;
 }
 
 /* Glassmorphism helpers */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(232, 225, 213, 0.7);
 }
 
 .dark .glass-panel {
-  background: rgba(26, 32, 44, 0.75);
+  background: rgba(20, 18, 16, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(232, 225, 213, 0.1);
 }
 
 /* Interactive focus ring */
 :focus-visible {
-  outline: 2px solid #FF7E67;
+  outline: 2px solid var(--gold-primary);
   outline-offset: 2px;
 }
+
+/* Soundwave audio playing animation */
+@keyframes soundwave {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+.soundwave-bar {
+  display: inline-block;
+  width: 2.5px;
+  background-color: var(--gold-primary);
+  border-radius: 1px;
+  animation: soundwave 1s ease-in-out infinite;
+}
+
+.soundwave-bar:nth-of-type(2) { animation-delay: 0.15s; }
+.soundwave-bar:nth-of-type(3) { animation-delay: 0.3s; }
+.soundwave-bar:nth-of-type(4) { animation-delay: 0.45s; }
+
+/* Sharp luxury corner tick mark */
+.luxury-corner-tick {
+  position: relative;
+}
+.luxury-corner-tick::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--gold-primary);
+  border-right: 2px solid var(--gold-primary);
+}
+
+/* Luxury card gold aura */
+.luxury-gold-aura {
+  box-shadow: 0 4px 24px rgba(197, 155, 39, 0.14), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+.dark .luxury-gold-aura {
+  box-shadow: 0 4px 24px rgba(197, 155, 39, 0.18), 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+

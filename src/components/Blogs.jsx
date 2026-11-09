@@ -21,11 +21,11 @@ import {
   Search,
   AccessTime,
   ArrowForward,
-  AutoAwesome,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { blogPosts, blogCategories } from '../data/blogsData';
 import SEO from './SEO';
+import { FeatherQuillIcon } from './icons/CustomIcons';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 16 },
@@ -78,14 +78,15 @@ export default function Blogs() {
             <motion.div variants={fadeInUp}>
               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
                 <Chip
-                  icon={<AutoAwesome sx={{ fontSize: 14 }} />}
-                  label="Baby Naming Editorial & Guides"
+                  icon={<FeatherQuillIcon size={14} color={custom.coral} />}
+                  label="Baby Naming Editorial & Compendium"
                   sx={{
-                    borderRadius: '3px',
-                    bgcolor: alpha(custom.coral, 0.1),
+                    borderRadius: '2px',
+                    bgcolor: alpha(custom.coral, 0.08),
                     color: custom.coral,
                     fontWeight: 700,
                     px: 1,
+                    '& .MuiChip-icon': { ml: '4px', mr: '-2px' },
                   }}
                 />
               </Box>
@@ -99,14 +100,14 @@ export default function Blogs() {
                   fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.4rem' },
                   fontWeight: 700,
                   mb: 2,
-                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
                   lineHeight: 1.15,
-                  letterSpacing: '-0.02em',
+                  letterSpacing: '-0.01em',
                 }}
               >
                 Inspiration, Meaning &amp;{' '}
-                <Box component="span" sx={{ color: custom.coral, fontStyle: 'italic' }}>
-                  Stories
+                <Box component="span" sx={{ fontFamily: '"Playfair Display", Georgia, serif', color: custom.coral, fontStyle: 'italic' }}>
+                  Heritage
                 </Box>
               </Typography>
             </motion.div>
