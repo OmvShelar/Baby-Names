@@ -109,10 +109,10 @@ export default function ModernNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#059669', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#059669' }}>
-              <ModernSparkleIcon size={26} color="#059669" />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#00AEEF', 0.1), border: '1px solid rgba(0, 174, 239, 0.4)', display: 'flex', color: '#00AEEF' }}>
+              <ModernSparkleIcon size={26} color="#00AEEF" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Modern &amp; Trendy Baby Names
             </Typography>
           </Box>

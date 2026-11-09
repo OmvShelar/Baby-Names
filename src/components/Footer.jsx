@@ -59,7 +59,7 @@ export default function Footer() {
         mt: 10,
         pt: 8,
         pb: 5,
-        background: isDarkMode ? '#0A0807' : '#FAF8F4',
+        background: isDarkMode ? '#0A131C' : '#F8FAFC',
         borderTop: `1px solid ${custom.borderLight}`,
         position: 'relative',
         '&::before': {
@@ -69,7 +69,7 @@ export default function Footer() {
           left: 0,
           right: 0,
           height: 2,
-          background: 'linear-gradient(90deg, #0F4C81 0%, #C59B27 50%, #9F2241 100%)',
+          background: 'linear-gradient(90deg, #00AEEF 0%, #E91E8E 50%, #008CA8 100%)',
         },
       }}
     >
@@ -203,13 +203,13 @@ export default function Footer() {
           }}
         >
           <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem', letterSpacing: '0.02em' }}>
-            © {new Date().getFullYear()} Sweet Baby Names Atelier. Crafted for discerning parents worldwide.
+            © {new Date().getFullYear()} PickBaby Name Atelier. Crafted for discerning parents worldwide.
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
               Curated with
             </Typography>
-            <FiligreeHeartIcon size={14} color="#9F2241" filled />
+            <FiligreeHeartIcon size={14} color="#E91E8E" filled />
             <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
               for life's greatest blessings
             </Typography>

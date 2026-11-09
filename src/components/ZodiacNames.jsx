@@ -112,10 +112,10 @@ export default function ZodiacNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha(custom.gold, 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: custom.gold }}>
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha(custom.gold, 0.1), border: '1px solid rgba(217, 119, 6, 0.4)', display: 'flex', color: custom.gold }}>
               <AstrologyCompassIcon size={26} color={custom.gold} />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Zodiac (Rashi) Baby Names
             </Typography>
           </Box>

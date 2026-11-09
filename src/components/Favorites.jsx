@@ -91,7 +91,7 @@ export default function Favorites() {
   const handleShareWhatsApp = () => {
     const namesList = favorites.join(', ');
     const message = encodeURIComponent(
-      `Hello! Here is our shortlist of favorite baby names from Sweet Baby Names:\n\n✨ ${namesList}\n\nExplore more at https://sweetbabynames.com`
+      `Hello! Here is our shortlist of favorite baby names from PickBaby Name:\n\n✨ ${namesList}\n\nExplore more at https://sweetbabynames.com`
     );
     window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
   };
@@ -105,7 +105,7 @@ export default function Favorites() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
       <SEO
-        title={`My Baby Names Shortlist (${favorites.length} saved)`}
+        title={`My Baby Names Shortlist (${favorites.length} saved) | PickBaby Name`}
         description="View, organize, and share your personalized baby names shortlist with your partner."
         canonical="https://sweetbabynames.com/favorites"
       />
@@ -115,7 +115,7 @@ export default function Favorites() {
         sx={{
           pt: { xs: 4, md: 5 },
           pb: { xs: 4, md: 5 },
-          background: `linear-gradient(180deg, ${alpha('#E11D48', 0.08)} 0%, transparent 100%)`,
+          background: `linear-gradient(180deg, ${alpha('#FF2E93', 0.08)} 0%, transparent 100%)`,
           borderBottom: `1px solid ${custom.borderLight}`,
         }}
       >
@@ -131,10 +131,10 @@ export default function Favorites() {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#9F2241', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex' }}>
-                  <FiligreeHeartIcon size={26} color="#9F2241" filled />
+                <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#E91E8E', 0.1), border: '1px solid rgba(233, 30, 142, 0.4)', display: 'flex' }}>
+                  <FiligreeHeartIcon size={26} color="#E91E8E" filled />
                 </Box>
-                <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
+                <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
                   Your Favorites Shortlist
                 </Typography>
               </Box>

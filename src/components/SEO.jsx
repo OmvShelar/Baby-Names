@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const DEFAULT_TITLE = 'Sweet Baby Names 2026 | 50,000+ Unique Boy & Girl Names with Meanings, Zodiac & Origin';
-const DEFAULT_DESCRIPTION = 'Explore 50,000+ cute, modern, Sanskrit, and astrological baby names for boys and girls. Detailed meanings, origins, zodiac (rashi) signs, and personalized favorites shortlist.';
-const DEFAULT_KEYWORDS = 'baby names, boy names, girl names, indian baby names, modern baby names, sanskrit baby names, zodiac baby names, rashi baby names, 2026 baby names, baby name meanings, twin baby names';
+const DEFAULT_TITLE = 'PickBaby Name (2026) | 50,000+ Unique Baby Names with Meanings, Zodiac & Origin';
+const DEFAULT_DESCRIPTION = 'Explore 50,000+ auspicious, modern, Sanskrit, and astrological baby names for boys and girls with PickBaby Name. Detailed meanings, origins, zodiac (rashi) signs, and personalized favorites shortlist.';
+const DEFAULT_KEYWORDS = 'PickBaby Name, baby names, boy names, girl names, indian baby names, modern baby names, sanskrit baby names, zodiac baby names, rashi baby names, 2026 baby names, baby name meanings, twin baby names';
 const SITE_URL = 'https://sweetbabynames.com';
-const DEFAULT_IMAGE = `${SITE_URL}/baby-logo.jpg`;
+const DEFAULT_IMAGE = `${SITE_URL}/logo.png`;
 
 export default function SEO({
   title,
@@ -17,7 +17,7 @@ export default function SEO({
   schema,
 }) {
   const location = useLocation();
-  const fullTitle = title ? `${title} | Sweet Baby Names` : DEFAULT_TITLE;
+  const fullTitle = title ? (title.includes('PickBaby') ? title : `${title} | PickBaby Name`) : DEFAULT_TITLE;
   const canonicalUrl = canonical || `${SITE_URL}${location.pathname}`;
 
   useEffect(() => {
@@ -39,10 +39,10 @@ export default function SEO({
     setMeta('name', 'description', description);
     setMeta('name', 'keywords', keywords);
     setMeta('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-    setMeta('name', 'author', 'Sweet Baby Names Team');
+    setMeta('name', 'author', 'PickBaby Name Team');
 
     // 3. Open Graph
-    setMeta('property', 'og:site_name', 'Sweet Baby Names');
+    setMeta('property', 'og:site_name', 'PickBaby Name');
     setMeta('property', 'og:title', fullTitle);
     setMeta('property', 'og:description', description);
     setMeta('property', 'og:url', canonicalUrl);

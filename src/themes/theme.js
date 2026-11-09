@@ -1,56 +1,82 @@
 import { createTheme } from '@mui/material/styles';
 
 const sharedPalette = {
-  // Brand luxury accents - Atelier Terracotta & Imperial Gold
-  coral: '#B65A3F', // Warm Atelier Terracotta
-  coralDark: '#8E3E28',
-  coralLight: '#FBF1ED',
-  rose: '#9F2241', // Imperial Velvet Ruby
-  gold: '#C59B27', // Champagne Gold
-  goldLight: '#FBF5E2',
-  goldDark: '#8F6E13',
-  goldGradient: 'linear-gradient(135deg, #DFB956 0%, #C59B27 50%, #9E7A16 100%)',
-  goldGlow: '0 4px 18px rgba(197, 155, 39, 0.28)',
+  // Authentic PickBaby Name Logo Color System
+  logoCyan: '#008CA8',
+  logoCyanBright: '#00AEEF',
+  logoCyanLight: '#E8F7FB',
+  logoCyanDark: '#006B82',
 
-  // Boy theme colors - Noble French Sapphire & Celestial Platinum
-  boyBlue: '#0F4C81',
-  boyBlueLight: '#EEF6FC',
-  boyBlueDark: '#0A3156',
-  boyGradient: 'linear-gradient(135deg, #1A5A96 0%, #0F4C81 100%)',
+  logoMagenta: '#E91E8E',
+  logoMagentaBright: '#FF2E93',
+  logoMagentaLight: '#FDF2F8',
+  logoMagentaDark: '#BD106F',
 
-  // Girl theme colors - Empress Ruby & Dusty Rose Gold
-  girlPink: '#9F2241',
-  girlPinkLight: '#FDF1F4',
-  girlPinkDark: '#78152D',
-  girlGradient: 'linear-gradient(135deg, #B72B4E 0%, #9F2241 100%)',
+  // Sacred Diya Gold & Warm Auspicious Tones
+  gold: '#D97706',
+  goldLight: '#FEF3C7',
+  goldDark: '#B45309',
+  goldGradient: 'linear-gradient(135deg, #00AEEF 0%, #E91E8E 100%)',
+  goldGlow: '0 4px 18px rgba(0, 174, 239, 0.28)',
 
-  // Neutrals - Warm Editorial Alabaster, Cashmere & Linen
-  softCream: '#FAF8F4',
+  // Sacred Peacock Feather Accent
+  peacock: '#0D9488',
+  peacockLight: '#CCFBF1',
+  peacockDark: '#0F766E',
+
+  // Primary Brand Accent (matching "Pick" and "Name" in Logo)
+  coral: '#008CA8',
+  coralDark: '#006B82',
+  coralLight: '#E8F7FB',
+  coralGradient: 'linear-gradient(135deg, #00AEEF 0%, #008CA8 100%)',
+
+  // Secondary Brand Accent (matching "Baby" and Lotus in Logo)
+  rose: '#E91E8E',
+  roseDark: '#BD106F',
+  roseLight: '#FDF2F8',
+  roseGradient: 'linear-gradient(135deg, #FF2E93 0%, #E91E8E 100%)',
+
+  // Boy Theme Colors - Radiant Royal Cyan (matches "Pick" & Footprint Top)
+  boyBlue: '#008CA8',
+  boyBlueLight: '#E8F7FB',
+  boyBlueDark: '#00586B',
+  boyGradient: 'linear-gradient(135deg, #00AEEF 0%, #008CA8 100%)',
+
+  // Girl Theme Colors - Divine Lotus Magenta (matches "Baby" & Lotus)
+  girlPink: '#E91E8E',
+  girlPinkLight: '#FDF2F8',
+  girlPinkDark: '#BD106F',
+  girlGradient: 'linear-gradient(135deg, #FF2E93 0%, #E91E8E 100%)',
+
+  // Neutrals - Luminous Alabaster & Clean Slate
+  softCream: '#F8FAFC',
   cardWhite: '#FFFFFF',
-  borderLight: '#E8E1D5',
-  borderSubtle: '#F2EDE4',
-  borderGold: 'rgba(197, 155, 39, 0.35)',
-  textPrimary: '#1A1615',
-  textSecondary: '#5C544E',
-  textTertiary: '#8E857C',
+  borderLight: '#E2E8F0',
+  borderSubtle: '#F1F5F9',
+  borderGold: 'rgba(0, 140, 168, 0.35)',
+  borderCyan: 'rgba(0, 174, 239, 0.3)',
+  borderMagenta: 'rgba(233, 30, 142, 0.3)',
+  textPrimary: '#0F172A',
+  textSecondary: '#475569',
+  textTertiary: '#94A3B8',
 
-  // Hero Gradients & atmospheric glows
-  heroGradientStart: '#FCFBF8',
-  heroGradientEnd: '#F4ECE0',
-  sectionAlt: '#F6F1E7',
-  searchBorder: '#DED5C5',
+  // Hero Gradients & Atmospheric Glows
+  heroGradientStart: '#F0F9FC',
+  heroGradientEnd: '#FFF5F9',
+  sectionAlt: '#F8FAFC',
+  searchBorder: '#CBD5E1',
 };
 
 const baseThemeOptions = {
   typography: {
     fontFamily: '"Plus Jakarta Sans", "Outfit", -apple-system, BlinkMacSystemFont, sans-serif',
-    h1: { fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: '-0.01em' },
-    h2: { fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: '-0.01em' },
-    h3: { fontFamily: '"Playfair Display", "Cinzel", Georgia, serif', fontWeight: 600, letterSpacing: '-0.01em' },
-    h4: { fontFamily: '"Playfair Display", "Cinzel", Georgia, serif', fontWeight: 600, letterSpacing: '-0.005em' },
-    h5: { fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 600 },
-    h6: { fontFamily: '"Playfair Display", Georgia, serif', fontWeight: 600 },
-    subtitle1: { fontFamily: '"Cormorant Garamond", "Playfair Display", Georgia, serif', fontSize: '1.2rem', fontStyle: 'italic' },
+    h1: { fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: '-0.01em' },
+    h2: { fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: '-0.01em' },
+    h3: { fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontWeight: 700, letterSpacing: '-0.01em' },
+    h4: { fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontWeight: 600, letterSpacing: '-0.005em' },
+    h5: { fontFamily: '"Philosopher", "Marcellus", Georgia, serif', fontWeight: 600 },
+    h6: { fontFamily: '"Philosopher", "Marcellus", Georgia, serif', fontWeight: 600 },
+    subtitle1: { fontFamily: '"Cormorant Garamond", "Philosopher", Georgia, serif', fontSize: '1.2rem', fontStyle: 'italic' },
     overline: { fontFamily: '"Plus Jakarta Sans", sans-serif', letterSpacing: '0.18em', fontWeight: 700 },
     button: { fontFamily: '"Plus Jakarta Sans", sans-serif', textTransform: 'none', fontWeight: 600, letterSpacing: '0.03em' },
   },
@@ -75,22 +101,22 @@ const baseThemeOptions = {
           transition: 'all 0.22s ease',
         },
         contained: {
-          background: 'linear-gradient(135deg, #B65A3F 0%, #8E3E28 100%)',
+          background: 'linear-gradient(135deg, #00AEEF 0%, #008CA8 100%)',
           color: '#FFFFFF',
-          boxShadow: '0 2px 10px rgba(142, 62, 40, 0.25)',
+          boxShadow: '0 2px 10px rgba(0, 140, 168, 0.28)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #8E3E28 0%, #742D19 100%)',
-            boxShadow: '0 4px 16px rgba(142, 62, 40, 0.35)',
+            background: 'linear-gradient(135deg, #008CA8 0%, #006B82 100%)',
+            boxShadow: '0 4px 16px rgba(0, 140, 168, 0.38)',
             transform: 'translateY(-1px)',
           },
         },
         outlined: {
-          borderColor: '#B65A3F',
-          color: '#B65A3F',
+          borderColor: '#008CA8',
+          color: '#008CA8',
           borderWidth: '1px',
           '&:hover': {
-            borderColor: '#8E3E28',
-            background: 'rgba(182, 90, 63, 0.05)',
+            borderColor: '#006B82',
+            background: 'rgba(0, 140, 168, 0.06)',
             transform: 'translateY(-1px)',
           },
         },
@@ -105,7 +131,7 @@ const baseThemeOptions = {
       styleOverrides: {
         root: {
           borderRadius: 2,
-          border: '1px solid #E8E1D5',
+          border: '1px solid #E2E8F0',
           transition: 'all 0.22s ease',
         },
       },
@@ -115,9 +141,9 @@ const baseThemeOptions = {
         root: {
           '& .MuiOutlinedInput-root': {
             borderRadius: 2,
-            '& fieldset': { borderColor: '#DED5C5', borderWidth: '1px' },
-            '&:hover fieldset': { borderColor: '#B65A3F' },
-            '&.Mui-focused fieldset': { borderColor: '#B65A3F', borderWidth: '1.5px' },
+            '& fieldset': { borderColor: '#CBD5E1', borderWidth: '1px' },
+            '&:hover fieldset': { borderColor: '#008CA8' },
+            '&.Mui-focused fieldset': { borderColor: '#008CA8', borderWidth: '1.5px' },
           },
         },
       },
@@ -149,7 +175,7 @@ const baseThemeOptions = {
           '& .MuiTabs-indicator': {
             height: 2,
             borderRadius: 0,
-            background: '#B65A3F',
+            background: 'linear-gradient(90deg, #00AEEF 0%, #E91E8E 100%)',
           },
         },
       },
@@ -179,9 +205,9 @@ export const lightTheme = createTheme({
       dark: sharedPalette.coralDark,
     },
     secondary: {
-      main: sharedPalette.gold,
-      light: sharedPalette.goldLight,
-      dark: sharedPalette.goldDark,
+      main: sharedPalette.rose,
+      light: sharedPalette.roseLight,
+      dark: sharedPalette.roseDark,
     },
     background: {
       default: sharedPalette.softCream,
@@ -194,7 +220,7 @@ export const lightTheme = createTheme({
     divider: sharedPalette.borderLight,
     success: { main: '#059669' },
     error: { main: '#DC2626' },
-    info: { main: '#0F4C81' },
+    info: { main: '#008CA8' },
     warning: { main: '#D97706' },
     custom: sharedPalette,
   },
@@ -205,42 +231,42 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#DF8A71',
-      light: '#FCEFEA',
-      dark: '#B65A3F',
+      main: '#00AEEF',
+      light: '#E8F7FB',
+      dark: '#008CA8',
     },
     secondary: {
-      main: '#DFB956',
-      light: '#FEF9E7',
-      dark: '#C59B27',
+      main: '#FF2E93',
+      light: '#FDF2F8',
+      dark: '#E91E8E',
     },
     background: {
-      default: '#0C0A09',
-      paper: '#161311',
+      default: '#0A131C',
+      paper: '#111F2D',
     },
     text: {
-      primary: '#F6F3EE',
-      secondary: '#A39B92',
+      primary: '#F8FAFC',
+      secondary: '#94A3B8',
     },
-    divider: 'rgba(232, 225, 213, 0.08)',
+    divider: 'rgba(226, 232, 240, 0.08)',
     success: { main: '#10B981' },
     error: { main: '#EF4444' },
     info: { main: '#38BDF8' },
     warning: { main: '#F59E0B' },
     custom: {
       ...sharedPalette,
-      softCream: '#0C0A09',
-      backgroundWarm: '#0C0A09',
-      cardWhite: '#161311',
-      heroGradientStart: '#0C0A09',
-      heroGradientEnd: '#14110E',
-      sectionAlt: '#110F0D',
-      textPrimary: '#F6F3EE',
-      textSecondary: '#A39B92',
-      textTertiary: '#736B63',
-      borderLight: 'rgba(232, 225, 213, 0.08)',
-      borderSubtle: 'rgba(232, 225, 213, 0.04)',
-      searchBorder: 'rgba(232, 225, 213, 0.12)',
+      softCream: '#0A131C',
+      backgroundWarm: '#0A131C',
+      cardWhite: '#111F2D',
+      heroGradientStart: '#0A131C',
+      heroGradientEnd: '#132130',
+      sectionAlt: '#0E1924',
+      textPrimary: '#F8FAFC',
+      textSecondary: '#94A3B8',
+      textTertiary: '#64748B',
+      borderLight: 'rgba(226, 232, 240, 0.1)',
+      borderSubtle: 'rgba(226, 232, 240, 0.05)',
+      searchBorder: 'rgba(0, 174, 239, 0.25)',
     },
   },
   components: {
@@ -249,8 +275,8 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 2,
-          border: '1px solid rgba(232, 225, 213, 0.08)',
-          backgroundColor: '#161311',
+          border: '1px solid rgba(226, 232, 240, 0.08)',
+          backgroundColor: '#111F2D',
           transition: 'all 0.22s ease',
         },
       },
@@ -260,10 +286,10 @@ export const darkTheme = createTheme({
         root: {
           '& .MuiOutlinedInput-root': {
             borderRadius: 2,
-            backgroundColor: '#161311',
-            '& fieldset': { borderColor: 'rgba(232, 225, 213, 0.12)' },
-            '&:hover fieldset': { borderColor: '#DF8A71' },
-            '&.Mui-focused fieldset': { borderColor: '#DF8A71' },
+            backgroundColor: '#111F2D',
+            '& fieldset': { borderColor: 'rgba(226, 232, 240, 0.12)' },
+            '&:hover fieldset': { borderColor: '#00AEEF' },
+            '&.Mui-focused fieldset': { borderColor: '#00AEEF' },
           },
         },
       },

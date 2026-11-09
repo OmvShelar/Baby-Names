@@ -109,10 +109,10 @@ export default function IndianNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#B65A3F', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#B65A3F' }}>
-              <VedicLotusIcon size={26} color="#B65A3F" />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#0D9488', 0.1), border: '1px solid rgba(13, 148, 136, 0.4)', display: 'flex', color: '#0D9488' }}>
+              <VedicLotusIcon size={26} color="#0D9488" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Indian &amp; Sanskrit Baby Names
             </Typography>
           </Box>

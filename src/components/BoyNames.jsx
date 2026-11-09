@@ -108,9 +108,9 @@ export default function BoyNames() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 8 }}>
       <SEO
-        title="25,000+ Baby Boy Names (2026) | Unique, Sanskrit & Modern Boy Names with Meanings"
-        description="Discover the perfect baby boy name from our 2026 curated collection. Strong, meaningful, Vedic, and contemporary boy names with meanings and zodiac insights."
-        keywords="baby boy names, boy names 2026, sanskrit boy names, modern boy names, hindu boy names, unique boy names"
+        title="PickBaby Name | 25,000+ Baby Boy Names (2026) | Unique & Vedic Boy Names"
+        description="Discover the perfect baby boy name with PickBaby Name. Strong, meaningful, Vedic, and contemporary boy names with meanings and zodiac insights."
+        keywords="PickBaby Name, baby boy names, boy names 2026, sanskrit boy names, modern boy names, hindu boy names, unique boy names"
         canonical="https://sweetbabynames.com/boy-names"
       />
 
@@ -119,7 +119,7 @@ export default function BoyNames() {
         sx={{
           pt: { xs: 4, md: 5 },
           pb: { xs: 4, md: 5 },
-          background: `linear-gradient(180deg, ${alpha('#0284C7', 0.08)} 0%, transparent 100%)`,
+          background: `linear-gradient(180deg, ${alpha('#00AEEF', 0.08)} 0%, transparent 100%)`,
           borderBottom: `1px solid ${custom.borderLight}`,
         }}
       >
@@ -133,10 +133,10 @@ export default function BoyNames() {
           </Button>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
-            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#0F4C81', 0.1), border: '1px solid rgba(197, 155, 39, 0.4)', display: 'flex', color: '#0F4C81' }}>
-              <CrownPrinceIcon size={26} color="#0F4C81" />
+            <Box sx={{ p: 1, borderRadius: '2px', bgcolor: alpha('#008CA8', 0.1), border: '1px solid rgba(0, 174, 239, 0.4)', display: 'flex', color: '#008CA8' }}>
+              <CrownPrinceIcon size={26} color="#008CA8" />
             </Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Cinzel", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
+            <Typography variant="h1" sx={{ fontWeight: 700, fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif', fontSize: { xs: '2rem', md: '2.6rem' }, letterSpacing: '-0.01em' }}>
               Baby Boy Names
             </Typography>
           </Box>

@@ -1,9 +1,9 @@
 import React from 'react';
 
 /**
- * Luxury Brand Crest Icon for "Sweet Baby Names"
- * Features a beveled octagonal diamond crest, radiant celestial star,
- * and royal golden cradle emblem.
+ * PickBaby Name Official Logo Crest Icon
+ * Features the concentric Magenta & Cyan rings, sacred baby footprint
+ * with Om (ॐ) vibration, and sacred pink lotus.
  */
 export const BrandCrestIcon = ({ size = 36, sx = {}, ...props }) => (
   <svg
@@ -16,76 +16,59 @@ export const BrandCrestIcon = ({ size = 36, sx = {}, ...props }) => (
     {...props}
   >
     <defs>
-      <linearGradient id="crestGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#F5D77F" />
-        <stop offset="40%" stopColor="#C59B27" />
-        <stop offset="100%" stopColor="#8F6E13" />
+      <linearGradient id="logoFootprintGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00AEEF" />
+        <stop offset="100%" stopColor="#E91E8E" />
       </linearGradient>
-      <linearGradient id="crestInnerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#1F1B18" />
-        <stop offset="100%" stopColor="#0F0D0C" />
-      </linearGradient>
-      <linearGradient id="starGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#FFF2B2" />
-        <stop offset="100%" stopColor="#D4AF37" />
+      <linearGradient id="logoCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00AEEF" />
+        <stop offset="100%" stopColor="#008CA8" />
       </linearGradient>
     </defs>
 
-    {/* Outer Sharp Octagonal Crest */}
-    <polygon
-      points="13,2 31,2 42,13 42,31 31,42 13,42 2,31 2,13"
-      fill="url(#crestInnerGrad)"
-      stroke="url(#crestGoldGrad)"
-      strokeWidth="1.6"
-    />
+    {/* Outer Magenta Ring */}
+    <circle cx="22" cy="22" r="20" stroke="#E91E8E" strokeWidth="2" fill="#FFFFFF" />
 
-    {/* Inner Hairline Inset */}
-    <polygon
-      points="14.5,5 29.5,5 39,14.5 39,29.5 29.5,39 14.5,39 5,29.5 5,14.5"
-      fill="none"
-      stroke="url(#crestGoldGrad)"
-      strokeWidth="0.8"
-      strokeOpacity="0.5"
-      strokeDasharray="2 1.5"
-    />
+    {/* Inner Cyan Ring */}
+    <circle cx="22" cy="22" r="17" stroke="#00AEEF" strokeWidth="1.5" fill="none" />
 
-    {/* Radiant 4-Point Celestial Star at Top */}
+    {/* Sacred Baby Footprint (Heel + Palm) */}
+    <ellipse cx="22" cy="23" rx="7" ry="6" fill="url(#logoFootprintGrad)" />
+
+    {/* Baby Toes */}
+    <circle cx="15.5" cy="14" r="1.8" fill="#00AEEF" />
+    <circle cx="18.5" cy="12" r="1.8" fill="#00AEEF" />
+    <circle cx="22" cy="11.5" r="2" fill="#00AEEF" />
+    <circle cx="25.5" cy="12" r="1.8" fill="#E91E8E" />
+    <circle cx="28.5" cy="14" r="1.8" fill="#E91E8E" />
+
+    {/* Sacred Om Symbol in White */}
+    <text
+      x="22"
+      y="25.5"
+      textAnchor="middle"
+      fill="#FFFFFF"
+      fontSize="7.5"
+      fontWeight="bold"
+      fontFamily="'Philosopher', 'Cinzel', serif"
+    >
+      ॐ
+    </text>
+
+    {/* Sacred Lotus Base Petals */}
     <path
-      d="M22,7 L23.4,11 L27.4,12.4 L23.4,13.8 L22,17.8 L20.6,13.8 L16.6,12.4 L20.6,11 Z"
-      fill="url(#starGlow)"
+      d="M17 33 C19 30 22 29 22 29 C22 29 25 30 27 33 C24 34 20 34 17 33 Z"
+      fill="#E91E8E"
+      opacity="0.85"
     />
-
-    {/* Royal Cradle Arc */}
-    <path
-      d="M13,22 C13,28 17,32 22,32 C27,32 31,28 31,22"
-      stroke="url(#crestGoldGrad)"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      fill="none"
-    />
-
-    {/* Cradle Base Rocker */}
-    <path
-      d="M11,35 C16,37.5 28,37.5 33,35"
-      stroke="url(#crestGoldGrad)"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      fill="none"
-    />
-
-    {/* Delicate Monogram Fleur / Heart in Center */}
-    <path
-      d="M22,20 C20.5,18 17.5,19.2 18.5,22 C19.5,24 22,26.5 22,26.5 C22,26.5 24.5,24 25.5,22 C26.5,19.2 23.5,18 22,20 Z"
-      fill="url(#crestGoldGrad)"
-      opacity="0.9"
-    />
+    <circle cx="22" cy="31" r="1.2" fill="#00AEEF" />
   </svg>
 );
 
 /**
- * Royal Crown Prince Icon (Noble Sapphire & Gold)
+ * Royal Crown Prince Icon (Vibrant Cyan & Gold)
  */
-export const CrownPrinceIcon = ({ size = 22, color = '#0F4C81', sx = {}, ...props }) => (
+export const CrownPrinceIcon = ({ size = 22, color = '#008CA8', sx = {}, ...props }) => (
   <svg
     width={size}
     height={size}
@@ -97,8 +80,8 @@ export const CrownPrinceIcon = ({ size = 22, color = '#0F4C81', sx = {}, ...prop
   >
     <defs>
       <linearGradient id="princeGold" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#DFB956" />
-        <stop offset="100%" stopColor="#9E7A16" />
+        <stop offset="0%" stopColor="#00AEEF" />
+        <stop offset="100%" stopColor="#008CA8" />
       </linearGradient>
     </defs>
     {/* Crown Base */}
@@ -121,9 +104,9 @@ export const CrownPrinceIcon = ({ size = 22, color = '#0F4C81', sx = {}, ...prop
 );
 
 /**
- * Imperial Princess Tiara Icon (Velvet Ruby & Rose Gold)
+ * Imperial Princess Tiara Icon (Lotus Magenta & Cyan)
  */
-export const PrincessTiaraIcon = ({ size = 22, color = '#9F2241', sx = {}, ...props }) => (
+export const PrincessTiaraIcon = ({ size = 22, color = '#E91E8E', sx = {}, ...props }) => (
   <svg
     width={size}
     height={size}

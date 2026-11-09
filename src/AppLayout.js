@@ -37,12 +37,12 @@ import {
 
 const NAV_ITEMS = [
   { label: 'Home', path: '/', renderIcon: (active) => <ManorHomeIcon size={18} color={active ? '#FFFFFF' : 'currentColor'} /> },
-  { label: 'Boy Names', path: '/boy-names', renderIcon: (active) => <CrownPrinceIcon size={18} color={active ? '#DFB956' : '#0F4C81'} /> },
-  { label: 'Girl Names', path: '/girl-names', renderIcon: (active) => <PrincessTiaraIcon size={18} color={active ? '#F5D77F' : '#9F2241'} /> },
-  { label: 'Indian Heritage', path: '/indian-names', renderIcon: (active) => <VedicLotusIcon size={18} color={active ? '#FFFFFF' : '#B65A3F'} /> },
-  { label: 'Modern & Trendy', path: '/modern-names', renderIcon: (active) => <ModernSparkleIcon size={18} color={active ? '#FFFFFF' : '#C59B27'} /> },
-  { label: 'Zodiac (Rashi)', path: '/zodiac-names', renderIcon: (active) => <AstrologyCompassIcon size={18} color={active ? '#DFB956' : '#8F6E13'} /> },
-  { label: 'Editorial Blogs', path: '/blogs', renderIcon: (active) => <FeatherQuillIcon size={18} color={active ? '#FFFFFF' : '#B65A3F'} />, isNew: true },
+  { label: 'Boy Names', path: '/boy-names', renderIcon: (active) => <CrownPrinceIcon size={18} color={active ? '#FFFFFF' : '#008CA8'} /> },
+  { label: 'Girl Names', path: '/girl-names', renderIcon: (active) => <PrincessTiaraIcon size={18} color={active ? '#FFFFFF' : '#E91E8E'} /> },
+  { label: 'Indian Heritage', path: '/indian-names', renderIcon: (active) => <VedicLotusIcon size={18} color={active ? '#FFFFFF' : '#0D9488'} /> },
+  { label: 'Modern & Trendy', path: '/modern-names', renderIcon: (active) => <ModernSparkleIcon size={18} color={active ? '#FFFFFF' : '#00AEEF'} /> },
+  { label: 'Zodiac (Rashi)', path: '/zodiac-names', renderIcon: (active) => <AstrologyCompassIcon size={18} color={active ? '#FFFFFF' : '#D97706'} /> },
+  { label: 'Editorial Blogs', path: '/blogs', renderIcon: (active) => <FeatherQuillIcon size={18} color={active ? '#FFFFFF' : '#E91E8E'} />, isNew: true },
 ];
 
 const WhatsAppButton = () => (
@@ -64,12 +64,12 @@ const WhatsAppButton = () => (
           borderRadius: 2, // Sharp architectural profile
           background: 'linear-gradient(135deg, #1E7E34 0%, #125E27 100%)',
           color: '#FFFFFF',
-          border: '1.5px solid rgba(223, 185, 86, 0.65)', // Royal gold hairline rim
-          boxShadow: '0 8px 24px rgba(18, 94, 39, 0.4), 0 2px 8px rgba(197, 155, 39, 0.3)',
+          border: '1.5px solid rgba(0, 174, 239, 0.65)', // Cyan hairline rim
+          boxShadow: '0 8px 24px rgba(18, 94, 39, 0.4), 0 2px 8px rgba(0, 174, 239, 0.3)',
           '&:hover': {
             background: 'linear-gradient(135deg, #23923D 0%, #156B2D 100%)',
-            borderColor: '#DFB956',
-            boxShadow: '0 12px 28px rgba(18, 94, 39, 0.55), 0 4px 12px rgba(197, 155, 39, 0.45)',
+            borderColor: '#00AEEF',
+            boxShadow: '0 12px 28px rgba(18, 94, 39, 0.55), 0 4px 12px rgba(0, 174, 239, 0.45)',
             transform: 'scale(1.05) translateY(-2px)',
           },
           transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -107,7 +107,7 @@ export default function AppLayout() {
         position="fixed"
         elevation={0}
         sx={{
-          bgcolor: isDarkMode ? alpha('#0C0A09', 0.94) : alpha('#FAF8F4', 0.96),
+          bgcolor: isDarkMode ? alpha('#0A131C', 0.94) : alpha('#F8FAFC', 0.96),
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: `1px solid ${custom.borderLight}`,
@@ -117,11 +117,13 @@ export default function AppLayout() {
         {/* Prestige Announcement Ribbon */}
         <Box
           sx={{
-            bgcolor: isDarkMode ? '#14110E' : '#1C1917',
-            color: '#ECC876',
+            background: isDarkMode
+              ? 'linear-gradient(90deg, #09121B 0%, #102130 50%, #09121B 100%)'
+              : 'linear-gradient(90deg, #071724 0%, #0A263D 50%, #071724 100%)',
+            color: '#FFFFFF',
             py: 0.5,
             px: 2,
-            borderBottom: '1px solid rgba(197, 155, 39, 0.25)',
+            borderBottom: '1px solid rgba(0, 174, 239, 0.3)',
             display: { xs: 'none', sm: 'flex' },
             alignItems: 'center',
             justifyContent: 'center',
@@ -133,14 +135,14 @@ export default function AppLayout() {
             fontWeight: 700,
           }}
         >
-          <Box component="span" sx={{ color: '#DFB956' }}>✦</Box>
-          <span>The 2026 Nomenclature Atelier • Over 50,000 Verified Vedic, Modern &amp; Astrological Names</span>
-          <Box component="span" sx={{ color: '#DFB956' }}>✦</Box>
+          <Box component="span" sx={{ color: '#00AEEF' }}>✦</Box>
+          <span>PickBaby Name Atelier • Over 50,000 Verified Vedic, Modern &amp; Astrological Names</span>
+          <Box component="span" sx={{ color: '#E91E8E' }}>✦</Box>
         </Box>
 
         <Container maxWidth="xl">
           <Toolbar disableGutters sx={{ height: 68, display: 'flex', justifyContent: 'space-between' }}>
-            {/* Classy Brand Logo & Navbar Crest */}
+            {/* Authentic Brand Logo */}
             <BrandLogo size="navbar" onClick={() => navigate('/')} />
 
             {/* Desktop Navigation Links */}
@@ -160,14 +162,16 @@ export default function AppLayout() {
                         letterSpacing: '0.02em',
                         borderRadius: '2px', // Sharp
                         color: active ? '#FFFFFF' : 'text.primary',
-                        bgcolor: active ? custom.coral : 'transparent',
+                        background: active
+                          ? 'linear-gradient(135deg, #00AEEF 0%, #008CA8 100%)'
+                          : 'transparent',
                         fontWeight: active ? 700 : 500,
-                        border: active ? `1px solid ${custom.coralDark}` : '1px solid transparent',
-                        boxShadow: active ? '0 2px 8px rgba(182, 90, 63, 0.28)' : 'none',
+                        border: active ? '1px solid #006B82' : '1px solid transparent',
+                        boxShadow: active ? '0 2px 10px rgba(0, 140, 168, 0.3)' : 'none',
                         '&:hover': {
-                          bgcolor: active ? custom.coralDark : alpha(custom.coral, 0.07),
-                          color: active ? '#FFFFFF' : custom.coral,
-                          borderColor: active ? custom.coralDark : alpha(custom.coral, 0.2),
+                          bgcolor: active ? '#006B82' : alpha('#008CA8', 0.08),
+                          color: active ? '#FFFFFF' : '#008CA8',
+                          borderColor: active ? '#006B82' : alpha('#008CA8', 0.25),
                         },
                         transition: 'all 0.2s ease',
                       }}
@@ -184,8 +188,8 @@ export default function AppLayout() {
                             fontWeight: 800,
                             letterSpacing: '0.08em',
                             borderRadius: '2px',
-                            bgcolor: active ? '#FFFFFF' : custom.gold,
-                            color: active ? custom.coralDark : '#FFFFFF',
+                            bgcolor: active ? '#FFFFFF' : '#E91E8E',
+                            color: active ? '#008CA8' : '#FFFFFF',
                           }}
                         >
                           NEW
@@ -199,8 +203,8 @@ export default function AppLayout() {
                 <Button
                   onClick={() => navigate('/favorites')}
                   startIcon={
-                    <Badge badgeContent={favorites.length} color="error" sx={{ '& .MuiBadge-badge': { fontSize: '0.68rem', minWidth: 16, height: 16 } }}>
-                      <FiligreeHeartIcon size={18} color={isActive('/favorites') ? '#FFFFFF' : favorites.length ? '#9F2241' : 'currentColor'} filled={favorites.length > 0} />
+                    <Badge badgeContent={favorites.length} color="secondary" sx={{ '& .MuiBadge-badge': { fontSize: '0.68rem', minWidth: 16, height: 16, bgcolor: '#E91E8E', color: '#fff' } }}>
+                      <FiligreeHeartIcon size={18} color={isActive('/favorites') ? '#FFFFFF' : favorites.length ? '#E91E8E' : 'currentColor'} filled={favorites.length > 0} />
                     </Badge>
                   }
                   sx={{
@@ -210,12 +214,12 @@ export default function AppLayout() {
                     fontSize: '0.84rem',
                     letterSpacing: '0.02em',
                     borderRadius: '2px',
-                    color: isActive('/favorites') ? '#FFFFFF' : favorites.length ? '#9F2241' : 'text.secondary',
-                    bgcolor: isActive('/favorites') ? '#9F2241' : alpha('#9F2241', 0.06),
-                    border: isActive('/favorites') ? '1px solid #78152D' : `1px solid ${alpha('#9F2241', 0.2)}`,
+                    color: isActive('/favorites') ? '#FFFFFF' : favorites.length ? '#E91E8E' : 'text.secondary',
+                    bgcolor: isActive('/favorites') ? '#E91E8E' : alpha('#E91E8E', 0.08),
+                    border: isActive('/favorites') ? '1px solid #BD106F' : `1px solid ${alpha('#E91E8E', 0.25)}`,
                     fontWeight: 600,
                     '&:hover': {
-                      bgcolor: isActive('/favorites') ? '#78152D' : alpha('#9F2241', 0.12),
+                      bgcolor: isActive('/favorites') ? '#BD106F' : alpha('#E91E8E', 0.15),
                     },
                     transition: 'all 0.2s ease',
                   }}
@@ -315,11 +319,11 @@ export default function AppLayout() {
                   primaryTypographyProps={{
                     fontSize: '0.9rem',
                     fontWeight: active ? 700 : 500,
-                    color: active ? custom.coral : 'text.primary',
+                    color: active ? '#008CA8' : 'text.primary',
                   }}
                 />
                 {item.isNew && (
-                  <Chip label="NEW" size="small" sx={{ borderRadius: '2px', bgcolor: custom.gold, color: '#fff', height: 18, fontSize: '0.62rem', fontWeight: 800 }} />
+                  <Chip label="NEW" size="small" sx={{ borderRadius: '2px', bgcolor: '#E91E8E', color: '#fff', height: 18, fontSize: '0.62rem', fontWeight: 800 }} />
                 )}
               </ListItem>
             );
@@ -333,20 +337,20 @@ export default function AppLayout() {
               px: 1.8,
               borderRadius: '2px',
               mt: 1.5,
-              bgcolor: isActive('/favorites') ? alpha('#9F2241', 0.14) : alpha('#9F2241', 0.05),
-              border: `1px solid ${alpha('#9F2241', 0.25)}`,
-              '&:hover': { bgcolor: alpha('#9F2241', 0.12) },
+              bgcolor: isActive('/favorites') ? alpha('#E91E8E', 0.14) : alpha('#E91E8E', 0.05),
+              border: `1px solid ${alpha('#E91E8E', 0.25)}`,
+              '&:hover': { bgcolor: alpha('#E91E8E', 0.12) },
             }}
           >
             <ListItemIcon sx={{ minWidth: 34 }}>
-              <FiligreeHeartIcon size={18} color="#9F2241" filled={favorites.length > 0} />
+              <FiligreeHeartIcon size={18} color="#E91E8E" filled={favorites.length > 0} />
             </ListItemIcon>
             <ListItemText
               primary={`Favorites Shortlist (${favorites.length})`}
               primaryTypographyProps={{
                 fontSize: '0.9rem',
                 fontWeight: 600,
-                color: '#9F2241',
+                color: '#E91E8E',
               }}
             />
           </ListItem>

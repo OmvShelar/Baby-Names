@@ -158,7 +158,7 @@ export default function Home() {
 
   const currentSpotlight = SPOTLIGHT_NAMES[spotlightIdx % SPOTLIGHT_NAMES.length];
   const isSpotlightGirl = currentSpotlight.gender === 'Girl';
-  const spotlightColor = isSpotlightGirl ? '#9F2241' : '#0F4C81';
+  const spotlightColor = isSpotlightGirl ? '#E91E8E' : '#008CA8';
 
   const handleNextSpotlight = () => {
     setSpotlightIdx((prev) => (prev + 1) % SPOTLIGHT_NAMES.length);
@@ -192,12 +192,12 @@ export default function Home() {
   };
 
   const categories = [
-    { num: 'I', name: 'Royal Boy Names', desc: 'Noble, valorous & enduring titles for your prince', icon: <CrownPrinceIcon size={24} color="#0F4C81" />, path: '/boy-names', count: '25,000+', color: '#0F4C81', bg: alpha('#0F4C81', 0.06) },
-    { num: 'II', name: 'Graceful Girl Names', desc: 'Lyrical, poetic & goddess Lakshmi virtues', icon: <PrincessTiaraIcon size={24} color="#9F2241" />, path: '/girl-names', count: '28,000+', color: '#9F2241', bg: alpha('#9F2241', 0.06) },
-    { num: 'III', name: 'Vedic & Sanskrit', desc: 'Ancient sacred scriptures & philosophical roots', icon: <VedicLotusIcon size={24} color="#B65A3F" />, path: '/indian-names', count: '18,000+', color: '#B65A3F', bg: alpha('#B65A3F', 0.06) },
-    { num: 'IV', name: 'Modern & Contemporary', desc: 'Crisp 2-syllable internationally fluent names', icon: <ModernSparkleIcon size={24} color="#059669" />, path: '/modern-names', count: '10,000+', color: '#059669', bg: alpha('#059669', 0.06) },
-    { num: 'V', name: 'Zodiac & Nakshatras', desc: 'Auspicious birth syllables aligned to 27 Moon mansions', icon: <AstrologyCompassIcon size={24} color="#C59B27" />, path: '/zodiac-names', count: '12,000+', color: '#8F6E13', bg: alpha('#C59B27', 0.08) },
-    { num: 'VI', name: 'Editorial Compendium', desc: 'Naming guides, pronunciation rules & forecasts', icon: <FeatherQuillIcon size={24} color="#B65A3F" />, path: '/blogs', count: 'Curated', color: '#B65A3F', bg: alpha('#B65A3F', 0.06) },
+    { num: 'I', name: 'Royal Boy Names', desc: 'Noble, valorous & enduring titles for your prince', icon: <CrownPrinceIcon size={24} color="#008CA8" />, path: '/boy-names', count: '25,000+', color: '#008CA8', bg: alpha('#008CA8', 0.08) },
+    { num: 'II', name: 'Graceful Girl Names', desc: 'Lyrical, poetic & goddess Lakshmi virtues', icon: <PrincessTiaraIcon size={24} color="#E91E8E" />, path: '/girl-names', count: '28,000+', color: '#E91E8E', bg: alpha('#E91E8E', 0.08) },
+    { num: 'III', name: 'Vedic & Sanskrit', desc: 'Ancient sacred scriptures & philosophical roots', icon: <VedicLotusIcon size={24} color="#0D9488" />, path: '/indian-names', count: '18,000+', color: '#0D9488', bg: alpha('#0D9488', 0.08) },
+    { num: 'IV', name: 'Modern & Contemporary', desc: 'Crisp 2-syllable internationally fluent names', icon: <ModernSparkleIcon size={24} color="#00AEEF" />, path: '/modern-names', count: '10,000+', color: '#00AEEF', bg: alpha('#00AEEF', 0.08) },
+    { num: 'V', name: 'Zodiac & Nakshatras', desc: 'Auspicious birth syllables aligned to 27 Moon mansions', icon: <AstrologyCompassIcon size={24} color="#D97706" />, path: '/zodiac-names', count: '12,000+', color: '#D97706', bg: alpha('#D97706', 0.08) },
+    { num: 'VI', name: 'Editorial Compendium', desc: 'Naming guides, pronunciation rules & forecasts', icon: <FeatherQuillIcon size={24} color="#E91E8E" />, path: '/blogs', count: 'Curated', color: '#E91E8E', bg: alpha('#E91E8E', 0.08) },
   ];
 
   // Interactive Live Name Finder list
@@ -238,7 +238,7 @@ export default function Home() {
         particleCount: 70,
         spread: 60,
         origin: { y: 0.65 },
-        colors: ['#B65A3F', '#C59B27', '#0F4C81', '#9F2241'],
+        colors: ['#00AEEF', '#E91E8E', '#008CA8', '#D97706', '#0D9488'],
       });
     }
   };
@@ -250,8 +250,8 @@ export default function Home() {
         '@type': 'WebSite',
         '@id': 'https://sweetbabynames.com/#website',
         url: 'https://sweetbabynames.com/',
-        name: 'Sweet Baby Names',
-        description: 'Discover 50,000+ beautiful boy and girl baby names with meanings, origins, and zodiac signs.',
+        name: 'PickBaby Name',
+        description: 'Discover 50,000+ auspicious boy and girl baby names with meanings, origins, and zodiac signs.',
         potentialAction: {
           '@type': 'SearchAction',
           target: 'https://sweetbabynames.com/boy-names?q={search_term_string}',
@@ -275,9 +275,9 @@ export default function Home() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
       <SEO
-        title="Sweet Baby Names 2026 | 50,000+ Unique Boy & Girl Names with Meanings, Zodiac & Origin"
-        description="Find the perfect name for your little one. Explore 50,000+ cute, modern, Sanskrit, and astrological baby names for boys and girls with meanings, origins, and shortlist."
-        keywords="baby names, boy names, girl names, indian baby names, modern baby names, sanskrit baby names, zodiac baby names, baby name meanings, twin names"
+        title="PickBaby Name (2026) | 50,000+ Unique Boy & Girl Names with Meanings, Zodiac & Origin"
+        description="Find the perfect name for your little one. Explore 50,000+ auspicious, modern, Sanskrit, and astrological baby names for boys and girls with meanings, origins, and shortlist."
+        keywords="PickBaby Name, baby names, boy names, girl names, indian baby names, modern baby names, sanskrit baby names, zodiac baby names, baby name meanings, twin names"
         canonical="https://sweetbabynames.com/"
         schema={homepageSchema}
       />
@@ -312,8 +312,8 @@ export default function Home() {
                       px: 1.8,
                       py: 0.6,
                       borderRadius: '2px',
-                      bgcolor: alpha(custom.gold, 0.1),
-                      border: `1px solid ${alpha(custom.gold, 0.35)}`,
+                      bgcolor: alpha('#008CA8', 0.08),
+                      border: '1px solid rgba(0, 174, 239, 0.35)',
                       mb: 2.2,
                     }}
                   >
@@ -321,15 +321,15 @@ export default function Home() {
                     <Typography
                       variant="caption"
                       sx={{
-                        fontFamily: '"Cinzel", Georgia, serif',
-                        fontWeight: 800,
-                        color: isDark ? '#E5C158' : '#8F6E13',
-                        letterSpacing: '0.16em',
+                        fontFamily: '"Philosopher", "Marcellus", Georgia, serif',
+                        fontWeight: 700,
+                        color: isDark ? '#38BDF8' : '#008CA8',
+                        letterSpacing: '0.12em',
                         textTransform: 'uppercase',
-                        fontSize: '0.72rem',
+                        fontSize: '0.74rem',
                       }}
                     >
-                      THE 2026 NOMENCLATURE ATELIER • 50,000+ NAMES
+                      PICKBABY NAME ATELIER • 50,000+ AUSPICIOUS NAMES
                     </Typography>
                   </Box>
                 </motion.div>
@@ -340,10 +340,10 @@ export default function Home() {
                     variant="h1"
                     sx={{
                       fontSize: { xs: '2.5rem', sm: '3.4rem', md: '4.2rem' },
-                      fontWeight: 800,
+                      fontWeight: 700,
                       lineHeight: 1.12,
                       mb: 2,
-                      fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+                      fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif',
                       letterSpacing: '-0.015em',
                       color: 'text.primary',
                     }}
@@ -352,10 +352,10 @@ export default function Home() {
                     <Box
                       component="span"
                       sx={{
-                        fontFamily: '"Playfair Display", Georgia, serif',
+                        fontFamily: '"Philosopher", "Marcellus", Georgia, serif',
                         fontStyle: 'italic',
                         fontWeight: 700,
-                        background: `linear-gradient(135deg, ${custom.coral} 0%, #8E3E28 50%, ${custom.gold} 100%)`,
+                        background: 'linear-gradient(135deg, #008CA8 0%, #00AEEF 40%, #E91E8E 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         display: 'inline-block',
@@ -379,7 +379,7 @@ export default function Home() {
                       maxWidth: 580,
                     }}
                   >
-                    Steeped in ancient Vedic heritage, celestial Nakshatra resonances, and contemporary global grace. Curated for expecting parents across the world.
+                    Steeped in ancient Vedic heritage, sacred Om vibrations, celestial Nakshatras, and modern elegance. Curated for expecting parents with PickBaby Name.
                   </Typography>
                 </motion.div>
 
@@ -530,7 +530,7 @@ export default function Home() {
                     p: { xs: 3, sm: 3.8 },
                     bgcolor: custom.cardWhite,
                     borderRadius: '2px', // Sharp architectural lines
-                    border: `1.5px solid ${alpha(custom.gold, 0.4)}`,
+                    border: '1.5px solid rgba(0, 174, 239, 0.35)',
                     position: 'relative',
                     overflow: 'hidden',
                     '&::before': {
@@ -541,24 +541,24 @@ export default function Home() {
                       right: 0,
                       height: 3,
                       background: isSpotlightGirl
-                        ? 'linear-gradient(90deg, #9F2241 0%, #C59B27 100%)'
-                        : 'linear-gradient(90deg, #0F4C81 0%, #C59B27 100%)',
+                        ? 'linear-gradient(90deg, #FF2E93 0%, #E91E8E 100%)'
+                        : 'linear-gradient(90deg, #00AEEF 0%, #008CA8 100%)',
                     },
                   }}
                 >
                   {/* Spotlight Header Row */}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <ModernSparkleIcon size={14} color={custom.gold} />
+                      <ModernSparkleIcon size={14} color="#00AEEF" />
                       <Typography
                         variant="caption"
                         sx={{
-                          fontFamily: '"Cinzel", Georgia, serif',
-                          fontWeight: 800,
-                          letterSpacing: '0.16em',
+                          fontFamily: '"Philosopher", "Marcellus", Georgia, serif',
+                          fontWeight: 700,
+                          letterSpacing: '0.12em',
                           textTransform: 'uppercase',
-                          fontSize: '0.68rem',
-                          color: custom.gold,
+                          fontSize: '0.72rem',
+                          color: '#008CA8',
                         }}
                       >
                         ATELIER SPOTLIGHT OF THE MOMENT
@@ -577,11 +577,11 @@ export default function Home() {
                           letterSpacing: '0.06em',
                           fontWeight: 700,
                           borderRadius: '2px',
-                          color: custom.gold,
-                          border: `1px solid ${alpha(custom.gold, 0.3)}`,
+                          color: '#008CA8',
+                          border: '1px solid rgba(0, 140, 168, 0.35)',
                           '&:hover': {
-                            bgcolor: alpha(custom.gold, 0.08),
-                            borderColor: custom.gold,
+                            bgcolor: alpha('#008CA8', 0.08),
+                            borderColor: '#008CA8',
                           },
                         }}
                       >
@@ -596,7 +596,7 @@ export default function Home() {
                       <Typography
                         variant="h2"
                         sx={{
-                          fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+                          fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif',
                           fontWeight: 700,
                           fontSize: { xs: '2.2rem', sm: '2.8rem' },
                           color: spotlightColor,

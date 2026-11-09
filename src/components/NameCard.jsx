@@ -45,8 +45,8 @@ export default function NameCard({
 
   const genderLower = (gender || '').toLowerCase();
   const isGirl = genderLower.includes('girl') || genderLower.includes('feminine') || genderLower.includes('female');
-  const accentColor = isGirl ? '#9F2241' : '#0F4C81'; // Imperial Ruby vs Royal Sapphire
-  const accentBg = isGirl ? alpha('#9F2241', 0.06) : alpha('#0F4C81', 0.06);
+  const accentColor = isGirl ? '#E91E8E' : '#008CA8'; // Authentic Magenta vs Authentic Cyan
+  const accentBg = isGirl ? alpha('#E91E8E', 0.08) : alpha('#008CA8', 0.08);
 
   const handleSpeak = (e) => {
     e.stopPropagation();
@@ -76,7 +76,7 @@ export default function NameCard({
         particleCount: 65,
         spread: 55,
         origin: { y: 0.7 },
-        colors: isGirl ? ['#9F2241', '#B72B4E', '#C59B27'] : ['#0F4C81', '#1A5A96', '#C59B27'],
+        colors: isGirl ? ['#FF2E93', '#E91E8E', '#00AEEF'] : ['#00AEEF', '#008CA8', '#E91E8E'],
       });
     }
   };
@@ -111,9 +111,9 @@ export default function NameCard({
             width: '100%',
             height: 2.5,
             background: isGirl
-              ? 'linear-gradient(90deg, #9F2241 0%, #C59B27 100%)'
-              : 'linear-gradient(90deg, #0F4C81 0%, #C59B27 100%)',
-            opacity: isFavorite ? 1 : 0.5,
+              ? 'linear-gradient(90deg, #FF2E93 0%, #E91E8E 100%)'
+              : 'linear-gradient(90deg, #00AEEF 0%, #008CA8 100%)',
+            opacity: isFavorite ? 1 : 0.6,
             transition: 'opacity 0.2s ease',
           },
           '&:hover': {
@@ -131,7 +131,7 @@ export default function NameCard({
             <Typography
               variant="h5"
               sx={{
-                fontFamily: '"Playfair Display", "Cinzel", Georgia, serif',
+                fontFamily: '"Philosopher", "Marcellus", Georgia, serif',
                 fontWeight: 700,
                 fontSize: { xs: '1.28rem', sm: '1.42rem' },
                 lineHeight: 1.2,
@@ -154,7 +154,7 @@ export default function NameCard({
                   '&:hover': { bgcolor: accentBg },
                 }}
               >
-                <AudioChimeIcon size={16} color={isPlaying ? custom.gold : 'var(--text-secondary)'} />
+                <AudioChimeIcon size={16} color={isPlaying ? '#00AEEF' : 'var(--text-secondary)'} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -184,15 +184,15 @@ export default function NameCard({
                 sx={{
                   p: 0.5,
                   borderRadius: '2px',
-                  bgcolor: isFavorite ? alpha('#9F2241', 0.08) : 'transparent',
+                  bgcolor: isFavorite ? alpha('#E91E8E', 0.12) : 'transparent',
                   '&:hover': {
-                    bgcolor: alpha('#9F2241', 0.12),
+                    bgcolor: alpha('#E91E8E', 0.16),
                     transform: 'scale(1.1)',
                   },
                   transition: 'all 0.18s ease',
                 }}
               >
-                <FiligreeHeartIcon size={18} color="#9F2241" filled={Boolean(isFavorite)} />
+                <FiligreeHeartIcon size={18} color="#E91E8E" filled={Boolean(isFavorite)} />
               </IconButton>
             </Tooltip>
           </Box>

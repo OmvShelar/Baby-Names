@@ -129,7 +129,7 @@ export default function BoyGirlShowcase() {
             <Typography
               variant="h2"
               sx={{
-                fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+                fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif',
                 fontSize: { xs: '2.1rem', sm: '2.7rem', md: '3.2rem' },
                 fontWeight: 700,
                 letterSpacing: '-0.01em',
@@ -140,8 +140,8 @@ export default function BoyGirlShowcase() {
               <Box
                 component="span"
                 sx={{
-                  color: activeTab === 'boy' ? '#0F4C81' : activeTab === 'girl' ? '#9F2241' : '#7C3AED',
-                  fontFamily: '"Playfair Display", Georgia, serif',
+                  color: activeTab === 'boy' ? '#008CA8' : activeTab === 'girl' ? '#E91E8E' : '#0D9488',
+                  fontFamily: '"Philosopher", "Marcellus", Georgia, serif',
                   fontStyle: 'italic',
                   transition: 'color 0.25s ease',
                 }}
@@ -151,11 +151,11 @@ export default function BoyGirlShowcase() {
             </Typography>
 
             <Typography variant="body1" sx={{ color: 'text.secondary', maxWidth: 620, mx: 'auto', fontSize: '1.02rem', lineHeight: 1.7 }}>
-              Switch between boy and girl realms. Verified Vedic etymology, planetary Nakshatra alignments, and melodic resonance.
+              Switch between boy and girl realms on PickBaby Name. Verified Vedic etymology, planetary Nakshatra alignments, and melodic resonance.
             </Typography>
           </motion.div>
 
-          {/* Luxury Segmented Selector with Classy Icons */}
+          {/* Segmented Selector with Classy Icons */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
             <Paper
               elevation={0}
@@ -163,12 +163,12 @@ export default function BoyGirlShowcase() {
                 display: 'inline-flex',
                 p: 0.6,
                 borderRadius: '2px',
-                bgcolor: isDark ? '#161311' : '#F6F1E7',
+                bgcolor: isDark ? '#111F2D' : '#F1F5F9',
                 border: `1px solid ${custom.borderLight}`,
               }}
             >
               <Button
-                startIcon={<CrownPrinceIcon size={17} color={activeTab === 'boy' ? '#DFB956' : '#0F4C81'} />}
+                startIcon={<CrownPrinceIcon size={17} color={activeTab === 'boy' ? '#FFFFFF' : '#008CA8'} />}
                 onClick={() => { setActiveTab('boy'); setCurrentSampleIndex(0); }}
                 sx={{
                   borderRadius: '2px',
@@ -176,18 +176,18 @@ export default function BoyGirlShowcase() {
                   py: 1,
                   fontSize: '0.84rem',
                   letterSpacing: '0.04em',
-                  bgcolor: activeTab === 'boy' ? '#0F4C81' : 'transparent',
+                  background: activeTab === 'boy' ? 'linear-gradient(135deg, #00AEEF 0%, #008CA8 100%)' : 'transparent',
                   color: activeTab === 'boy' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'boy' ? '0 2px 8px rgba(15, 76, 129, 0.35)' : 'none',
+                  boxShadow: activeTab === 'boy' ? '0 2px 10px rgba(0, 140, 168, 0.35)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'boy' ? '#0A3156' : alpha('#0F4C81', 0.08),
+                    bgcolor: activeTab === 'boy' ? '#006B82' : alpha('#008CA8', 0.08),
                   },
                 }}
               >
                 Little Prince
               </Button>
               <Button
-                startIcon={<PrincessTiaraIcon size={17} color={activeTab === 'girl' ? '#F5D77F' : '#9F2241'} />}
+                startIcon={<PrincessTiaraIcon size={17} color={activeTab === 'girl' ? '#FFFFFF' : '#E91E8E'} />}
                 onClick={() => { setActiveTab('girl'); setCurrentSampleIndex(0); }}
                 sx={{
                   borderRadius: '2px',
@@ -195,18 +195,18 @@ export default function BoyGirlShowcase() {
                   py: 1,
                   fontSize: '0.84rem',
                   letterSpacing: '0.04em',
-                  bgcolor: activeTab === 'girl' ? '#9F2241' : 'transparent',
+                  background: activeTab === 'girl' ? 'linear-gradient(135deg, #FF2E93 0%, #E91E8E 100%)' : 'transparent',
                   color: activeTab === 'girl' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'girl' ? '0 2px 8px rgba(159, 34, 65, 0.35)' : 'none',
+                  boxShadow: activeTab === 'girl' ? '0 2px 10px rgba(233, 30, 142, 0.35)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'girl' ? '#78152D' : alpha('#9F2241', 0.08),
+                    bgcolor: activeTab === 'girl' ? '#BD106F' : alpha('#E91E8E', 0.08),
                   },
                 }}
               >
                 Little Princess
               </Button>
               <Button
-                startIcon={<TwinConstellationIcon size={17} color={activeTab === 'twins' ? '#F5D77F' : '#7C3AED'} />}
+                startIcon={<TwinConstellationIcon size={17} color={activeTab === 'twins' ? '#FFFFFF' : '#00AEEF'} />}
                 onClick={() => { setActiveTab('twins'); setCurrentSampleIndex(0); }}
                 sx={{
                   borderRadius: '2px',
@@ -214,11 +214,11 @@ export default function BoyGirlShowcase() {
                   py: 1,
                   fontSize: '0.84rem',
                   letterSpacing: '0.04em',
-                  bgcolor: activeTab === 'twins' ? '#7C3AED' : 'transparent',
+                  background: activeTab === 'twins' ? 'linear-gradient(135deg, #00AEEF 0%, #E91E8E 100%)' : 'transparent',
                   color: activeTab === 'twins' ? '#FFFFFF' : 'text.primary',
-                  boxShadow: activeTab === 'twins' ? '0 2px 8px rgba(124, 58, 237, 0.3)' : 'none',
+                  boxShadow: activeTab === 'twins' ? '0 2px 10px rgba(0, 174, 239, 0.3)' : 'none',
                   '&:hover': {
-                    bgcolor: activeTab === 'twins' ? '#6D28D9' : alpha('#7C3AED', 0.08),
+                    bgcolor: activeTab === 'twins' ? '#008CA8' : alpha('#00AEEF', 0.08),
                   },
                 }}
               >

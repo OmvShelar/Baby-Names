@@ -1,40 +1,59 @@
-/* Global Styles & Luxury Color Grading for Sweet Baby Names */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+/* Global Styles & Color Grading for PickBaby Name */
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Marcellus&family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,700&display=swap');
 
 :root {
-  /* Professional Typography System */
-  --font-brand: 'Cinzel', Georgia, serif;
-  --font-editorial: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-heading: 'Playfair Display', 'Cinzel', Georgia, serif;
-  --font-body: 'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Logo-Aligned Typography System */
+  --font-logo: 'Philosopher', 'Marcellus', Georgia, serif;
+  --font-brand: 'Philosopher', 'Marcellus', 'Cinzel', Georgia, serif;
+  --font-heading: 'Philosopher', 'Marcellus', 'Playfair Display', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', 'Philosopher', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Luxury Color Grading Palette */
-  --gold-primary: #C59B27;
-  --gold-light: #F7F0DC;
-  --gold-dark: #937113;
-  --gold-gradient: linear-gradient(135deg, #ECC876 0%, #C59B27 50%, #9A7611 100%);
+  /* PickBaby Name Authentic Logo Color System */
+  --logo-cyan: #008CA8;
+  --logo-cyan-bright: #00AEEF;
+  --logo-cyan-light: #E8F7FB;
+  --logo-cyan-dark: #006B82;
 
-  --terracotta-primary: #B65A3F;
-  --terracotta-dark: #924129;
-  --terracotta-light: #FBF1ED;
-  --terracotta-gradient: linear-gradient(135deg, #C4674C 0%, #A44C33 100%);
+  --logo-magenta: #E91E8E;
+  --logo-magenta-bright: #FF2E93;
+  --logo-magenta-light: #FDF2F8;
+  --logo-magenta-dark: #BD106F;
 
-  --boy-navy: #0F4C81;
-  --boy-navy-light: #EEF6FC;
-  --boy-navy-dark: #0A3156;
-  --boy-gradient: linear-gradient(135deg, #1A5A96 0%, #0F4C81 100%);
+  --diya-gold: #D97706;
+  --diya-gold-bright: #F59E0B;
+  --diya-gold-light: #FEF3C7;
 
-  --girl-ruby: #9F2241;
-  --girl-ruby-light: #FDF1F4;
-  --girl-ruby-dark: #78152D;
-  --girl-gradient: linear-gradient(135deg, #B72B4E 0%, #9F2241 100%);
+  --peacock-teal: #0D9488;
+  --peacock-light: #CCFBF1;
 
-  --bg-cream: #FAF8F4;
+  /* Backward Compatible Aliases for Components */
+  --gold-primary: #D97706;
+  --gold-light: #FEF3C7;
+  --gold-dark: #B45309;
+  --gold-gradient: linear-gradient(135deg, #00AEEF 0%, #E91E8E 100%);
+
+  --terracotta-primary: #008CA8;
+  --terracotta-dark: #006B82;
+  --terracotta-light: #E8F7FB;
+  --terracotta-gradient: linear-gradient(135deg, #00AEEF 0%, #008CA8 100%);
+
+  --boy-navy: #008CA8;
+  --boy-navy-light: #E8F7FB;
+  --boy-navy-dark: #00586B;
+  --boy-gradient: linear-gradient(135deg, #00AEEF 0%, #008CA8 100%);
+
+  --girl-ruby: #E91E8E;
+  --girl-ruby-light: #FDF2F8;
+  --girl-ruby-dark: #BD106F;
+  --girl-gradient: linear-gradient(135deg, #FF2E93 0%, #E91E8E 100%);
+
+  --bg-cream: #F8FAFC;
   --bg-card: #FFFFFF;
-  --border-light: #E8E1D5;
-  --border-subtle: #F2EDE4;
-  --text-primary: #1A1615;
-  --text-secondary: #5C544E;
+  --border-light: #E2E8F0;
+  --border-subtle: #F1F5F9;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
 }
 
 *, *::before, *::after {
@@ -63,8 +82,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .brand-crest-title {
-  font-family: var(--font-brand);
-  letter-spacing: 0.08em;
+  font-family: var(--font-logo);
+  letter-spacing: 0.04em;
 }
 
 .editorial-italic {
@@ -72,23 +91,23 @@ h1, h2, h3, h4, h5, h6 {
   font-style: italic;
 }
 
-/* Custom luxury scrollbar */
+/* Custom scrollbar matching cyan & magenta theme */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(232, 225, 213, 0.3);
+  background: rgba(226, 232, 240, 0.4);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(197, 155, 39, 0.35);
+  background: rgba(0, 140, 168, 0.4);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(197, 155, 39, 0.65);
+  background: rgba(0, 140, 168, 0.75);
 }
 
 /* Luxury animations */
@@ -101,23 +120,12 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@keyframes goldShimmer {
+@keyframes logoShimmer {
   0% {
     background-position: -200% 0;
   }
   100% {
     background-position: 200% 0;
-  }
-}
-
-@keyframes subtleGlow {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
   }
 }
 
@@ -129,33 +137,33 @@ h1, h2, h3, h4, h5, h6 {
   animation: floatSlow 7s ease-in-out infinite 2s;
 }
 
-.gold-shimmer-text {
-  background: linear-gradient(90deg, #9A7611 0%, #D4AF37 40%, #ECC876 50%, #D4AF37 60%, #9A7611 100%);
+.gold-shimmer-text, .logo-shimmer-text {
+  background: linear-gradient(90deg, #008CA8 0%, #00AEEF 25%, #E91E8E 50%, #00AEEF 75%, #008CA8 100%);
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: goldShimmer 5s linear infinite;
+  animation: logoShimmer 6s linear infinite;
 }
 
 /* Glassmorphism helpers */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(232, 225, 213, 0.7);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .dark .glass-panel {
-  background: rgba(20, 18, 16, 0.85);
+  background: rgba(17, 28, 40, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(232, 225, 213, 0.1);
+  border: 1px solid rgba(0, 174, 239, 0.15);
 }
 
 /* Interactive focus ring */
 :focus-visible {
-  outline: 2px solid var(--gold-primary);
+  outline: 2px solid var(--logo-cyan-bright);
   outline-offset: 2px;
 }
 
@@ -168,14 +176,14 @@ h1, h2, h3, h4, h5, h6 {
 .soundwave-bar {
   display: inline-block;
   width: 2.5px;
-  background-color: var(--gold-primary);
+  background-color: var(--logo-cyan);
   border-radius: 1px;
   animation: soundwave 1s ease-in-out infinite;
 }
 
-.soundwave-bar:nth-of-type(2) { animation-delay: 0.15s; }
-.soundwave-bar:nth-of-type(3) { animation-delay: 0.3s; }
-.soundwave-bar:nth-of-type(4) { animation-delay: 0.45s; }
+.soundwave-bar:nth-of-type(2) { animation-delay: 0.15s; background-color: var(--logo-cyan-bright); }
+.soundwave-bar:nth-of-type(3) { animation-delay: 0.3s; background-color: var(--logo-magenta); }
+.soundwave-bar:nth-of-type(4) { animation-delay: 0.45s; background-color: var(--logo-magenta-bright); }
 
 /* Sharp luxury corner tick mark */
 .luxury-corner-tick {
@@ -188,15 +196,15 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   width: 8px;
   height: 8px;
-  border-top: 2px solid var(--gold-primary);
-  border-right: 2px solid var(--gold-primary);
+  border-top: 2px solid var(--logo-cyan-bright);
+  border-right: 2px solid var(--logo-magenta);
 }
 
-/* Luxury card gold aura */
+/* Luxury card aura with cyan/magenta glow */
 .luxury-gold-aura {
-  box-shadow: 0 4px 24px rgba(197, 155, 39, 0.14), 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 140, 168, 0.1), 0 2px 8px rgba(233, 30, 142, 0.08);
 }
 .dark .luxury-gold-aura {
-  box-shadow: 0 4px 24px rgba(197, 155, 39, 0.18), 0 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 174, 239, 0.14), 0 2px 10px rgba(233, 30, 142, 0.14);
 }
 

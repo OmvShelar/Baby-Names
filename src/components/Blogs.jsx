@@ -100,13 +100,13 @@ export default function Blogs() {
                   fontSize: { xs: '2.2rem', sm: '2.8rem', md: '3.4rem' },
                   fontWeight: 700,
                   mb: 2,
-                  fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+                  fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif',
                   lineHeight: 1.15,
                   letterSpacing: '-0.01em',
                 }}
               >
                 Inspiration, Meaning &amp;{' '}
-                <Box component="span" sx={{ fontFamily: '"Playfair Display", Georgia, serif', color: custom.coral, fontStyle: 'italic' }}>
+                <Box component="span" sx={{ fontFamily: '"Philosopher", "Marcellus", Georgia, serif', color: custom.coral, fontStyle: 'italic' }}>
                   Heritage
                 </Box>
               </Typography>

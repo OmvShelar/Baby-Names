@@ -131,7 +131,7 @@ export default function BlogPost() {
               fontWeight: 700,
               lineHeight: 1.2,
               mb: 2.5,
-              fontFamily: '"Cinzel", "Playfair Display", Georgia, serif',
+              fontFamily: '"Philosopher", "Marcellus", "Playfair Display", Georgia, serif',
               letterSpacing: '-0.01em',
             }}
           >
